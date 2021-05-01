@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
+import django_heroku
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -36,7 +36,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+# TODO: Look for heroku-django
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -91,9 +91,9 @@ DATABASES = {
       
        'NAME' : 'core', #as named on server
        "CLIENT": {
-            "host": 'mongodb+srv://admin:rNlxJLkMcUtMKdk3@managedata.2n6rg.mongodb.net/general?retryWrites=true&w=majority',
+            "host": os.environ['MONGODB_URI'],
             "username": 'admin',
-            "password": "rNlxJLkMcUtMKdk3",
+            "password": os.environ['MONGODB_PASS'],  
             "authSource": "admin",
         }
    }
@@ -136,3 +136,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+django_heroku.settings(locals())
