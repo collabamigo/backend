@@ -10,7 +10,7 @@ djangorestframework = "*"
 django-cors-headers = "*"
 djongo = "*"
 dnspython = "*"
-django = "*"
+django = ">=3.0.14"
 
 [dev-packages]
 
