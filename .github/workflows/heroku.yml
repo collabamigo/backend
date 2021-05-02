@@ -7,8 +7,12 @@ jobs:
       - run: echo " The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo " This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo " The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - run: cd ${{ github.workspace }}/../ && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku && git clone git@github.com:${{ github.repository }}
+      - run: cd ${{ github.workspace }}/../ && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-1 && git clone git@github.com:${{ github.repository }}
       - name: List files in the repository
         run: |
-          cd ${{ github.workspace }} && (git remote rm heroku|| echo) && git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/ && git remote add heroku https://git.heroku.com/mysterious-savannah-09391.git && git push heroku
+          cd ${{ github.workspace }} && git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
+      - name: Pushing to Heroku-1
+        run:  cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-1 && git remote add heroku https://git.heroku.com/mysterious-savannah-09391.git && git push heroku
+      - name: Pushing to Heroku-2
+        run: cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-2 && git remote add heroku-2 YAHAN && git push heroku-2
       - run: echo " This job's status is ${{ job.status }}."
