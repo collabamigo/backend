@@ -27,16 +27,15 @@ CORS_ORIGIN_WHITELIST = [
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '9_*9-2w*h_rao1t!&si!*(6x$8u2ytx!t+!aoau9_sunma)z*-'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = not bool(os.getenv("PRODUCTION"))
 
 ALLOWED_HOSTS = []
 
 
 # Application definition
-# TODO: Look for heroku-django
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -136,5 +135,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CSRF_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
+
+SECURE_SSL_REDIRECT = bool(os.getenv("PRODUCTION"))
+
+SESSION_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
+
 
 django_heroku.settings(locals())
