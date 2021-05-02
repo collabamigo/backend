@@ -13,6 +13,5 @@ jobs:
       - run: echo "️ The workflow is now ready to test your code on the runner."
       - name: List files in the repository
         run: |
-          cd ${{ github.workspace }} && git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
-                                        && git remote add heroku https://git.heroku.com/mysterious-savannah-09391.git && git push heroku
+          cd ${{ github.workspace }} && git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/ && git remote add heroku https://git.heroku.com/mysterious-savannah-09391.git && git push heroku
       - run: echo " This job's status is ${{ job.status }}."
