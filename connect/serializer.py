@@ -20,6 +20,6 @@ class CredentialsSerializer(DocumentSerializer):
 
 class TeacherSerializer(DocumentSerializer):
 	class Meta:
-		abstract = False
+		abstract = True
 		model = Teacher
 		fields = ['_id','Skill_set']
