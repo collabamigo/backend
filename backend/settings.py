@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django_mongoengine',
     'django_mongoengine.mongo_auth',
     'django_mongoengine.mongo_admin',
+    'rest_framework_mongoengine'
 ]
 
 MIDDLEWARE = [
