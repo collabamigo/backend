@@ -9,5 +9,8 @@ class connectTeacher(admin.ModelAdmin):
 
 # Register your models here.
 
-admin.site.register(Credentials, connectCredentials)
-admin.site.register(Teacher, connectTeacher)
+admin.register(Credentials, connectCredentials)
+admin.register(Teacher, connectTeacher)
+
+# admin.site.register(Credentials, connectCredentials)
+# admin.site.register(Teacher, connectTeacher)
