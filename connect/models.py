@@ -15,7 +15,7 @@ from mongoengine import fields as me
 
 STYLE_CHOICES = [['I','Instagram'],['T','Telegram'],['S','Signal'],['Snap','Snapchat']]
 
-class Credentials(models.Model):
+class Credentials(Document):
 	_id= me.StringField(primary_key=True, max_length=30)
 	first_name = me.StringField(max_length=30)
 	last_name = me.StringField(max_length=30)
@@ -28,7 +28,7 @@ class Credentials(models.Model):
 	handle_username = me.StringField(max_length=30,default="LOL")
 	isvendor = me.BooleanField()
 
-class Teacher(models.Model):
+class Teacher(Document):
 	_id= me.StringField(primary_key=True, max_length=30)
 	Skill_set = me.DictField(db_field=me.StringField(max_length=30))
 
