@@ -14,5 +14,5 @@ jobs:
       - name: Pushing to Heroku-1
         run:  cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-1 && git remote add heroku https://git.heroku.com/mysterious-savannah-09391.git && git push heroku
       - name: Pushing to Heroku-2
-        run: cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-2 && git remote add heroku-2 YAHAN && git push heroku-2
+        run: cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-2 && git remote add heroku-2 https://git.heroku.com/serene-depths-77048.git && git push heroku-2
       - run: echo " This job's status is ${{ job.status }}."
