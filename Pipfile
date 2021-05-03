@@ -8,10 +8,10 @@ django-heroku = "*"
 gunicorn = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
-djongo = "*"
 dnspython = "*"
 django = "*"
 # TODO: This Django version is insecure. Forced to use it due to Djongo compatibility issues
+
 [dev-packages]
 
 [requires]
