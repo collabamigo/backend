@@ -29,6 +29,6 @@ class Credentials(Document):
 	isvendor = me.BooleanField()
 
 class Teacher(Document):
-	_id = me.StringField(primary_key=True, max_length=30)
+	_id = me.StringField( max_length=30)
 	Skill_set = me.ListField(me.StringField(max_length=30))
 
