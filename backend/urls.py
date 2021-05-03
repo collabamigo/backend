@@ -21,8 +21,19 @@ from connect import views
 router = routers.DefaultRouter()
 router.register(r'connect', views.ReactView, 'connect')
 
+from connect.views import *
+router = routers.DefaultRouter()
+router.register(r'Credentials', CredentialsView,"Credential-data")
+router.register(r'Teacher', TeacherView,"Teacher-data")
+# router.register(r'Skill', SkillView,"Skill-data")
+
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('wel/', ReactView.as_view(), name="something"),
-    path('api/', include(router.urls))
-]
+    path('api/', include(router.urls))]
+    # path('',home,name='home'),
+    # path('wel/', CredView.as_view(), name="something"),
+# ]
