@@ -2,6 +2,7 @@ from django.shortcuts import render
 # from rest_framework.views import APIView
 # from . models import *
 # from rest_framework.response import Response
+from mongoengine.queryset import QuerySet
 from rest_framework import viewsets
 from .serializer import *
 from .models import *
@@ -35,4 +36,5 @@ class CredentialsView(viewsets.ModelViewSet):
 class TeacherView(viewsets.ModelViewSet):
 	
 	serializer_class = TeacherSerializer
-	queryset = Teacher.objects.all()
+	# queryset = Teacher.objects.all()
+	QuerySet = Teacher.objects.all()
