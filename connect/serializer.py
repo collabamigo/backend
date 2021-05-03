@@ -22,4 +22,4 @@ class TeacherSerializer(DocumentSerializer):
 	class Meta:
 		abstract = True
 		model = Teacher
-		fields = ['_id','Skill_set']
+		fields = ['Skill_set','helo']

@@ -5,7 +5,7 @@ class connectCredentials(admin.ModelAdmin):
 
 
 class connectTeacher(admin.ModelAdmin):
-    list_display = ('_id','Skill_set')
+    list_display = ('Skill_set','helo')
 
 # Register your models here.
 

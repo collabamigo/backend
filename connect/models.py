@@ -31,5 +31,5 @@ class Credentials(Document):
 class Teacher(Document):
 	
 	Skill_set = me.ListField(me.StringField(max_length=30))
-	_id = me.StringField(max_length=30)
+	helo = me.StringField(max_length=30)
 
