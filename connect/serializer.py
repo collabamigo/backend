@@ -1,6 +1,7 @@
 # from rest_framework import serializers
 from mongoengine import *
 from rest_framework_mongoengine import serializers
+from rest_framework_mongoengine.serializers import *
 from . models import *
 
 # class ReactSerializer(serializers.ModelSerializer):
@@ -8,7 +9,7 @@ from . models import *
 # 		model = React
 # 		fields = ['_id', 'first_name','last_name','Age','Gender','Email','Contact','handle','isvendor']
 
-class CredentialsSerializer(serializers.ModelSerializer):
+class CredentialsSerializer(DocumentSerializer):
 	class Meta:
 		abstract = False
 		model = Credentials
@@ -17,7 +18,7 @@ class CredentialsSerializer(serializers.ModelSerializer):
 		'handle_username','isvendor']
 
 
-class TeacherSerializer(serializers.ModelSerializer):
+class TeacherSerializer(DocumentSerializer):
 	class Meta:
 		abstract = False
 		model = Teacher
