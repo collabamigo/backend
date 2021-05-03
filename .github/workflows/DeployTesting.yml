@@ -1,10 +1,10 @@
-name: Deploy tesing to Heroku-dev
+name: Deploy testing to Heroku-dev
 'on':
   push:
     branches:
       - testing
 jobs:
-  Deploy-to-Heroku:
+  Deploy-testing-to-Heroku:
     runs-on: self-hosted
     steps:
       - run: echo " The job was automatically triggered by a ${{ github.event_name }} event."
@@ -16,5 +16,5 @@ jobs:
       - name: Set global git config
         run: git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
       - name: Pushing to Heroku-dev
-        run:  cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-dev && git remote add heroku-dev https://git.heroku.com/blooming-peak-53825.git && git push heroku-dev
+        run:  cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-dev && git remote add heroku-dev https://git.heroku.com/blooming-peak-53825.git && git push heroku-dev testing:main
       - run: echo " This job's status is ${{ job.status }}."

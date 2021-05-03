@@ -45,8 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'connect',
-    'corsheaders'
-
+    'corsheaders',
+    'django_mongoengine',
+    'django_mongoengine.mongo_auth',
+    'django_mongoengine.mongo_admin',
 ]
 
 MIDDLEWARE = [
@@ -84,18 +86,18 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+
+MONGODB_DATABASES = {
+"default": {
+    "name": 'core',
+    "host": os.environ['MONGODB_URI'],
+    "password": os.environ['MONGODB_PASS'],
+    "username": os.environ['MONGODB_USER'],
+    "tz_aware": True, # if you using timezones in django (USE_TZ = True)
+},
+} 
 DATABASES = {
-   'default': {
-      'ENGINE' : 'djongo',
-      
-       'NAME' : 'core', #as named on server
-       "CLIENT": {
-            "host": os.environ['MONGODB_URI'],
-            "username": 'admin',
-            "password": os.environ['MONGODB_PASS'],  
-            "authSource": "admin",
-        }
-   }
+    'default': {'ENGINE': 'django.db.backends.dummy'}
 }
 
 # Password validation
@@ -141,6 +143,14 @@ CSRF_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 SECURE_SSL_REDIRECT = bool(os.getenv("PRODUCTION"))
 
 SESSION_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
-
+ 	
+AUTH_USER_MODEL = 'mongo_auth.MongoUser'
+	
+AUTHENTICATION_BACKENDS = (
+    'django_mongoengine.mongo_auth.backends.MongoEngineBackend',
+)
+	
+SESSION_ENGINE = 'django_mongoengine.sessions'
+	
 
 django_heroku.settings(locals())
