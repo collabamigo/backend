@@ -12,9 +12,9 @@ jobs:
       - name: Cloning the repository
         run: cd ${{ github.workspace }}/../ && (rm * -rf || echo) && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-1 && git clone git@github.com:${{ github.repository }}
       - name: Checking out testing branch
-        run: cd ${{ github.workspace }} && git checkout testing && git branch -d main && git branch -m main
+        run: cd ${{ github.workspace }} && git checkout testing
       - name: Set global git config
         run: git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
       - name: Pushing to Heroku-dev
-        run:  cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-dev && git remote add heroku-dev https://git.heroku.com/blooming-peak-53825.git && git push heroku-dev
+        run:  cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-dev && git remote add heroku-dev https://git.heroku.com/blooming-peak-53825.git && git push heroku-dev testing:main
       - run: echo " This job's status is ${{ job.status }}."
