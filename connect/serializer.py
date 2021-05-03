@@ -8,6 +8,7 @@ from . models import *
 
 class CredentialsSerializer(serializers.ModelSerializer):
 	class Meta:
+		abstract = False
 		model = Credentials
 		fields = ['_id','first_name','last_name','Age','Gender'
 		,'Education','Email','Contact','handle',
@@ -16,5 +17,6 @@ class CredentialsSerializer(serializers.ModelSerializer):
 
 class TeacherSerializer(serializers.ModelSerializer):
 	class Meta:
+		abstract = False
 		model = Teacher
 		fields = ['_id','Skill_set']
