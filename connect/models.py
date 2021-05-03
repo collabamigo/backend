@@ -21,7 +21,7 @@ class Credentials(Document):
 	last_name = me.StringField(max_length=30)
 	Age = me.IntField()
 	Gender = me.StringField(max_length=30)
-	Education = me.DictField(db_field=me.StringField(max_length=30))
+	Education = me.DictField()
 	Email = me.EmailField(max_length=75)
 	Contact = me.LongField()
 	handle = me.StringField(choices=STYLE_CHOICES, default='Telegram', max_length=100)
@@ -30,5 +30,5 @@ class Credentials(Document):
 
 class Teacher(Document):
 	_id= me.StringField(primary_key=True, max_length=30)
-	Skill_set = me.DictField(db_field=me.StringField(max_length=30))
+	Skill_set = me.DictField()
 
