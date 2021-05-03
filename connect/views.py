@@ -3,8 +3,8 @@ from django.shortcuts import render
 # from . models import *
 # from rest_framework.response import Response
 from rest_framework import viewsets
-from .serializer import ReactSerializer
-from .models import React
+from .serializer import *
+from .models import *
 # Create your views here.
 
 # class ReactView(viewsets.ModelViewSet):

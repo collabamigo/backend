@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from .models import *
 class connectCredentials(admin.ModelAdmin):
     list_display = ('_id', 'first_name', 'last_name','Age','Gender','Education','Email','Contact','handle','isvendor')
 
