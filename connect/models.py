@@ -1,6 +1,6 @@
 # from django.db import models
 from mongoengine import fields as me
-
+from mongoengine.document import Document
 # class React(models.Model):
 # 	_id= models.fields.StringField(primary_key=True, max_length=30)
 # 	first_name = models.CharField(max_length=30)
