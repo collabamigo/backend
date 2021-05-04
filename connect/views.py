@@ -4,8 +4,19 @@ from django.shortcuts import render
 # from rest_framework.response import Response
 from mongoengine.queryset import QuerySet
 from rest_framework import viewsets
-from .serializer import *
+# from .serializer import *
 from .models import *
+
+from django.http import HttpResponse
+from django.views.generic import View
+	
+from django_mongoengine.forms.fields import DictField
+from django_mongoengine.views import (
+	    CreateView, UpdateView,
+	    DeleteView, ListView,
+	    DetailView,
+	    EmbeddedDetailView,
+	)
 # Create your views here.
 
 # class ReactView(viewsets.ModelViewSet):
@@ -27,14 +38,56 @@ from .models import *
 # 			print(serializer.data,"is serialized data")
 # 			return  Response(serializer.data)
 
-class CredentialsView(viewsets.ModelViewSet):
+# class CredentialsView(View):
 	
-	serializer_class = CredentialsSerializer
-	queryset = Credentials.objects.all()
+# 	serializer_class = CredentialsSerializer
+# 	queryset = Credentials.objects.all()
 
 
-class TeacherView(viewsets.ModelViewSet):
+# class TeacherView(CreateView):
 	
-	serializer_class = TeacherSerializer
-	# queryset = Teacher.objects.all()
-	QuerySet = Teacher.objects.all()
+# 	serializer_class = TeacherSerializer
+# 	queryset = Teacher.objects.all()
+# 	QuerySet = Teacher.objects.all()
+# e
+
+# class TestSessionView(View):
+
+
+# 	def get(self, request, *args, **kwargs):
+# 		test_data = request.session.get('test', None)
+# 		request.session['test'] = 'abc123'
+# 		return HttpResponse('test=%s' % test_data)
+# from tumblelog.models import Post, BlogPost, Video, Image, Quote, Music
+# from tumblelog import forms
+	
+from connect.models import *
+class AddPostView(CreateView):
+	doc_map = {'Skill_set': Skill_set, 'helo': helo}
+	success_message = "Post Added!"
+	fields = "__all__"
+
+	@property
+	def document(self):
+		post_type = self.kwargs.get('post_type', 'post')
+		return self.doc_map.get(post_type)
+
+	def get_form(self, form_class=None):
+		form = super(AddPostView, self).get_form(form_class)
+		# music_parameters = form.fields.get('music_parameters', None)
+		# if music_parameters is not None:
+		# 	schema = {
+		# 		'Artist': '',
+		# 		'Title': '',
+		# 		'Album': '',
+		# 		'Genre': '',
+		# 		'Label': '',
+		# 		'Release dates': {
+		# 			'UK': '',
+		# 			'US': '',
+		# 			'FR': ''
+		# 		}
+		# 	}
+		# 	music_parameters = DictField(initial=schema, flags=['FORCE_SCHEMA'])
+		# 	form.fields['music_parameters'] = music_parameters
+		return form

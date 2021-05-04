@@ -23,8 +23,8 @@ from connect import views
 
 from connect.views import *
 router = routers.DefaultRouter()
-router.register(r'Credentials', CredentialsView,"Credential-data")
-router.register(r'Teacher', TeacherView,"Teacher-data")
+# router.register(r'Credentials', CredentialsView,"Credential-data")
+router.register(r'Teacher', AddPostView(),"Teacher-data")
 # router.register(r'Skill', SkillView,"Skill-data")
 
 
@@ -36,4 +36,5 @@ urlpatterns = [
     path('api/', include(router.urls))]
     # path('',home,name='home'),
     # path('wel/', CredView.as_view(), name="something"),
+
 # ]
