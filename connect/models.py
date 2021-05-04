@@ -31,16 +31,16 @@ from mongoengine.document import Document
 
 
 class Post(Document):
-	    created_at = me.DateTimeField(
-	        default=datetime.datetime.now, editable=False,
-	    )
+	    # created_at = me.DateTimeField(
+	    #     default=datetime.datetime.now, editable=False,
+	    # )
 	    @property
 	    def post_type(self):
 	        return self.__class__.__name__
 	
 	    meta = {
-	        'indexes': ['-created_at'],
-	        'ordering': ['-created_at'],
+	        # 'indexes': ['-created_at'],
+	        # 'ordering': ['-created_at'],
 	        'allow_inheritance': True
 	    }
 
