@@ -31,7 +31,7 @@ from mongoengine.document import Document
 
 
 class Post(Document):
-	    created_at = fields.DateTimeField(
+	    created_at = me.DateTimeField(
 	        default=datetime.datetime.now, editable=False,
 	    )
 	    @property
