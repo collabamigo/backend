@@ -63,7 +63,7 @@ from django_mongoengine.views import (
 	
 from connect.models import *
 class AddPostView(CreateView):
-	doc_map = {'Skill_set': Skill_set, 'helo': helo}
+	doc_map = {'Skill_set': Teacher.Skill_set, 'helo': Teacher.helo}
 	success_message = "Post Added!"
 	fields = "__all__"
 
