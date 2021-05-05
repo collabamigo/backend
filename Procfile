@@ -1,1 +1,1 @@
-web: bin/start-pgbouncer
+web: bin/start-pgbouncer backend.wsgi
