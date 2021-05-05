@@ -1,1 +1,1 @@
-web: bin/start-pgbouncer backend.wsgi
+web: bin/start-pgbouncer gunicorn backend.wsgi
