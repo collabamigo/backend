@@ -10,7 +10,7 @@ djangorestframework = "*"
 django-cors-headers = "*"
 dnspython = "*"
 django = "*"
-psycopg2 = "*"
+psycopg2-binary = "*"
 bandit = "*"
 dj-database-url = "*"
 
