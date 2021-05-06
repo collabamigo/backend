@@ -10,8 +10,8 @@ djangorestframework = "*"
 django-cors-headers = "*"
 dnspython = "*"
 django = "*"
-# TODO: This Django version is insecure. Forced to use it due to Djongo compatibility issues
 psycopg2 = "*"
+bandit = "*"
 
 [dev-packages]
 
