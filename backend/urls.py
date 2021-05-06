@@ -22,10 +22,10 @@ from rest_framework import routers
 from connect import views
 router = routers.DefaultRouter()
 
-router.register(r'todo', views.TodoView, 'connect')
-router.register(r'profile', views.ProfileView, 'connect')
-router.register(r'teacher', views.TeacherView, 'connect')
-router.register(r'skill', views.SkillView, 'connect')
+router.register(r'todo', views.TodoView, 'todo')
+router.register(r'profile', views.ProfileView, 'profile')
+router.register(r'teacher', views.TeacherView, 'teacher')
+router.register(r'skill', views.SkillView, 'skill')
 
 
 urlpatterns = [
