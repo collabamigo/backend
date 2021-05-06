@@ -14,9 +14,9 @@ jobs:
       - name: Checking out testing branch
         run: cd ${{ github.workspace }} && git checkout testing
       - name: Installing bandit
-        run: pip3 install bandit && PATH=$PATH:/home/codein2/.local/bin
+        run: pip3 install bandit
       - name: Running bandit tests
-        run: bandit -r ${{ github.workspace }}
+        run:  PATH=$PATH:/home/codein2/.local/bin && bandit -r ${{ github.workspace }}
       - name: Set global git config
         run: git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
       - name: Pushing to Heroku-dev
