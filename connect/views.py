@@ -13,14 +13,14 @@ class TodoView(viewsets.ModelViewSet):
 
 class ProfileView(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
-    queryset = Todo.objects.all()
+    queryset = Profile.objects.all()
 
 
 class TeacherView(viewsets.ModelViewSet):
     serializer_class = TeacherSerializer
-    queryset = Todo.objects.all()
+    queryset = Teacher.objects.all()
 
 
 class SkillView(viewsets.ModelViewSet):
     serializer_class = SkillSerializer
-    queryset = Todo.objects.all()
+    queryset = Skill.objects.all()

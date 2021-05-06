@@ -4,12 +4,12 @@ from .models import *
 
 
 class TodoAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'completed')
+    list_display = ('id', 'title', 'description', 'completed')
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('id', 'fist_name', 'last_name', 'age', 'gender',
-                    'education', 'email;', 'contact', 'handle', 'isvendor')
+    list_display = ('id', 'first_name', 'last_name', 'age', 'gender',
+                    'education', 'email', 'contact', 'handle', 'isvendor')
 
 
 class TeacherAdmin(admin.ModelAdmin):

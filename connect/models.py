@@ -2,7 +2,6 @@ from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator
 from django.db import models
-from django import forms
 
 
 class Todo(models.Model):
@@ -15,8 +14,8 @@ class Todo(models.Model):
 
 
 class Profile(models.Model):
-    # id = models.CharField(primary_key=True, unique=True,
-    #                       max_length=30)
+    id = models.CharField(primary_key=True, unique=True,
+                          max_length=30)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     age = models.IntegerField(blank=True)

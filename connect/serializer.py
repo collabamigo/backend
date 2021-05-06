@@ -11,18 +11,18 @@ class TodoSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Todo
+        model = Profile
         fields = ('id', 'first_name', 'last_name', 'age', 'gender',
                   'education', 'email', 'contact', 'handle', 'isvendor')
 
 
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Todo
+        model = Teacher
         fields = ('id', 'Skill_set')
 
 
 class SkillSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Todo
+        model = Skill
         fields = ('id', 'Teacher_set')
