@@ -14,13 +14,19 @@ jobs:
         run: cd ${{ github.workspace }} && git checkout testing
 
       - name: Installing bandit
-        run: pip3 install bandit pipenv
+        run: pip3 install bandit pipenv flake8
 
       - name: Running bandit tests
         run:  PATH=$PATH:/home/codein2/.local/bin && bandit -r ${{ github.workspace }}
 
-      - name: Installing packages using pipenv
-        run: PATH=$PATH:/home/codein2/.local/bin && cd ${{ github.workspace }} && (pipenv --rm || echo 1) && pipenv install && echo "SECRET_KEY=a">.env && pipenv run python manage.py makemigrations --noinput
+      - name: Running flake8 tests
+        run: PATH=$PATH:/home/codein2/.local/bin && cd ${{ github.workspace }} && flake8 ./
+
+      - name: Creating pipenv environment
+        run: PATH=$PATH:/home/codein2/.local/bin && cd ${{ github.workspace }} && (pipenv --rm || echo 1) && pipenv install && echo "SECRET_KEY=a">.env
+
+      - name: Run makemigrations
+        run: PATH=$PATH:/home/codein2/.local/bin && cd ${{ github.workspace }} && pipenv run python manage.py makemigrations --noinput
 
       - name: Set global git config
         run: git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
