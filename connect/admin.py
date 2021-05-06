@@ -21,6 +21,6 @@ class SkillAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Todo, TodoAdmin)
-admin.site.register(Profile, ProfieAdmin)
+admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(Skill, SkillAdmin)
