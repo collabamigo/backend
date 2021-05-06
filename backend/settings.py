@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 import django_heroku
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -148,4 +149,6 @@ CSRF_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 SECURE_SSL_REDIRECT = bool(os.getenv("PRODUCTION"))
 SESSION_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 
-django_heroku.settings(locals())
+DATABASES = dict()
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+django_heroku.settings(locals(), databases=False)

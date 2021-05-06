@@ -12,6 +12,7 @@ dnspython = "*"
 django = "*"
 psycopg2 = "*"
 bandit = "*"
+dj-database-url = "*"
 
 [dev-packages]
 
