@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from . models import *
+from . models import Todo, Profile, Teacher, Skill
 
 
 class TodoSerializer(serializers.ModelSerializer):

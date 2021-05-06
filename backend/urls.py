@@ -16,8 +16,7 @@ Including another URLconf
 
 from django.urls import path, include
 from django.contrib import admin
-from django.conf.urls import url
-from connect.views import *
+from connect.views import TodoView, ProfileView, TeacherView, SkillView
 from rest_framework import routers
 from connect import views
 router = routers.DefaultRouter()

@@ -150,5 +150,6 @@ SECURE_SSL_REDIRECT = bool(os.getenv("PRODUCTION"))
 SESSION_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 
 DATABASES = dict()
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=False)
+DATABASES['default'] = dj_database_url.config(
+    conn_max_age=600, ssl_require=False)
 django_heroku.settings(locals(), databases=False)
