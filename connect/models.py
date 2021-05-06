@@ -24,7 +24,7 @@ class Profile(models.Model):
     education = ArrayField(
         models.CharField(max_length=30, blank=True), size=2)
     email = models.EmailField(
-        max_length=75, editable=False, validators=EmailValidator())
+        max_length=75, editable=False)
     contact = models.BigIntegerField(blank=False)
     handle = models.CharField(max_length=500, blank=True)
     isvendor = models.BooleanField()
