@@ -13,7 +13,7 @@ jobs:
       - name: Checking out testing branch
         run: cd ${{ github.workspace }} && git checkout testing
 
-      - name: Installing bandit
+      - name: Installing pip packages
         run: pip3 install bandit pipenv flake8
 
       - name: Running bandit tests
