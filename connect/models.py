@@ -16,7 +16,7 @@ class Todo(models.Model):
 
 class Profile(models.Model):
     id = models.CharField(primary_key=True, unique=True,
-                          max_length=30, on_delete=models.CASCADE)
+                          max_length=30)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     age = models.IntegerField(blank=True)
@@ -33,7 +33,7 @@ class Profile(models.Model):
 class Teacher(models.Model):
 
     id = models.CharField(primary_key=True, unique=True,
-                          max_length=30, on_delete=models.CASCADE)
+                          max_length=30)
     Skill_set = ArrayField(
         models.CharField(max_length=30, blank=True), size=20)
 
@@ -41,6 +41,6 @@ class Teacher(models.Model):
 class Skill(models.Model):
 
     id = models.CharField(primary_key=True, unique=True,
-                          max_length=30, on_delete=models.CASCADE)
+                          max_length=30)
     Teacher_set = ArrayField(
         models.CharField(max_length=30, blank=True), size=20)
