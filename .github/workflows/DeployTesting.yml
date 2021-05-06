@@ -20,7 +20,7 @@ jobs:
         run:  PATH=$PATH:/home/codein2/.local/bin && bandit -r ${{ github.workspace }}
 
       - name: Installing packages using pipenv
-        run: PATH=$PATH:/home/codein2/.local/bin && cd ${{ github.workspace }} && pipenv install && pipenv clean && pipenv run manage.py makemigrations --noinput
+        run: PATH=$PATH:/home/codein2/.local/bin && cd ${{ github.workspace }} && pipenv install && pipenv clean && pipenv run python manage.py makemigrations --noinput
 
       - name: Set global git config
         run: git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
