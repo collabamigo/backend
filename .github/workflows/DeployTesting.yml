@@ -1,10 +1,10 @@
-name: Deploy tesing to Heroku-dev
+name: Deploy testing to Heroku-dev
 'on':
   push:
     branches:
       - testing
 jobs:
-  Deploy-to-Heroku:
+  Deploy-testing-to-Heroku:
     runs-on: self-hosted
     steps:
       - run: echo " The job was automatically triggered by a ${{ github.event_name }} event."

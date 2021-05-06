@@ -1,4 +1,4 @@
-name: Deploy main to Heroku-1 and Heroku-2
+name: Deploy main to production Heroku
 'on':
   push:
     branches:
@@ -15,8 +15,6 @@ jobs:
         run: cd ${{ github.workspace }} && git checkout main
       - name: Set global git config
         run: git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
-      - name: Pushing to Heroku-1
+      - name: Pushing to production Heroku
         run:  cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-1 && git remote add heroku-1 https://git.heroku.com/mysterious-savannah-09391.git && git push heroku-1
-      - name: Pushing to Heroku-2
-        run: cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-2 && git remote add heroku-2 https://git.heroku.com/serene-depths-77048.git && git push heroku-2
       - run: echo " This job's status is ${{ job.status }}."

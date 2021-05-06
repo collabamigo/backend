@@ -16,11 +16,12 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-REST_FRAMEWORK = { 'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny']}
+REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
+    'rest_framework.permissions.AllowAny']}
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = [
-     'http://localhost:3000'
+    'http://localhost:3000'
 ]
 
 # Quick-start development settings - unsuitable for production
@@ -45,8 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'connect',
-    'corsheaders'
-
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -84,19 +84,29 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-   'default': {
-      'ENGINE' : 'djongo',
-      
-       'NAME' : 'core', #as named on server
-       "CLIENT": {
-            "host": os.environ['MONGODB_URI'],
-            "username": 'admin',
-            "password": os.environ['MONGODB_PASS'],  
-            "authSource": "admin",
-        }
-   }
-}
+
+# MONGODB_DATABASES = {
+# "default": {
+#     "name": 'core',
+#     "host": os.environ['MONGODB_URI'],
+#     "password": os.environ['MONGODB_PASS'],
+#     "username": os.environ['MONGODB_USER'],
+#     "tz_aware": True, # if you using timezones in django (USE_TZ = True)
+# },
+# }
+# DATABASES = {
+#     'default': {'ENGINE': 'django.db.backends.dummy'}
+# }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'core',
+#         'USER': '<db_username>',
+#         'PASSWORD': '<password>',
+#         'HOST': 'os.environ['MONGODB_URI']',
+#         'PORT': '<db_port>',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -127,9 +137,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_L10N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -137,10 +145,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 CSRF_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
-
 SECURE_SSL_REDIRECT = bool(os.getenv("PRODUCTION"))
-
 SESSION_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
-
 
 django_heroku.settings(locals())
