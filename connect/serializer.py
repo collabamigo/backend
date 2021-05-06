@@ -1,13 +1,15 @@
-# from rest_framework import serializers
+from rest_framework import serializers
 # from mongoengine import *
 # from rest_framework_mongoengine import serializers
 # from rest_framework_mongoengine.serializers import *
-# from . models import *
+from . models import *
 
-# class ReactSerializer(serializers.ModelSerializer):
-# 	class Meta:
-# 		model = React
-# 		fields = ['_id', 'first_name','last_name','Age','Gender','Email','Contact','handle','isvendor']
+
+class ReactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = React
+        fields = ['iid', 'first_name', 'last_name', 'Age',
+                  'Gender', 'Email', 'Contact', 'handle', 'isvendor']
 
 # class CredentialsSerializer(DocumentSerializer):
 # 	class Meta:
