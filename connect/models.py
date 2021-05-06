@@ -5,17 +5,26 @@ from djongo import models
 # from mongoengine.document import Document
 
 
-class React(models.Model):
-    iid = models.CharField(primary_key=True, max_length=30)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    Age = models.IntegerField()
-    Gender = models.CharField(max_length=30)
-    # Education = serializers.DictField(child = serializers.CharField())
-    Email = models.EmailField(max_length=75)
-    Contact = models.BigIntegerField()
-    handle = models.CharField(max_length=500)
-    isvendor = models.BooleanField()
+class Todo(models.Model):
+    title = models.CharField(max_length=120)
+    description = models.TextField()
+    completed = models.BooleanField(default=False)
+
+    def _str_(self):
+        return self.title
+
+
+# class React(models.Model):
+#     iid = models.CharField(primary_key=True, max_length=30)
+#     first_name = models.CharField(max_length=30)
+#     last_name = models.CharField(max_length=30)
+#     Age = models.IntegerField()
+#     Gender = models.CharField(max_length=30)
+#     # Education = serializers.DictField(child = serializers.CharField())
+#     Email = models.EmailField(max_length=75)
+#     Contact = models.BigIntegerField()
+#     handle = models.CharField(max_length=500)
+#     isvendor = models.BooleanField()
 
 # STYLE_CHOICES = [['I','Instagram'],['T','Telegram'],['S','Signal'],['Snap','Snapchat']]
 

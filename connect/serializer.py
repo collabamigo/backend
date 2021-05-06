@@ -5,11 +5,17 @@ from rest_framework import serializers
 from . models import *
 
 
-class ReactSerializer(serializers.ModelSerializer):
+class TodoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = React
-        fields = ['iid', 'first_name', 'last_name', 'Age',
-                  'Gender', 'Email', 'Contact', 'handle', 'isvendor']
+        model = Todo
+        fields = ('id', 'title', 'description', 'completed')
+
+
+# class ReactSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = React
+#         fields = ['iid', 'first_name', 'last_name', 'Age',
+#                   'Gender', 'Email', 'Contact', 'handle', 'isvendor']
 
 # class CredentialsSerializer(DocumentSerializer):
 # 	class Meta:

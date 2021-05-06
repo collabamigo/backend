@@ -21,7 +21,7 @@ from connect.views import *
 from rest_framework import routers
 from connect import views
 router = routers.DefaultRouter()
-router.register(r'connect', views.ReactView, 'connect')
+router.register(r'connect', views.TodoView, 'connect')
 # router.register(r'Credentials', CredentialsView,"Credential-data")
 # router.register(r'Teacher', AddPostView(), "Teacher-data")
 # router.register(r'Skill', SkillView,"Skill-data")
