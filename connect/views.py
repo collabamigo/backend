@@ -14,9 +14,14 @@ class ProfileView(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
 
 
+class ProfileView2(viewsets.ModelViewSet):
+    serializer_class = ProfileSerializer
+    queryset = Profile.objects.filter(id)
+
+
 class TeacherView(viewsets.ModelViewSet):
     serializer_class = TeacherSerializer
-    queryset = Teacher.objects.all()
+    queryset = Teacher.objects.only(id)
 
 
 class SkillView(viewsets.ModelViewSet):
