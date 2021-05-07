@@ -23,14 +23,15 @@ def return_recommendations(query: str, last_id: int = 0):
         curr_node = prev_node
         while new_chars:
             curr_node = collection.find_one({"parent_id": curr_node["_id"],
-                                             "value": {"$regex": "^" +
-                                                                 new_chars[0]}})
+                                             "value":
+                                                 {"$regex": "^" +
+                                                            new_chars[0]}})
             check_len = min(len(new_chars), len(curr_node['value']))
             if new_chars[:check_len] != curr_node['value'][:check_len]:
                 return [], curr_node["_id"]
             new_chars = new_chars[len(curr_node['value']):]
 
-    elif prev_node and (prev_node['parent_word'] + prev_node['value']).\
+    elif prev_node and (prev_node['parent_word'] + prev_node['value']). \
             startswith(query):
         # Characters removed
         return return_recommendations(query, prev_node['parent_id'])
