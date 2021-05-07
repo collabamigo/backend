@@ -16,18 +16,22 @@ def return_recommendations(query: str, last_id: int = 0):
         # Return same thing
         curr_node = prev_node
 
-    elif prev_node and query.startswith(prev_node['parent_word'] + prev_node['value']):
+    elif prev_node and query.startswith(prev_node['parent_word'] +
+                                        prev_node['value']):
         # New characters entered
         new_chars = query[len(prev_node['parent_word'] + prev_node['value']):]
         curr_node = prev_node
         while new_chars:
-            curr_node = collection.find_one({"parent_id": curr_node["_id"], "value": {"$regex": "^" + new_chars[0]}})
+            curr_node = collection.find_one({"parent_id": curr_node["_id"],
+                                             "value": {"$regex": "^" +
+                                                                 new_chars[0]}})
             check_len = min(len(new_chars), len(curr_node['value']))
             if new_chars[:check_len] != curr_node['value'][:check_len]:
                 return [], curr_node["_id"]
             new_chars = new_chars[len(curr_node['value']):]
 
-    elif prev_node and (prev_node['parent_word'] + prev_node['value']).startswith(query):
+    elif prev_node and (prev_node['parent_word'] + prev_node['value']).\
+            startswith(query):
         # Characters removed
         return return_recommendations(query, prev_node['parent_id'])
 
@@ -75,7 +79,9 @@ def _flush_cache(cache, result, index, parent):
     if child.is_terminal:
         cache = cache[1:]
     result.append(child.to_dict())
-    result.extend(_create_trie_helper(parent=child, index=internal_index + 1, tags=cache))
+    result.extend(_create_trie_helper(parent=child,
+                                      index=internal_index + 1,
+                                      tags=cache))
     return result
 
 
@@ -85,7 +91,8 @@ def _create_trie_helper(tags, parent, index) -> list:
     result = []
     cache = [tags[0]]
     for tag_index in range(1, len(tags)):
-        if tags[tag_index][index] != tags[tag_index - 1][index]:  # Flush and then fill
+        if tags[tag_index][index] != tags[tag_index - 1][index]:
+            # Flush and then fill
             result = _flush_cache(cache, result, index, parent)
             cache = [tags[tag_index]]
         else:
