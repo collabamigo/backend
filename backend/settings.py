@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'connect',
     'corsheaders',
+    'autocomplete'
 ]
 
 MIDDLEWARE = [
@@ -80,34 +81,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-
-# MONGODB_DATABASES = {
-# "default": {
-#     "name": 'core',
-#     "host": os.environ['MONGODB_URI'],
-#     "password": os.environ['MONGODB_PASS'],
-#     "username": os.environ['MONGODB_USER'],
-#     "tz_aware": True, # if you using timezones in django (USE_TZ = True)
-# },
-# }
-# DATABASES = {
-#     'default': {'ENGINE': 'django.db.backends.dummy'}
-# }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'core',
-#         'USER': '<db_username>',
-#         'PASSWORD': '<password>',
-#         'HOST': 'os.environ['MONGODB_URI']',
-#         'PORT': '<db_port>',
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

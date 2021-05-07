@@ -29,8 +29,5 @@ router.register(r'skill', views.SkillView, 'skill')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('wel/', ReactView.as_view(), name="something"),
-    path('api/', include(router.urls))]
-# path('',home,name='home'),
-# path('wel/', CredView.as_view(), name="something"),
-# ]
+    path('api/', include(router.urls)),
+    path('autocomplete/', include('autocomplete.urls'))]

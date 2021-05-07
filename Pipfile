@@ -13,6 +13,7 @@ django = "*"
 psycopg2 = "*"
 bandit = "*"
 dj-database-url = "*"
+pymongo = "*"
 
 [dev-packages]
 
