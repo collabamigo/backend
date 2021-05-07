@@ -32,7 +32,8 @@ class Profile(models.Model):
 class Teacher(models.Model):
 
     id = models.CharField(primary_key=True, unique=True,
-                          max_length=30)
+                          max_length=30, auto_created=False,
+                          serialize=False, verbose_name='ID')
     Skill_set = ArrayField(
         models.CharField(max_length=30, blank=True), size=20)
 
