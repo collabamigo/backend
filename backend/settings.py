@@ -115,7 +115,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.' +
-        'UserAttributeSimilarityValidator',
+        'UserAttributeSimilarityValidator'.strip(),
     },
     {
         'NAME':
