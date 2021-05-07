@@ -1,7 +1,8 @@
 from .models import Todo, Profile, Teacher, Skill
 from rest_framework import viewsets
 from .serializer import (TodoSerializer, ProfileSerializer,
-                         TeacherSerializer, SkillSerializer)
+                         TeacherSerializer, SkillSerializer,
+                         ProfileSerializer2)
 
 
 class TodoView(viewsets.ModelViewSet):
@@ -15,13 +16,13 @@ class ProfileView(viewsets.ModelViewSet):
 
 
 class ProfileView2(viewsets.ModelViewSet):
-    serializer_class = ProfileSerializer
-    queryset = Profile.objects.filter(id)
+    serializer_class = ProfileSerializer2
+    queryset = Profile.objects.get(id="B2020064")
 
 
 class TeacherView(viewsets.ModelViewSet):
     serializer_class = TeacherSerializer
-    queryset = Teacher.objects.only(id)
+    queryset = Teacher.objects.all()
 
 
 class SkillView(viewsets.ModelViewSet):
