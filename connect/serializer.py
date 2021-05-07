@@ -16,10 +16,10 @@ class ProfileSerializer(serializers.ModelSerializer):
                   'education', 'email', 'contact', 'handle', 'isvendor')
 
 
-# class ProfileSerializer2(serializers.ModelSerializer):
-#     class Meta:
-#         model = Profile
-#         fields = ('id')
+class ProfileSerializer2(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('id')
 
 
 class TeacherSerializer(serializers.ModelSerializer):

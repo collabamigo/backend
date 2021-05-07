@@ -22,7 +22,7 @@ router = routers.DefaultRouter()
 
 router.register(r'todo', views.TodoView, 'todo')
 router.register(r'profile', views.ProfileView, 'profile')
-# router.register(r'profile2', views.ProfileView2, 'profile2')
+router.register(r'profile2', views.ProfileView2, 'profile2')
 router.register(r'teacher', views.TeacherView, 'teacher')
 router.register(r'skill', views.SkillView, 'skill')
 
