@@ -27,8 +27,7 @@ class Profile(models.Model):
     gender = models.CharField(max_length=30, blank=True)
     education = ArrayField(
         models.CharField(max_length=30, blank=True), size=2)
-    email = models.EmailField(
-        max_length=75, editable=False)
+    email = models.EmailField(max_length=75)
     contact = models.BigIntegerField(blank=False)
     handle = models.CharField(max_length=500, blank=True)
     isvendor = models.BooleanField()
