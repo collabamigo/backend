@@ -112,10 +112,13 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
+v1 = 'django.contrib.auth.password_validation.'
+v2 = 'UserAttributeSimilarityValidator'
+v3 = v1 + v2
+
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.' +
-        'UserAttributeSimilarityValidator'.strip(),
+        'NAME': v3,
     },
     {
         'NAME':
