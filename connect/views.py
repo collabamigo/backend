@@ -10,6 +10,9 @@ class TodoView(viewsets.ModelViewSet):
     queryset = Todo.objects.all()
 
 
+iid = None
+
+
 class TodoView2(viewsets.ModelViewSet, iid):
     serializer_class = TodoSerializer2
     queryset = Todo.objects.filter(id=iid)
