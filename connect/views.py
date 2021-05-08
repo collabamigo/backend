@@ -8,8 +8,14 @@ from .serializer import (TodoSerializer, ProfileSerializer,
 
 def detail(request, titlee):
     latest_question_list = Todo.objects.get(title=titlee)
-    output = ', '.join([q.question_text for q in latest_question_list])
+    output = ', '.join([q.description for q in latest_question_list])
     return HttpResponse(output)
+
+
+def retrieve(self, request, *args, **kwargs):
+    instance = self.get_object()
+    serializer = self.get_serializer(instance)
+    return Response(serializer.data)
 
 
 class TodoView(viewsets.ModelViewSet):
