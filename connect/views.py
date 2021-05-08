@@ -1,5 +1,7 @@
 from .models import Todo, Profile, Teacher, Skill
 from rest_framework import viewsets
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from .serializer import (TodoSerializer, ProfileSerializer,
                          TeacherSerializer, SkillSerializer,
                          TodoSerializer2)
@@ -10,12 +12,9 @@ class TodoView(viewsets.ModelViewSet):
     queryset = Todo.objects.all()
 
 
-iid = None
-
-
-class TodoView2(viewsets.ModelViewSet, iid):
+class TodoView2(viewsets.ModelViewSet):
     serializer_class = TodoSerializer2
-    queryset = Todo.objects.filter(id=iid)
+    queryset = Todo.objects.all()
 
 
 class ProfileView(viewsets.ModelViewSet):
