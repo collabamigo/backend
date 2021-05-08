@@ -9,6 +9,12 @@ class TodoSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'description', 'completed')
 
 
+class TodoSerializer2(serializers.ModelSerializer):
+    class Meta:
+        model = Todo
+        fields = ('id', 'title')
+
+
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile

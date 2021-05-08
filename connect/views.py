@@ -9,6 +9,11 @@ class TodoView(viewsets.ModelViewSet):
     queryset = Todo.objects.all()
 
 
+class TodoView2(viewsets.ModelViewSet, iid):
+    serializer_class = TodoSerializer2
+    queryset = Todo.objects.filter(id=iid)
+
+
 class ProfileView(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
