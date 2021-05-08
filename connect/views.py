@@ -10,14 +10,14 @@ class TodoView(viewsets.ModelViewSet):
     queryset = Todo.objects.all()
 
 
+class TodoView2(viewsets.ModelViewSet):
+    serializer_class = TodoSerializer
+    queryset = Todo.objects.filter(id=1)
+
+
 class ProfileView(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
-
-
-# class ProfileView2(viewsets.ModelViewSet):
-#     serializer_class = ProfileSerializer2
-#     queryset = Profile.objects.get(id="B2020064")
 
 
 class TeacherView(viewsets.ModelViewSet):

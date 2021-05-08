@@ -21,6 +21,7 @@ from connect import views
 router = routers.DefaultRouter()
 
 router.register(r'todo', views.TodoView, 'todo')
+router.register(r'todo', views.TodoView2, 'todo')
 router.register(r'profile', views.ProfileView, 'profile')
 router.register(r'teacher', views.TeacherView, 'teacher')
 router.register(r'skill', views.SkillView, 'skill')
