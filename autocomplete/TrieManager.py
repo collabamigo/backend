@@ -50,7 +50,8 @@ def return_recommendations(query: str, last_id: int = 0):
 def generate_trie(tags: list, save_to_mongo: bool = True) -> list:
     """
     Generates a trie using a list of words
-        :parameter save_to_mongo: Controls if the generated trie will be saved to MongoDB
+        :parameter save_to_mongo: Controls if the generated
+                                    trie will be saved to MongoDB
         :parameter tags: List of tags/words on which trie is to be generated
         :return: Returns a list of dicts, each depicting a trie node
     """
