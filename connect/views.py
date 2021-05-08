@@ -1,19 +1,12 @@
 from .models import Todo, Profile, Teacher, Skill
 from rest_framework import viewsets
-# from rest_framework.views import APIView
-# from rest_framework.response import Response
+
 from .serializer import (TodoSerializer, ProfileSerializer,
-                         TeacherSerializer, SkillSerializer,
-                         TodoSerializer2)
+                         TeacherSerializer, SkillSerializer)
 
 
 class TodoView(viewsets.ModelViewSet):
     serializer_class = TodoSerializer
-    queryset = Todo.objects.all()
-
-
-class TodoView2(viewsets.ModelViewSet):
-    serializer_class = TodoSerializer2
     queryset = Todo.objects.all()
 
 
