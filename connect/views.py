@@ -1,6 +1,6 @@
 from .models import Todo, Profile, Teacher, Skill
 from rest_framework import viewsets
-from rest_framework.views import APIView
+# from rest_framework.views import APIView
 # from rest_framework.response import Response
 from .serializer import (TodoSerializer, ProfileSerializer,
                          TeacherSerializer, SkillSerializer,
