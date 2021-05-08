@@ -5,7 +5,33 @@ DATABASE_NAME = 'autocomplete'
 COLLECTION_NAME = 'trie'
 
 
-def return_recommendations(query: str, last_id: int = 0):
+def get_recommendations(query: str, last_id: int = 0):
+    if not last_id:
+        last_id = 0
+    print("Got query=", query, "and id=", last_id, flush=True)
+    recommendations, cache_id = _return_recommendations(query, last_id)
+    return dict(recommendations=recommendations, cache_id=cache_id)
+
+
+def generate_trie(tags: list, save_to_mongo: bool = True) -> list:
+    """
+    Generates a trie using a list of words
+        :parameter save_to_mongo: Controls if the generated
+                                    trie will be saved to MongoDB
+        :parameter tags: List of tags/words on which trie is to be generated
+        :return: Returns a list of dicts, each depicting a trie node
+    """
+
+    db = pymongo.MongoClient(os.environ['MONGODB_URI'])[DATABASE_NAME]
+    collection = db[COLLECTION_NAME]
+    trie = _create_trie(tags)
+    if save_to_mongo:
+        collection.delete_many()
+        collection.insert_many(trie)
+    return trie
+
+
+def _return_recommendations(query: str, last_id: int):
     if not query:
         return [], 0
     last_id = int(last_id)
@@ -38,31 +64,13 @@ def return_recommendations(query: str, last_id: int = 0):
     elif prev_node and (prev_node['parent_word'] + prev_node['value']). \
             startswith(query):
         # Characters removed
-        return return_recommendations(query, prev_node['parent_id'])
+        return _return_recommendations(query, prev_node['parent_id'])
 
     else:
         # Totally new
-        return return_recommendations(query, 0)
+        return _return_recommendations(query, 0)
 
     return curr_node['recommendations'], curr_node['_id']
-
-
-def generate_trie(tags: list, save_to_mongo: bool = True) -> list:
-    """
-    Generates a trie using a list of words
-        :parameter save_to_mongo: Controls if the generated
-                                    trie will be saved to MongoDB
-        :parameter tags: List of tags/words on which trie is to be generated
-        :return: Returns a list of dicts, each depicting a trie node
-    """
-
-    db = pymongo.MongoClient(os.environ['MONGODB_URI'])[DATABASE_NAME]
-    collection = db[COLLECTION_NAME]
-    trie = _create_trie(tags)
-    if save_to_mongo:
-        collection.delete_many()
-        collection.insert_many(trie)
-    return trie
 
 
 def _create_trie(tags: list) -> list:
@@ -149,7 +157,7 @@ def main():
         q_id = input("id?")
         if not q_id:
             q_id = 0
-        print(return_recommendations(user_query, q_id))
+        print(_return_recommendations(user_query, q_id))
 
 
 if __name__ == "__main__":
