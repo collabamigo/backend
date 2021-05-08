@@ -6,6 +6,8 @@ COLLECTION_NAME = 'trie'
 
 
 def return_recommendations(query: str, last_id: int = 0):
+    if not query:
+        return [], 0
     last_id = int(last_id)
     query = query.lower()
     db = pymongo.MongoClient(os.environ['MONGODB_URI'])[DATABASE_NAME]
@@ -26,6 +28,8 @@ def return_recommendations(query: str, last_id: int = 0):
                                              "value":
                                                  {"$regex": "^" +
                                                             new_chars[0]}})
+            if not curr_node:
+                return [], prev_node["_id"]
             check_len = min(len(new_chars), len(curr_node['value']))
             if new_chars[:check_len] != curr_node['value'][:check_len]:
                 return [], curr_node["_id"]
@@ -43,13 +47,25 @@ def return_recommendations(query: str, last_id: int = 0):
     return curr_node['recommendations'], curr_node['_id']
 
 
-def create_and_save_trie(tags: list) -> None:
+def generate_trie(tags: list, save_to_mongo: bool = True) -> list:
+    """
+    Generates a trie using a list of words
+        :parameter save_to_mongo: Controls if the generated trie will be saved to MongoDB
+        :parameter tags: List of tags/words on which trie is to be generated
+        :return: Returns a list of dicts, each depicting a trie node
+    """
+
     db = pymongo.MongoClient(os.environ['MONGODB_URI'])[DATABASE_NAME]
     collection = db[COLLECTION_NAME]
-    collection.insert_many(create_trie(tags))
+    trie = _create_trie(tags)
+    if save_to_mongo:
+        collection.delete_many()
+        collection.insert_many(trie)
+    return trie
 
 
-def create_trie(tags: list) -> list:
+def _create_trie(tags: list) -> list:
+    _Node.curr_id = 0
     tags.sort()
     root = _Node(value="", parent=None)
     root.recommendations = tags[:4]
@@ -126,9 +142,14 @@ class _Node:
                     recommendations=self.recommendations)
 
 
-while True:
-    query = input("Q?")
-    id = input("id?")
-    if not id:
-        id = 0
-    print(return_recommendations(query, id))
+def main():
+    while True:
+        user_query = input("Q?")
+        q_id = input("id?")
+        if not q_id:
+            q_id = 0
+        print(return_recommendations(user_query, q_id))
+
+
+if __name__ == "__main__":
+    main()
