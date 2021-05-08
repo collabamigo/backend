@@ -30,5 +30,5 @@ router.register(r'skill', views.SkillView, 'skill')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('autocomplete/', include('autocomplete.urls'), path('<str:titlee>/', views.detail, name='detail'),
-         )]
+    path('autocomplete/', include('autocomplete.urls')),
+    path('<str:titlee>/', views.detail, name='detail')]
