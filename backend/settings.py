@@ -46,7 +46,7 @@ EMAIL_HOST_USER = os.environ['EMAIL']
 EMAIL_HOST_PASSWORD = os.environ['PASS_KEY']
 
 
-# Application definition
+# Application definition hai ye
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
