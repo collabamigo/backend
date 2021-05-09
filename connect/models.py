@@ -1,7 +1,7 @@
 from django.contrib.postgres.fields import ArrayField
-# from django.core.exceptions import ValidationError
-# from django.core.validators import EmailValidator
 from django.db import models
+from django.core.mail import send_mail
+from backend.settings import EMAIL_HOST_USER
 
 
 class Todo(models.Model):
@@ -14,10 +14,6 @@ class Todo(models.Model):
 
     def _str_(self):
         return self.title
-
-    def mera(self):
-        k = [self.id, self.description, self.title, self.completed]
-        return k
 
 
 class Profile(models.Model):
@@ -35,6 +31,19 @@ class Profile(models.Model):
     contact = models.BigIntegerField(blank=False)
     handle = models.CharField(max_length=500, blank=True)
     isvendor = models.BooleanField()
+
+    def _str_(self):
+        return self.email
+
+    def save(self, *args, **kwargs):
+        send_mail(
+            'Registered',
+            'You have been registered',
+            EMAIL_HOST_USER,
+            [self.email],
+            fail_silently=False,
+        )
+        super().save(*args, **kwargs)  # Call the "real" save() method.
 
 
 class Teacher(models.Model):

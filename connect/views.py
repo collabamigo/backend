@@ -1,7 +1,6 @@
 from django.http import JsonResponse
 from .models import Todo, Profile, Teacher, Skill
 from rest_framework import viewsets
-
 from .serializer import (TodoSerializer, ProfileSerializer,
                          TeacherSerializer, SkillSerializer)
 

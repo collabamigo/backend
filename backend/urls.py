@@ -16,18 +16,8 @@ Including another URLconf
 
 from django.urls import path, include
 from django.contrib import admin
-from rest_framework import routers
-from connect import views
-router = routers.DefaultRouter()
-
-router.register(r'todo', views.TodoView, 'todo')
-router.register(r'profile', views.ProfileView, 'profile')
-router.register(r'teacher', views.TeacherView, 'teacher')
-router.register(r'skill', views.SkillView, 'skill')
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
     path('autocomplete/', include('autocomplete.urls')),
-    path('<str:titlee>/', views.detail, name='detail')]
+    path('connect/', include('connect.urls')), ]
