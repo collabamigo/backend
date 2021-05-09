@@ -15,6 +15,10 @@ class Todo(models.Model):
     def _str_(self):
         return self.title
 
+    def mera(self):
+        k = [self.id, self.description, self.title, self.completed]
+        return k
+
 
 class Profile(models.Model):
     id = models.CharField(primary_key=True, unique=True,

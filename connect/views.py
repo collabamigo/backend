@@ -1,21 +1,15 @@
+from django.http import JsonResponse
 from .models import Todo, Profile, Teacher, Skill
 from rest_framework import viewsets
-from django.http import HttpResponse
 
 from .serializer import (TodoSerializer, ProfileSerializer,
                          TeacherSerializer, SkillSerializer)
 
 
 def detail(request, titlee):
-    latest_question_list = Todo.objects.get(title=titlee)
-    output = ', '.join([q.description for q in latest_question_list])
-    return HttpResponse(output)
-
-
-# def retrieve(self, request, *args, **kwargs):
-#     instance = self.get_object()
-#     serializer = self.get_serializer(instance)
-#     return Response(serializer.data)
+    qm = (x for x in Todo.objects.filter(title=titlee)[::])
+    output = ', '.join([q.description for q in qm])
+    return JsonResponse(output, safe=False)
 
 
 class TodoView(viewsets.ModelViewSet):
