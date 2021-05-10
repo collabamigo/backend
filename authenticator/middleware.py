@@ -17,7 +17,8 @@ def simple_middleware(get_response):
             response = get_response(request)
         elif 'aeskey' in request.headers and "iv" in request.headers and \
                 "token" in request.headers:
-            auth = AuthHandler.authenticate(request.headers['token'], request.headers['aeskey'],
+            auth = AuthHandler.authenticate(request.headers['token'],
+                                            request.headers['aeskey'],
                                             request.headers['iv'])
             if auth:
                 request.user = auth
