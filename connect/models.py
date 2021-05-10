@@ -4,6 +4,15 @@ from django.core.mail import send_mail
 from backend.settings import EMAIL_HOST_USER
 
 
+class Teacher(models.Model):
+
+    id = models.CharField(primary_key=True, unique=True,
+                          max_length=30, auto_created=False,
+                          serialize=False, verbose_name='ID')
+    Skill_set = ArrayField(ArrayField(
+        models.CharField(max_length=30, blank=True), size=2), size=5)
+
+
 class Todo(models.Model):
     id = models.BigAutoField(primary_key=True, unique=True,
                              auto_created=True,
@@ -37,8 +46,6 @@ class Profile(models.Model):
 
     def getrollnumber(self):
         x = str(self.email)
-        print(x)
-        print(self.id)
         output = ""
         for i in x:
             if i >= '0' and i <= '9':
@@ -50,7 +57,6 @@ class Profile(models.Model):
     def teacher(self):
         obj = Teacher()
         obj.id = self.id
-        obj.related = self.id
         obj.save()
 
     def save(self, *args, **kwargs):
@@ -66,16 +72,6 @@ class Profile(models.Model):
         if self.isteacher:
             self.teacher()
         super().save(*args, **kwargs)  # Call the "real" save() method.
-
-
-class Teacher(models.Model):
-
-    id = models.CharField(primary_key=True, unique=True,
-                          max_length=30, auto_created=False,
-                          serialize=False, verbose_name='ID')
-    Skill_set = ArrayField(ArrayField(
-        models.CharField(max_length=30, blank=True), size=2), size=5)
-    related = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
 
 class Skill(models.Model):
