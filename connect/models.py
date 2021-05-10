@@ -48,11 +48,7 @@ class Profile(models.Model):
         return m
 
     def save(self, *args, **kwargs):
-        print(self.id)
         self.id = self.getrollnumber()
-
-        print(self.id)
-
         send_mail(
             'Registered',
             'You have been registered',

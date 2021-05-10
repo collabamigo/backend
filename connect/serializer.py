@@ -12,7 +12,7 @@ class TodoSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('id', 'first_name', 'last_name', 'age', 'gender',
+        fields = ('first_name', 'last_name', 'age', 'gender',
                   'education', 'email', 'contact', 'handle', 'isvendor')
 
 
