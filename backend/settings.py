@@ -70,9 +70,9 @@ MIDDLEWARE = [
     'authenticator.middleware.simple_middleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
-# TODO: CORS removed. UNSAFE
+
 APPEND_SLASH = True
 
 ROOT_URLCONF = 'backend.urls'
