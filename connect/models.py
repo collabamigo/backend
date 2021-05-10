@@ -35,7 +35,24 @@ class Profile(models.Model):
     def _str_(self):
         return self.email
 
+    def getrollnumber(self):
+        x = str(self.email)
+        print(x)
+        print(self.id)
+        output = ""
+        for i in x:
+            if i >= '0' and i <= '9':
+                output += i
+
+        m = str(self.education[0])[0] + output
+        return m
+
     def save(self, *args, **kwargs):
+        print(self.id)
+        self.id = self.getrollnumber()
+
+        print(self.id)
+
         send_mail(
             'Registered',
             'You have been registered',
