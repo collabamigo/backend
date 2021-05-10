@@ -5,9 +5,9 @@ from backend.settings import EMAIL_HOST_USER
 
 
 class Todo(models.Model):
-    id = models.AutoField(primary_key=True, unique=True,
-                          auto_created=True,
-                          serialize=False, verbose_name='ID')
+    id = models.BigAutoField(primary_key=True, unique=True,
+                             auto_created=True,
+                             serialize=False, verbose_name='ID')
     title = models.CharField(max_length=120)
     description = models.TextField()
     completed = models.BooleanField(default=False)
