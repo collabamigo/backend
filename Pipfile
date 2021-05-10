@@ -15,9 +15,9 @@ bandit = "*"
 dj-database-url = "*"
 pymongo = "*"
 cryptography = "*"
-pycryptodome = "*"
 google-auth = "*"
 requests = "*"
+pycryptodomex = "*"
 
 [dev-packages]
 

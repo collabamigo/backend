@@ -1,11 +1,13 @@
 import os
 
-from Crypto.Cipher import PKCS1_OAEP, AES
-from Crypto.PublicKey import RSA
-from Crypto.Util.Padding import unpad
+from Cryptodome.Cipher import PKCS1_OAEP, AES
+from Cryptodome.PublicKey import RSA
+from Cryptodome.Util.Padding import unpad
 from google.auth.transport import requests
 from google.oauth2 import id_token
 
+
+# TODO: See if pyca/cryptography can be used
 
 def authenticate(encrypted_token: str, aes_key: str, iv: str) -> str:
     """
