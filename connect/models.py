@@ -57,7 +57,7 @@ class Profile(models.Model):
         self.id = self.getrollnumber()
         send_mail(
             'Registered',
-            'You have been registered',
+            'You have been registered ' + self.id,
             EMAIL_HOST_USER,
             [self.email],
             fail_silently=False,
