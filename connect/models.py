@@ -30,7 +30,7 @@ class Profile(models.Model):
     email = models.EmailField(max_length=50, unique=True)
     contact = models.BigIntegerField(blank=False, unique=True)
     handle = models.CharField(max_length=50, blank=True)
-    isvendor = models.BooleanField(default=False)
+    isteacher = models.BooleanField(default=False)
 
     def _str_(self):
         return self.email
@@ -47,6 +47,12 @@ class Profile(models.Model):
         m = str(self.education[0])[0] + output
         return m
 
+    def teacher(self):
+        obj = Teacher()
+        obj.id = self.id
+        obj.related = self.id
+        obj.save()
+
     def save(self, *args, **kwargs):
         self.id = self.getrollnumber()
         send_mail(
@@ -56,6 +62,9 @@ class Profile(models.Model):
             [self.email],
             fail_silently=False,
         )
+
+        if isteacher:
+            self.teacher()
         super().save(*args, **kwargs)  # Call the "real" save() method.
 
 
@@ -66,6 +75,7 @@ class Teacher(models.Model):
                           serialize=False, verbose_name='ID')
     Skill_set = ArrayField(ArrayField(
         models.CharField(max_length=30, blank=True), size=2), size=5)
+    related = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
 
 class Skill(models.Model):

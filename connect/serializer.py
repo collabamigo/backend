@@ -13,7 +13,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ('first_name', 'last_name', 'age', 'gender',
-                  'education', 'email', 'contact', 'handle', 'isvendor')
+                  'education', 'email', 'contact', 'handle', 'isteacher')
 
 
 class TeacherSerializer(serializers.ModelSerializer):
