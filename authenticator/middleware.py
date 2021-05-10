@@ -13,7 +13,7 @@ def simple_middleware(get_response):
         # the view (and later middleware) are called.
         if request.user.is_superuser or request.path.startswith("/admin"):
             # Django admin logged in
-            request.user = 'SUDO'
+            request.email = 'SUDO'
             response = get_response(request)
         elif 'aeskey' in request.headers and "iv" in request.headers and \
                 "token" in request.headers:
@@ -21,7 +21,7 @@ def simple_middleware(get_response):
                                             request.headers['aeskey'],
                                             request.headers['iv'])
             if auth:
-                request.user = auth
+                request.email = auth
                 response = get_response(request)
             else:
                 response = HttpResponseUnauthorized("Invalid Credentials")
