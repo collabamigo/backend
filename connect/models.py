@@ -18,19 +18,19 @@ class Todo(models.Model):
 
 class Profile(models.Model):
     id = models.CharField(primary_key=True, unique=True,
-                          max_length=30,
+                          max_length=6,
                           auto_created=False,
                           serialize=False, verbose_name='ID')
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     age = models.IntegerField(blank=True)
-    gender = models.CharField(max_length=30, blank=True)
+    gender = models.CharField(max_length=1, blank=True)
     education = ArrayField(
-        models.CharField(max_length=30, blank=True), size=2)
-    email = models.EmailField(max_length=75)
-    contact = models.BigIntegerField(blank=False)
-    handle = models.CharField(max_length=500, blank=True)
-    isvendor = models.BooleanField()
+        models.CharField(max_length=5, blank=True), size=2)
+    email = models.EmailField(max_length=50, unique=True)
+    contact = models.BigIntegerField(blank=False, unique=True)
+    handle = models.CharField(max_length=50, blank=True)
+    isvendor = models.BooleanField(default=False)
 
     def _str_(self):
         return self.email
