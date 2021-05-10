@@ -35,7 +35,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not bool(os.getenv("PRODUCTION"))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # DataFlair neeche hai
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

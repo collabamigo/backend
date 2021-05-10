@@ -63,7 +63,7 @@ class Profile(models.Model):
             fail_silently=False,
         )
 
-        if isteacher:
+        if self.isteacher:
             self.teacher()
         super().save(*args, **kwargs)  # Call the "real" save() method.
 
