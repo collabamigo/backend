@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 import os
+from corsheaders.defaults import default_headers
 
 import dj_database_url
 import django_heroku
@@ -17,13 +18,19 @@ import django_heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
     'rest_framework.permissions.AllowAny']}
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_WHITELIST = [
 
+]
+
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'aeskey',
+    'token',
+    'iv'
 ]
 
 # Quick-start development settings - unsuitable for production
@@ -45,7 +52,6 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv("EMAIL")
 
 EMAIL_HOST_PASSWORD = os.getenv("PASS_KEY")
-
 
 # Application definition hai ye
 INSTALLED_APPS = [
@@ -108,18 +114,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME':
-        'django.contrib.auth.password_validation.MinimumLengthValidator',
+            'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
         'NAME':
-        'django.contrib.auth.password_validation.CommonPasswordValidator',
+            'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
         'NAME':
-        'django.contrib.auth.password_validation.NumericPasswordValidator',
+            'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
