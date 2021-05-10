@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
     'rest_framework.permissions.AllowAny']}
 CORS_ORIGIN_ALLOW_ALL = True
-
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_WHITELIST = [
     '*'
 ]
@@ -58,19 +58,19 @@ INSTALLED_APPS = [
     'rest_framework',
     'connect',
     'corsheaders',
-    'autocomplete'
+    'autocomplete',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'authenticator.middleware.simple_middleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 APPEND_SLASH = True
