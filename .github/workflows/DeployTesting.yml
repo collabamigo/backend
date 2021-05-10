@@ -32,7 +32,7 @@ jobs:
 
       - name: Run makemigrations
         run: PATH=$PATH:/home/codein2/.local/bin && cd ${{ github.workspace }} &&
-              pipenv run python manage.py makemigrations --noinput && git add . && git commit -m "Migrations"
+              pipenv run python manage.py makemigrations --noinput && git add . && git commit --allow-empty -m "Migrations"
 
       - name: Set global git config
         run: git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
