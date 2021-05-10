@@ -53,7 +53,7 @@ def _verify_token(token: str) -> str:
         if idinfo['hd'] != "iiitd.ac.in":
             raise ValueError('Wrong hosted domain.')
 
-        # ID token is valid. Get the user's Google Account ID from the decoded token.
+        # Get the user's Google Account ID from the decoded token.
         return idinfo['email']
     except ValueError:
         # Invalid token
