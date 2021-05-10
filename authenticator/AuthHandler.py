@@ -39,7 +39,8 @@ def _aes_decrypt(ciphertext: str, aes_key: str, iv: str) -> str:
 def _verify_token(token: str) -> str:
     try:
         # Specify the CLIENT_ID of the app that accesses the backend:
-        idinfo = id_token.verify_oauth2_token(token, requests.Request(), os.environ["GAUTH_CLIENT_ID"])
+        idinfo = id_token.verify_oauth2_token(
+            token, requests.Request(), os.environ["GAUTH_CLIENT_ID"])
 
         # Or, if multiple clients access the backend server:
         # idinfo = id_token.verify_oauth2_token(token, requests.Request())
@@ -59,10 +60,10 @@ def _verify_token(token: str) -> str:
 
 def main():
     aes_key = ""
-    token = ""
+    t = ""
     iv = ""
-    print(len(aes_key) + len(token) + len(iv))
-    print(authenticate(token, aes_key, iv))
+    print(len(aes_key) + len(t) + len(iv))
+    print(authenticate(t, aes_key, iv))
 
 
 if __name__ == "__main__":
