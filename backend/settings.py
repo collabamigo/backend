@@ -20,10 +20,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
     'rest_framework.permissions.AllowAny']}
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ORIGIN_WHITELIST = [
 
+
+CORS_ORIGIN_WHITELIST = [
+    'localhost:3000',
+    'collabconnect-development.firebase.com',
+    'collabconnect.web.app',
+    'collabconnect.firebaseapp.com',
+    'collabconnect-development.web.app'
 ]
 
 
