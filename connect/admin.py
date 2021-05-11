@@ -8,7 +8,7 @@ class TodoAdmin(admin.ModelAdmin):
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('id', 'first_name', 'last_name', 'age', 'gender',
+    list_display = ('first_name', 'last_name', 'age', 'gender',
                     'education', 'email', 'contact', 'handle', 'isteacher')
 
 
