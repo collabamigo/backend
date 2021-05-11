@@ -5,14 +5,14 @@ from backend.settings import EMAIL_HOST_USER
 
 
 class Teacher(models.Model):
-
     id = models.CharField(primary_key=True, unique=True,
                           max_length=30, auto_created=False,
                           serialize=False, verbose_name='ID')
-    Skill_set = ArrayField(ArrayField(
-        models.CharField(max_length=30, blank=True), size=2, blank=True,
-        null=True),
-        size=5, blank=True, null=True)
+    # Skill_set = ArrayField(ArrayField(
+    #     models.CharField(max_length=30, blank=True), size=2, blank=True,
+    #     null=True),
+    #     size=5, blank=True, null=True)
+    Skill_set = models.CharField(max_length=30, blank=True)
 
 
 class Todo(models.Model):
