@@ -3,10 +3,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .models import Todo, Profile, Teacher, Skill
 from rest_framework import viewsets
-from .serializer import(TodoSerializer,
-                        ProfileSerializer,
-                        TeacherSerializer,
-                        SkillSerializer)
+from .serializer import (TodoSerializer, ProfileSerializer,
+                         TeacherSerializer, SkillSerializer)
 
 
 def detail(request, titlee):
