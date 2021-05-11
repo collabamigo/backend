@@ -19,8 +19,9 @@ import django_heroku
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
-    'rest_framework.permissions.AllowAny']}
-
+    'rest_framework.permissions.AllowAny'],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',]}
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
@@ -29,7 +30,6 @@ CORS_ORIGIN_WHITELIST = [
     'https://collabconnect.firebaseapp.com',
     'https://collabconnect-development.web.app'
 ]
-
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'aeskey',
