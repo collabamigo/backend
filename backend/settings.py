@@ -72,11 +72,12 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'myapp.disable.DisableCSRF,'
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'authenticator.middleware.simple_middleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -147,7 +148,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# CSRF_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
+CSRF_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 SECURE_SSL_REDIRECT = bool(os.getenv("PRODUCTION"))
 SESSION_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 
