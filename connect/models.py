@@ -10,8 +10,8 @@ class Teacher(models.Model):
                           max_length=30, auto_created=False,
                           serialize=False, verbose_name='ID')
     Skill_set = ArrayField(ArrayField(
-        models.CharField(max_length=30, blank=True), size=2),
-        size=5, blank=True)
+        models.CharField(max_length=30, blank=True), size=2, blank=True, null=True),
+        size=5, blank=True, null=True)
 
 
 class Todo(models.Model):
