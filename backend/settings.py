@@ -148,7 +148,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-CSRF_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
+# CSRF_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 SECURE_SSL_REDIRECT = bool(os.getenv("PRODUCTION"))
 SESSION_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 
