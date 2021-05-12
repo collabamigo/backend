@@ -4,20 +4,6 @@ from django.core.mail import send_mail
 from backend.settings import EMAIL_HOST_USER
 
 
-class Teacher(models.Model):
-
-    id = models.ForeignKey('Profile', primary_key=True, unique=True,
-                           max_length=30, auto_created=False,
-                           serialize=False, verbose_name='ID',
-                           on_delete=models.CASCADE)
-    Skill_set = ArrayField(ArrayField(
-        models.CharField(max_length=30, blank=True), size=2,
-        blank=True,
-        default=list,
-        null=True),
-        size=5, blank=True, default=list, null=True)
-
-
 class Todo(models.Model):
     id = models.BigAutoField(primary_key=True, unique=True,
                              auto_created=True,
@@ -59,13 +45,13 @@ class Profile(models.Model):
         m = str(self.education[0])[0] + output
         return m
 
-    def teacher(self):
-        obj = Teacher()
-        obj.id = self.id
-        obj.save()
-
     def save(self, *args, **kwargs):
         self.id = self.getrollnumber()
+        super().save(*args, **kwargs)
+        if self.isteacher:
+            teach = Teacher()
+            teach.id = self
+            teach.save()
         send_mail(
             'Registered',
             'You have been registered ' + self.id,
@@ -73,10 +59,6 @@ class Profile(models.Model):
             [self.email],
             fail_silently=False,
         )
-
-        super().save(*args, **kwargs)  # Call the "real" save() method.
-        if self.isteacher:
-            self.teacher()
 
 
 class Skill(models.Model):
@@ -86,3 +68,21 @@ class Skill(models.Model):
                           serialize=False, verbose_name='ID')
     Teacher_set = ArrayField(ArrayField(
         models.CharField(max_length=30, blank=True), size=2), size=5)
+
+
+class Teacher(models.Model):
+    id = models.OneToOneField(
+        Profile, unique=True,
+        on_delete=models.CASCADE,
+        primary_key=True,
+        max_length=6,
+        auto_created=False,
+        serialize=False,
+        verbose_name='ID'
+    )
+    Skill_set = ArrayField(ArrayField(
+        models.CharField(max_length=30, blank=True), size=2,
+        blank=True,
+        default=list,
+        null=True),
+        size=5, blank=True, default=list, null=True)
