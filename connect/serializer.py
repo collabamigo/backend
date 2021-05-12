@@ -19,7 +19,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teacher
-        fields = ('id', 'Skill_set')
+        fields = ('id', 'Skill_set', 'Contact')
 
 
 class SkillSerializer(serializers.ModelSerializer):

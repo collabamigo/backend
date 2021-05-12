@@ -31,16 +31,16 @@ class Profile(models.Model):
     IsTeacher = models.BooleanField(default=False)
 
     def _str_(self):
-        return self.email
+        return self.Email
 
     def getrollnumber(self):
-        x = str(self.email)
+        x = str(self.Email)
         output = ""
         for i in x:
             if i >= '0' and i <= '9':
                 output += i
 
-        m = str(self.education[0])[0] + output
+        m = str(self.Degree) + output
         return m
 
     def save(self, *args, **kwargs):
@@ -54,7 +54,7 @@ class Profile(models.Model):
             'Registered',
             'You have been registered ' + self.id,
             EMAIL_HOST_USER,
-            [self.email],
+            [self.Email],
             fail_silently=False,
         )
 
@@ -84,4 +84,5 @@ class Teacher(models.Model):
         default=list,
         null=True),
         size=5, blank=True, default=list, null=True)
-    contact = models.BigIntegerField(blank=False, unique=True)
+
+    Contact = models.BigIntegerField(blank=False, unique=True)
