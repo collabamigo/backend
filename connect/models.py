@@ -73,9 +73,10 @@ class Profile(models.Model):
             [self.email],
             fail_silently=False,
         )
+
+        super().save(*args, **kwargs)  # Call the "real" save() method.
         if self.isteacher:
             self.teacher()
-        super().save(*args, **kwargs)  # Call the "real" save() method.
 
 
 class Skill(models.Model):
