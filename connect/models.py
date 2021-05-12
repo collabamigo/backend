@@ -23,11 +23,13 @@ class Profile(models.Model):
                           serialize=False, verbose_name='ID')
     First_Name = models.CharField(max_length=30)
     Last_Name = models.CharField(max_length=30, blank=True)
-    Gender = models.CharField(max_length=1, blank=True, default=None)
+    Gender = models.CharField(
+        max_length=1, blank=True, default=None, null=True)
     Degree = models.CharField(max_length=1, blank=True)
     Course = models.CharField(max_length=10, blank=True)
     Email = models.EmailField(max_length=50, unique=True, blank=False)
-    Handle = models.CharField(max_length=50, blank=True, default=None)
+    Handle = models.CharField(
+        max_length=50, blank=True, default=None, null=True)
     IsTeacher = models.BooleanField(default=False)
 
     def _str_(self):
@@ -86,4 +88,4 @@ class Teacher(models.Model):
         size=5, blank=True, default=list, null=True)
 
     Contact = models.BigIntegerField(blank=True, unique=True,
-                                     default=None)
+                                     default=None, null=True)
