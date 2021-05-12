@@ -1,18 +1,19 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.core.mail import send_mail
+from django.db.models.expressions import F
 from backend.settings import EMAIL_HOST_USER
 
 
 class Teacher(models.Model):
 
-    id = models.CharField(primary_key=True, unique=True,
-                          max_length=30, auto_created=False,
-                          serialize=False, verbose_name='ID')
+    id = models.ForeignKey('Profile', primary_key=True, unique=True,
+                           max_length=30, auto_created=False,
+                           serialize=False, verbose_name='ID', on_delete=models.CASCADE)
     Skill_set = ArrayField(ArrayField(
-        models.CharField(max_length=30, blank=True), size=2, blank=True,
+        models.CharField(max_length=30, blank=True), size=2, blank=True, default=list,
         null=True),
-        size=5, blank=True, null=True)
+        size=5, blank=True, default=list, null=True)
 
 
 class Todo(models.Model):
@@ -70,7 +71,6 @@ class Profile(models.Model):
             [self.email],
             fail_silently=False,
         )
-
         if self.isteacher:
             self.teacher()
         super().save(*args, **kwargs)  # Call the "real" save() method.
