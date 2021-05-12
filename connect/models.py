@@ -46,7 +46,7 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         self.id = self.getrollnumber()
         super().save(*args, **kwargs)
-        if self.isteacher:
+        if self.IsTeacher:
             teach = Teacher()
             teach.id = self
             teach.save()
