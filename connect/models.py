@@ -87,5 +87,4 @@ class Teacher(models.Model):
         null=True),
         size=5, blank=True, default=list, null=True)
 
-    Contact = models.BigIntegerField(blank=True, unique=True,
-                                     default=None, null=True)
+    Contact = models.BigIntegerField(blank=True, default=None)
