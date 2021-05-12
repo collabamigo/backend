@@ -1,7 +1,6 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.core.mail import send_mail
-from django.db.models.expressions import F
 from backend.settings import EMAIL_HOST_USER
 
 
@@ -9,9 +8,12 @@ class Teacher(models.Model):
 
     id = models.ForeignKey('Profile', primary_key=True, unique=True,
                            max_length=30, auto_created=False,
-                           serialize=False, verbose_name='ID', on_delete=models.CASCADE)
+                           serialize=False, verbose_name='ID',
+                           on_delete=models.CASCADE)
     Skill_set = ArrayField(ArrayField(
-        models.CharField(max_length=30, blank=True), size=2, blank=True, default=list,
+        models.CharField(max_length=30, blank=True), size=2,
+        blank=True,
+        default=list,
         null=True),
         size=5, blank=True, default=list, null=True)
 
