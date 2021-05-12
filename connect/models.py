@@ -21,16 +21,14 @@ class Profile(models.Model):
                           max_length=6,
                           auto_created=False,
                           serialize=False, verbose_name='ID')
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    age = models.IntegerField(blank=True)
-    gender = models.CharField(max_length=1, blank=True)
-    education = ArrayField(
-        models.CharField(max_length=5, blank=True), size=2)
-    email = models.EmailField(max_length=50, unique=True)
-    contact = models.BigIntegerField(blank=False, unique=True)
-    handle = models.CharField(max_length=50, blank=True)
-    isteacher = models.BooleanField(default=False)
+    First_Name = models.CharField(max_length=30)
+    Last_Name = models.CharField(max_length=30, blank=True)
+    Gender = models.CharField(max_length=1, blank=True, default=None)
+    Degree = models.CharField(max_length=1, blank=True)
+    Course = models.CharField(max_length=10, blank=True)
+    Email = models.EmailField(max_length=50, unique=True, blank=False)
+    Handle = models.CharField(max_length=50, blank=True, default=None)
+    IsTeacher = models.BooleanField(default=False)
 
     def _str_(self):
         return self.email
@@ -86,3 +84,4 @@ class Teacher(models.Model):
         default=list,
         null=True),
         size=5, blank=True, default=list, null=True)
+    contact = models.BigIntegerField(blank=False, unique=True)
