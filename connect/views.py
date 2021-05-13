@@ -6,9 +6,7 @@ from .models import Todo, Profile, Teacher, Skill
 from rest_framework import viewsets
 from .serializer import (TodoSerializer, ProfileSerializer,
                          TeacherSerializer, SkillSerializer)
-
-from rest_framework import status
-from rest_framework.response import Response
+import copy
 
 
 class CustomCreateModelMixin:
@@ -17,13 +15,10 @@ class CustomCreateModelMixin:
     """
 
     def create(self, request, *args, **kwargs):
-        dat = request.data + {"Email": request.email}
-        serializer = self.get_serializer(data=dat)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED,
-                        headers=headers)
+        duplicate_request = copy.deepcopy(request)
+        duplicate_request.data["Email"] = request.email
+        # noinspection PyTypeChecker
+        return mixins.CreateModelMixin.create(self, duplicate_request, *args, **kwargs)
 
     perform_create = mixins.CreateModelMixin.perform_create
     get_success_headers = mixins.CreateModelMixin.perform_create
