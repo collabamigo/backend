@@ -7,13 +7,11 @@ from rest_framework import viewsets
 from .serializer import (TodoSerializer, ProfileSerializer,
                          TeacherSerializer, SkillSerializer)
 
-
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.settings import api_settings
 
 
-class CreateModelMixin:
+class CustomCreateModelMixin:
     """
     Create a model instance.
     """
@@ -27,14 +25,8 @@ class CreateModelMixin:
         return Response(serializer.data, status=status.HTTP_201_CREATED,
                         headers=headers)
 
-    def perform_create(self, serializer):
-        serializer.save()
-
-    def get_success_headers(self, data):
-        try:
-            return {'Location': str(data[api_settings.URL_FIELD_NAME])}
-        except (TypeError, KeyError):
-            return {}
+    perform_create = mixins.CreateModelMixin.perform_create
+    get_success_headers = mixins.CreateModelMixin.perform_create
 
 
 def detail(request, titlee):
@@ -53,7 +45,7 @@ class GenericViewSet(viewsets.ViewSetMixin, generics.GenericAPIView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class TodoView(CreateModelMixin,
+class TodoView(CustomCreateModelMixin,
                mixins.RetrieveModelMixin,
                mixins.UpdateModelMixin,
                mixins.DestroyModelMixin,
