@@ -6,7 +6,7 @@ from . models import Todo, Profile, Teacher, Skill
 class TodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Todo
-        fields = ('id', 'title', 'description', 'completed')
+        fields = ('id', 'title', 'description', 'completed', 'Email')
 
 
 class ProfileSerializer(serializers.ModelSerializer):
