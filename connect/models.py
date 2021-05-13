@@ -1,7 +1,7 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.core.mail import send_mail
-from backend.settings import EMAIL_HOST_USER
+# from django.core.mail import send_mail
+# from backend.settings import EMAIL_HOST_USER
 
 
 class Todo(models.Model):
