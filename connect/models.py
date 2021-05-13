@@ -23,13 +23,11 @@ class Profile(models.Model):
                           serialize=False, verbose_name='ID')
     First_Name = models.CharField(max_length=30)
     Last_Name = models.CharField(max_length=30, blank=True)
-    Gender = models.CharField(
-        max_length=1, blank=True, default=None, null=True)
+    Gender = models.CharField(max_length=1, blank=True, default='NA')
     Degree = models.CharField(max_length=1, blank=True)
     Course = models.CharField(max_length=10, blank=True)
     Email = models.EmailField(max_length=50, unique=True, blank=False)
-    Handle = models.CharField(
-        max_length=50, blank=True, default=None, null=True)
+    Handle = models.CharField(max_length=50, blank=True)
     IsTeacher = models.BooleanField(default=False)
 
     def _str_(self):
@@ -52,13 +50,13 @@ class Profile(models.Model):
             teach = Teacher()
             teach.id = self
             teach.save()
-        send_mail(
-            'Registered',
-            'You have been registered ' + self.id,
-            EMAIL_HOST_USER,
-            [self.Email],
-            fail_silently=False,
-        )
+        # send_mail(
+        #     'Registered',
+        #     'You have been registered ' + self.id,
+        #     EMAIL_HOST_USER,
+        #     [self.Email],
+        #     fail_silently=False,
+        # )
 
 
 class Skill(models.Model):
@@ -87,4 +85,4 @@ class Teacher(models.Model):
         null=True),
         size=5, blank=True, default=list, null=True)
 
-    Contact = models.BigIntegerField(blank=True, default=1)
+    Contact = models.BigIntegerField(blank=True)
