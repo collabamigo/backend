@@ -18,10 +18,18 @@ class CustomCreateModelMixin:
         duplicate_request = copy.deepcopy(request)
         duplicate_request.data["Email"] = request.email
         # noinspection PyTypeChecker
-        return mixins.CreateModelMixin.create(self, duplicate_request, *args, **kwargs)
+        return mixins.CreateModelMixin.create(self,
+                                              duplicate_request,
+                                              *args, **kwargs)
 
     perform_create = mixins.CreateModelMixin.perform_create
     get_success_headers = mixins.CreateModelMixin.perform_create
+
+
+def Profilegetter(request, Value):
+    qm = (x for x in Profile.objects.filter(Email=Value)[::])
+    output = ', '.join([q.id for q in qm])
+    return JsonResponse(output, safe=False)
 
 
 def detail(request, titlee):
