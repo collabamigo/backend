@@ -4,7 +4,9 @@ from .models import Todo, Profile, Teacher, Skill
 
 
 class TodoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'description', 'completed', 'Email')
+    list_display = ('id', 'First_Name', 'Last_Name', 'Gender',
+                    'Degree', 'Course', 'Email', 'Handle',
+                    'IsTeacher')
 
 
 class ProfileAdmin(admin.ModelAdmin):
