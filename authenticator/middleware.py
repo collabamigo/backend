@@ -13,7 +13,7 @@ def simple_middleware(get_response):
         # the view (and later middleware) are called.
         if request.user.is_superuser or request.path.startswith("/admin"):
             # Django admin logged in
-            request.email = 'SUDO'
+            request.email = 'SUDO6969@SUDO.COM'
             response = get_response(request)
         elif 'aeskey' in request.headers and "iv" in request.headers and \
                 "token" in request.headers:

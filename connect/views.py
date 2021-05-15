@@ -2,6 +2,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from rest_framework import generics, mixins
+from rest_framework.settings import api_settings
+
 from .models import Todo, Profile, Teacher, Skill
 from rest_framework import viewsets
 from .serializer import (TodoSerializer, ProfileSerializer,
@@ -54,8 +56,13 @@ class CustomCreateModelMixin:
                                               request,
                                               *args, **kwargs)
 
-    perform_create = mixins.CreateModelMixin.perform_create
-    get_success_headers = mixins.CreateModelMixin.perform_create
+    def perform_create(self, serializer):
+        # noinspection PyTypeChecker
+        return mixins.CreateModelMixin.perform_create(self, serializer)
+
+    def get_success_headers(self, data):
+        # noinspection PyTypeChecker
+        return mixins.CreateModelMixin.get_success_headers(self, data)
 
 
 class GenericViewSet(viewsets.ViewSetMixin, generics.GenericAPIView):

@@ -9,23 +9,24 @@ class Todo(models.Model):
                           max_length=6,
                           auto_created=False,
                           serialize=False, verbose_name='ID')
-    First_Name = models.CharField(max_length=30)
+    First_Name = models.CharField(max_length=30, blank=True)
     Last_Name = models.CharField(max_length=30, blank=True)
-    Gender = models.CharField(max_length=1, blank=True, default='NA')
-    Degree = models.CharField(max_length=1, blank=True)
+    Gender = models.CharField(max_length=10, blank=True, default='N')
+    Degree = models.CharField(max_length=10, blank=True)
     Course = models.CharField(max_length=10, blank=True)
     Email = models.EmailField(max_length=50, unique=True, blank=False)
     Handle = models.CharField(max_length=50, blank=True)
     IsTeacher = models.BooleanField(default=False)
 
     def _str_(self):
+        print(self, flush=True)
         return self.Email
 
     def getrollnumber(self):
         x = str(self.Email)
         output = ""
         for i in x:
-            if i >= '0' and i <= '9':
+            if '0' <= i <= '9':
                 output += i
 
         m = str(self.Degree) + output
