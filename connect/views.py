@@ -76,7 +76,12 @@ class TodoView(CustomCreateModelMixin,
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class ProfileView(viewsets.ModelViewSet):
+class ProfileView(CustomCreateModelMixin,
+                  mixins.RetrieveModelMixin,
+                  mixins.UpdateModelMixin,
+                  mixins.DestroyModelMixin,
+                  mixins.ListModelMixin,
+                  viewsets.GenericViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
 

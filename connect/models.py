@@ -19,7 +19,6 @@ class Todo(models.Model):
     IsTeacher = models.BooleanField(default=False)
 
     def _str_(self):
-        print(self, flush=True)
         return self.Email
 
     def getrollnumber(self):
