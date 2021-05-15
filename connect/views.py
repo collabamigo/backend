@@ -29,16 +29,16 @@ def profile_list(request):
         return JsonResponse(serializer.errors, status=400)
 
 
-def Profilegetter(request, Value):
-    qm = (x for x in Profile.objects.filter(Email=Value)[::])
-    output = ', '.join([q.id for q in qm])
-    return JsonResponse(output, safe=False)
+# def Profilegetter(request, Value):
+#     qm = (x for x in Profile.objects.filter(Email=Value)[::])
+#     output = ', '.join([q.id for q in qm])
+#     return JsonResponse(output, safe=False)
 
 
-def detail(request, titlee):
-    qm = (x for x in Todo.objects.filter(title=titlee)[::])
-    output = ', '.join([q.description for q in qm])
-    return JsonResponse(output, safe=False)
+# def detail(request, titlee):
+#     qm = (x for x in Todo.objects.filter(title=titlee)[::])
+#     output = ', '.join([q.description for q in qm])
+#     return JsonResponse(output, safe=False)
 
 
 class CustomCreateModelMixin:

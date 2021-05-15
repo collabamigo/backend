@@ -11,7 +11,7 @@ router.register(r'skill', views.SkillView, 'skill')
 
 
 urlpatterns = [
-    path('<str:titlee>/', views.detail, name='detail'),
-    path('<str:Value>/', views.Profilegetter, name='Profilegetter'),
+    # path('<str:titlee>/', views.detail, name='detail'),
+    # path('<str:Value>/', views.Profilegetter, name='Profilegetter'),
     path('lolcheck/', views.profile_list, name='lolcheck'),
     path('api/', include(router.urls))]
