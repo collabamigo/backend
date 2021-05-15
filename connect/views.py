@@ -1,8 +1,7 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from rest_framework import generics, mixins
-from rest_framework.settings import api_settings
+from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 
 from .models import Todo, Profile, Teacher, Skill
