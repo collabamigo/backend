@@ -7,7 +7,7 @@ class TodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Todo
         fields = ('First_Name', 'Last_Name', 'Gender',
-                  'Degree', 'Course', 'Handle', 'IsTeacher')
+                  'Degree', 'Course', 'Email', 'Handle', 'IsTeacher')
 
 
 class ProfileSerializer(serializers.ModelSerializer):

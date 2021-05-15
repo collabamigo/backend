@@ -6,6 +6,39 @@ from .models import Todo, Profile, Teacher, Skill
 from rest_framework import viewsets
 from .serializer import (TodoSerializer, ProfileSerializer,
                          TeacherSerializer, SkillSerializer)
+from rest_framework.parsers import JSONParser
+
+
+@csrf_exempt
+def profile_list(request):
+    """
+    List all code snippets, or create a new snippet.
+    """
+    if request.method == 'GET':
+        snippets = Todo.objects.all()
+        serializer = TodoSerializer(snippets, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        data['Email'] = request.email
+        serializer = TodoSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+
+def Profilegetter(request, Value):
+    qm = (x for x in Profile.objects.filter(Email=Value)[::])
+    output = ', '.join([q.id for q in qm])
+    return JsonResponse(output, safe=False)
+
+
+def detail(request, titlee):
+    qm = (x for x in Todo.objects.filter(title=titlee)[::])
+    output = ', '.join([q.description for q in qm])
+    return JsonResponse(output, safe=False)
 
 
 class CustomCreateModelMixin:
@@ -23,18 +56,6 @@ class CustomCreateModelMixin:
 
     perform_create = mixins.CreateModelMixin.perform_create
     get_success_headers = mixins.CreateModelMixin.perform_create
-
-
-def Profilegetter(request, Value):
-    qm = (x for x in Profile.objects.filter(Email=Value)[::])
-    output = ', '.join([q.id for q in qm])
-    return JsonResponse(output, safe=False)
-
-
-def detail(request, titlee):
-    qm = (x for x in Todo.objects.filter(title=titlee)[::])
-    output = ', '.join([q.description for q in qm])
-    return JsonResponse(output, safe=False)
 
 
 class GenericViewSet(viewsets.ViewSetMixin, generics.GenericAPIView):
