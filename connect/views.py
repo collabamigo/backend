@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from rest_framework import generics, mixins
 from rest_framework.settings import api_settings
+from rest_framework.viewsets import GenericViewSet
 
 from .models import Todo, Profile, Teacher, Skill
 from rest_framework import viewsets
@@ -63,15 +64,6 @@ class CustomCreateModelMixin:
     def get_success_headers(self, data):
         # noinspection PyTypeChecker
         return mixins.CreateModelMixin.get_success_headers(self, data)
-
-
-class GenericViewSet(viewsets.ViewSetMixin, generics.GenericAPIView):
-    """
-    The GenericViewSet class does not provide any actions by default,
-    but does include the base set of generic view behavior, such as
-    the `get_object` and `get_queryset` methods.
-    """
-    pass
 
 
 @method_decorator(csrf_exempt, name='dispatch')
