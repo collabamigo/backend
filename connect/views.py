@@ -14,8 +14,8 @@ class CustomCreateModelMixin:
     """
 
     def create(self, request, *args, **kwargs):
-        # duplicate_request = copy.deepcopy(request)
         request.data["Email"] = request.email
+        print(request, flush=True)
         # noinspection PyTypeChecker
         return mixins.CreateModelMixin.create(self,
                                               request,
