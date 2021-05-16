@@ -61,7 +61,7 @@ class ProfileView(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
 
     def create(self, request, *args, **kwargs):
-        request.data["Email"] = request.email
+        request.data["Email"] = request.user.email
         print(request, flush=True)
         # noinspection PyTypeChecker
         return mixins.CreateModelMixin.create(self,

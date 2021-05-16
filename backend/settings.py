@@ -16,12 +16,14 @@ import dj_database_url
 import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
     'rest_framework.permissions.AllowAny'],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication', ]}
+        'rest_framework.authentication.BasicAuthentication',
+        'authenticator.authbackend.CustomAuthentication']}
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
@@ -77,14 +79,13 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'authenticator.middleware.simple_middleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 APPEND_SLASH = True
+
 
 ROOT_URLCONF = 'backend.urls'
 
