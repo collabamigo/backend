@@ -49,10 +49,16 @@ def profile_list(request):
 #     return JsonResponse(output, safe=False)
 
 
-class CustomCreateModelMixin:
-    """
-    Create a model instance.
-    """
+@method_decorator(csrf_exempt, name='dispatch')
+class TodoView(viewsets.ModelViewSet):
+    serializer_class = TodoSerializer
+    queryset = Todo.objects.all()
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ProfileView(viewsets.ModelViewSet):
+    serializer_class = ProfileSerializer
+    queryset = Profile.objects.all()
 
     def create(self, request, *args, **kwargs):
         request.data["Email"] = request.email
@@ -61,36 +67,6 @@ class CustomCreateModelMixin:
         return mixins.CreateModelMixin.create(self,
                                               request,
                                               *args, **kwargs)
-
-    def perform_create(self, serializer):
-        # noinspection PyTypeChecker
-        return mixins.CreateModelMixin.perform_create(self, serializer)
-
-    def get_success_headers(self, data):
-        # noinspection PyTypeChecker
-        return mixins.CreateModelMixin.get_success_headers(self, data)
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class TodoView(CustomCreateModelMixin,
-               mixins.RetrieveModelMixin,
-               mixins.UpdateModelMixin,
-               mixins.DestroyModelMixin,
-               mixins.ListModelMixin,
-               viewsets.GenericViewSet):
-    serializer_class = TodoSerializer
-    queryset = Todo.objects.all()
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class ProfileView(CustomCreateModelMixin,
-                  mixins.RetrieveModelMixin,
-                  mixins.UpdateModelMixin,
-                  mixins.DestroyModelMixin,
-                  mixins.ListModelMixin,
-                  viewsets.GenericViewSet):
-    serializer_class = ProfileSerializer
-    queryset = Profile.objects.all()
 
 
 @method_decorator(csrf_exempt, name='dispatch')
