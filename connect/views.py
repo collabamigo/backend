@@ -11,6 +11,13 @@ from rest_framework.parsers import JSONParser
 
 
 @csrf_exempt
+def Profilegetter(request):
+    qm = (x for x in Profile.objects.filter(Email=request.email)[::])
+    output = ', '.join([q.id for q in qm])
+    return JsonResponse(output, safe=False)
+
+
+@csrf_exempt
 def profile_list(request):
     """
     List all code snippets, or create a new snippet.
