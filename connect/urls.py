@@ -14,4 +14,6 @@ urlpatterns = [
     # path('<str:titlee>/', views.detail, name='detail'),
     path('get_profile/', views.Profilegetter, name='Profilegetter'),
     path('lolcheck/', views.profile_list, name='lolcheck'),
-    path('api/', include(router.urls))]
+    path('api/', include(router.urls)),
+    path('users/', views.UserList.as_view()),
+    path('users/<int:pk>/', views.UserDetail.as_view()), ]

@@ -57,25 +57,32 @@ class Profile(models.Model):
     Gender = models.CharField(max_length=1, blank=True, default='NA')
     Degree = models.CharField(max_length=1, blank=True)
     Course = models.CharField(max_length=10, blank=True)
-    Email = models.EmailField(max_length=50, unique=True, blank=False)
+
+    Email = models.EmailField(max_length=50,
+                              unique=True,
+                              blank=False)
     Handle = models.CharField(max_length=50, blank=True)
     IsTeacher = models.BooleanField(default=False)
+    Created = models.DateTimeField(auto_now_add=True)
+    Owner = models.ForeignKey('auth.User',
+                              on_delete=models.CASCADE,
+                              related_name='profile')
 
     def _str_(self):
         return self.Email
 
-    def getrollnumber(self):
+    def get_roll_number(self):
         x = str(self.Email)
         output = ""
         for i in x:
-            if i >= '0' and i <= '9':
+            if '0' <= i <= '9':
                 output += i
 
         m = str(self.Degree) + output
         return m
 
     def save(self, *args, **kwargs):
-        self.id = self.getrollnumber()
+        self.id = self.get_roll_number()
         super().save(*args, **kwargs)
         if self.IsTeacher:
             teach = Teacher()

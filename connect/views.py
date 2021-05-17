@@ -1,12 +1,13 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from rest_framework import mixins
+from rest_framework import mixins, generics
+from django.contrib.auth.models import User
 
 from .models import Todo, Profile, Teacher, Skill
 from rest_framework import viewsets
-from .serializer import (TodoSerializer, ProfileSerializer,
-                         TeacherSerializer, SkillSerializer)
+from .serializers import (TodoSerializer, ProfileSerializer,
+                          TeacherSerializer, SkillSerializer, UserSerializer)
 from rest_framework.parsers import JSONParser
 
 
@@ -60,6 +61,9 @@ class ProfileView(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
 
+    def perform_create(self, serializer):
+        serializer.save(Owner=self.request.user)
+
     def create(self, request, *args, **kwargs):
         request.data["Email"] = request.user.email
         print(request, flush=True)
@@ -79,3 +83,13 @@ class TeacherView(viewsets.ModelViewSet):
 class SkillView(viewsets.ModelViewSet):
     serializer_class = SkillSerializer
     queryset = Skill.objects.all()
+
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
