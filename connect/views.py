@@ -1,11 +1,13 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from rest_framework import mixins, generics
+from rest_framework import mixins, generics, permissions
 from django.contrib.auth.models import User
 
 from .models import Todo, Profile, Teacher, Skill
 from rest_framework import viewsets
+
+from .permissions import IsOwner
 from .serializers import (TodoSerializer, ProfileSerializer,
                           TeacherSerializer, SkillSerializer, UserSerializer)
 from rest_framework.parsers import JSONParser
@@ -60,13 +62,15 @@ class TodoView(viewsets.ModelViewSet):
 class ProfileView(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
+    permission_classes = (
+        permissions.IsAuthenticated,
+        IsOwner, )
 
     def perform_create(self, serializer):
         serializer.save(Owner=self.request.user)
 
     def create(self, request, *args, **kwargs):
         request.data["Email"] = request.user.email
-        print(request, flush=True)
         # noinspection PyTypeChecker
         return mixins.CreateModelMixin.create(self,
                                               request,
