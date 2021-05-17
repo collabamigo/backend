@@ -34,7 +34,8 @@ class SkillSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    profile = serializers.PrimaryKeyRelatedField(many=True, queryset=Profile.objects.all())
+    profile = serializers.PrimaryKeyRelatedField(many=True,
+                                                 queryset=Profile.objects.all())
 
     class Meta:
         model = User
