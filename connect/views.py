@@ -66,6 +66,17 @@ class ProfileView(viewsets.ModelViewSet):
         permissions.IsAuthenticated,
         IsOwner, )
 
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        if user.is_superuser:
+            return Profile.objects.all()
+        else:
+            return Profile.objects.filter(Owner=user)
+
     def perform_create(self, serializer):
         serializer.save(Owner=self.request.user)
 
