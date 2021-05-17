@@ -13,7 +13,7 @@ from rest_framework.parsers import JSONParser
 
 @csrf_exempt
 def Profilegetter(request):
-    qm = (x for x in Profile.objects.filter(Email=request.email)[::])
+    qm = (x for x in Profile.objects.filter(Email=request.user.email)[::])
     output = ', '.join([q.id for q in qm])
     return JsonResponse(output, safe=False)
 
