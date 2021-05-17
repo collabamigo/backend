@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
-from . models import Todo, Profile, Teacher, Skill
+from .models import Todo, Profile, Teacher, Skill
 
 
 class TodoSerializer(serializers.ModelSerializer):
@@ -18,7 +18,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ('First_Name', 'Last_Name', 'Gender',
                   'Degree', 'Course', 'Email', 'Handle', 'IsTeacher',
-                  'Created', 'Owner', )
+                  'Created', 'Owner',)
 
 
 class TeacherSerializer(serializers.ModelSerializer):
@@ -34,8 +34,9 @@ class SkillSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    profile = serializers.PrimaryKeyRelatedField(many=True,
-                                                 queryset=Profile.objects.all())
+    profile = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Profile.objects.all())
 
     class Meta:
         model = User
