@@ -30,7 +30,7 @@ def profile_list(request):
 
     elif request.method == 'POST':
         data = JSONParser().parse(request)
-        data['Email'] = request.email
+        data['Email'] = request.user.email
         serializer = TodoSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
