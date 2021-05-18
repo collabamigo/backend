@@ -117,7 +117,7 @@ class Teacher(models.Model):
         verbose_name='ID'
     )
     Skill_set = ArrayField(ArrayField(
-        models.CharField(max_length=15, blank=True), size=2,
+        models.CharField(max_length=30, blank=True), size=2,
         blank=True,
         default=list,
         null=True),
