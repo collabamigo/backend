@@ -106,15 +106,19 @@ class Skill(models.Model):
 
 
 class Teacher(models.Model):
-    id = models.OneToOneField(
-        Profile, unique=True,
-        on_delete=models.CASCADE,
-        primary_key=True,
-        max_length=100,
-        auto_created=False,
-        serialize=False,
-        verbose_name='ID'
-    )
+    # id = models.OneToOneField(
+    #     Profile, unique=True,
+    #     on_delete=models.CASCADE,
+    #     primary_key=True,
+    #     max_length=100,
+    #     auto_created=False,
+    #     serialize=False,
+    #     verbose_name='ID'
+    # )
+    id = models.CharField(primary_key=True, unique=True,
+                          max_length=6,
+                          auto_created=False,
+                          serialize=False, verbose_name='ID')
     Skill_set = ArrayField(ArrayField(
         models.CharField(max_length=100, blank=True), size=2,
         blank=True,
@@ -125,10 +129,11 @@ class Teacher(models.Model):
     Contact = models.BigIntegerField(blank=True, default=0)
 
     def save(self, *args, **kwargs):
-        b = Profile(id='20064')
+        super().save(*args, **kwargs)
+        b = Profile(id=self.id)
         b.IsTeacher = True
         b.lol()
-        super().save(*args, **kwargs)
+
         # if self.IsTeacher:
         #     teach = Teacher()
         #     teach.id = self
