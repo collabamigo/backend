@@ -1,6 +1,6 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.db.models.query import Prefetch
+# from django.db.models.query import Prefetch
 # from django.core.mail import send_mail
 # from backend.settings import EMAIL_HOST_USER
 
@@ -82,7 +82,7 @@ class Profile(models.Model):
         m = str(self.Degree) + output
         return m
 
-    def save(self, sendemail=False, *args, **kwargs):
+    def lol(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
     def save(self, *args, **kwargs):
@@ -128,5 +128,5 @@ class Teacher(models.Model):
     def save(self, *args, **kwargs):
         prof = Profile(id=self.id)
         prof.IsTeacher = True
-        prof.save(sendemail=False)
+        prof.lol()
         super().save(*args, **kwargs)
