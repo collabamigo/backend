@@ -125,7 +125,7 @@ class Teacher(models.Model):
     Contact = models.BigIntegerField(blank=True, default=0)
 
     def save(self, *args, **kwargs):
-        b = Profile(id=self.id)
+        b = Profile(id='20064')
         b.IsTeacher = True
         b.lol()
         super().save(*args, **kwargs)
