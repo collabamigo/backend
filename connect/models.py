@@ -110,7 +110,7 @@ class Teacher(models.Model):
         Profile, unique=True,
         on_delete=models.CASCADE,
         primary_key=True,
-        max_length=6,
+        max_length=50,
         auto_created=False,
         serialize=False,
         verbose_name='ID'
