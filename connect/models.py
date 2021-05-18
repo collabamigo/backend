@@ -124,6 +124,8 @@ class Teacher(models.Model):
         x = str(self.id)
         output = ""
         for i in x:
+            if i == 'B' or i == 'M':
+                output += i
             if '0' <= i <= '9':
                 output += i
         return output
