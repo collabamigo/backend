@@ -121,6 +121,10 @@ class Teacher(models.Model):
 
     Contact = models.BigIntegerField(blank=True, default=0)
 
+    # Email = models.OneToOneField(to='auth.User',
+    #                              on_delete=models.CASCADE,
+    #                              related_name='profile')
+
     def get_roll_number(self):
         x = str(self.id)
         output = ""
@@ -140,14 +144,21 @@ class Teacher(models.Model):
         b.IsTeacher = True
         b.lol()
 
-        # if self.IsTeacher:
-        #     teach = Teacher()
-        #     teach.id = self
-        #     teach.save()
-        # send_mail(
-        #     'Registered',
-        #     'You have been registered ' + self.id,
-        #     EMAIL_HOST_USER,
-        #     [self.Email],
-        #     fail_silently=False,
-        # )
+    def delete(self):
+        iid = self.get_roll_number()
+        b = Profile.objects.get(id=iid)
+        b.IsTeacher = False
+        b.lol()
+        super().delete()
+
+    # if self.IsTeacher:
+    #     teach = Teacher()
+    #     teach.id = self
+    #     teach.save()
+    # send_mail(
+    #     'Registered',
+    #     'You have been registered ' + self.id,
+    #     EMAIL_HOST_USER,
+    #     [self.Email],
+    #     fail_silently=False,
+    # )
