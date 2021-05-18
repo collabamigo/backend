@@ -120,12 +120,22 @@ class Teacher(models.Model):
 
     Contact = models.BigIntegerField(blank=True, default=0)
 
+    def get_roll_number(self):
+        x = str(self.id)
+        output = ""
+        for i in x:
+            if '0' <= i <= '9':
+                output += i
+        return output
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         print(self.id, flush=True)
-        # b = Profile.objects.get(id='B20064')
-        # b.IsTeacher = True
-        # b.lol()
+        iid = self.get_roll_number()
+        print(iid, type(iid), flush=True)
+        b = Profile.objects.get(id=iid)
+        b.IsTeacher = True
+        b.lol()
 
         # if self.IsTeacher:
         #     teach = Teacher()
