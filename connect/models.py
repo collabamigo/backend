@@ -1,5 +1,6 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from django.db.models.query import Prefetch
 # from django.core.mail import send_mail
 # from backend.settings import EMAIL_HOST_USER
 
@@ -54,7 +55,7 @@ class Profile(models.Model):
                           serialize=False, verbose_name='ID')
     First_Name = models.CharField(max_length=30)
     Last_Name = models.CharField(max_length=30, blank=True)
-    Gender = models.CharField(max_length=1, blank=True, default='NA')
+    Gender = models.CharField(max_length=1, blank=True)
     Degree = models.CharField(max_length=1, blank=True)
     Course = models.CharField(max_length=10, blank=True)
 
@@ -62,7 +63,7 @@ class Profile(models.Model):
                               unique=True,
                               blank=False)
     Handle = models.CharField(max_length=50, blank=True)
-    IsTeacher = models.BooleanField(default=False)
+    IsTeacher = models.BooleanField(default=False, blank=True)
     Created = models.DateTimeField(auto_now_add=True)
     Owner = models.ForeignKey('auth.User',
                               on_delete=models.CASCADE,
@@ -81,13 +82,12 @@ class Profile(models.Model):
         m = str(self.Degree) + output
         return m
 
+    def save(self, sendemail=False, *args, **kwargs):
+        super().save(*args, **kwargs)
+
     def save(self, *args, **kwargs):
         self.id = self.get_roll_number()
         super().save(*args, **kwargs)
-        if self.IsTeacher:
-            teach = Teacher()
-            teach.id = self
-            teach.save()
         # send_mail(
         #     'Registered',
         #     'You have been registered ' + self.id,
@@ -117,10 +117,16 @@ class Teacher(models.Model):
         verbose_name='ID'
     )
     Skill_set = ArrayField(ArrayField(
-        models.CharField(max_length=30, blank=True), size=2,
+        models.CharField(max_length=15, blank=True), size=2,
         blank=True,
         default=list,
         null=True),
         size=5, blank=True, default=list, null=True)
 
     Contact = models.BigIntegerField(blank=True, default=0)
+
+    def save(self, *args, **kwargs):
+        prof = Profile(id=self.id)
+        prof.IsTeacher = True
+        prof.save(sendemail=False)
+        super().save(*args, **kwargs)
