@@ -55,7 +55,7 @@ class Profile(models.Model):
                           serialize=False, verbose_name='ID')
     First_Name = models.CharField(max_length=30)
     Last_Name = models.CharField(max_length=30, blank=True)
-    Gender = models.CharField(max_length=1, blank=True)
+    Gender = models.CharField(max_length=1, blank=True, default='NA')
     Degree = models.CharField(max_length=1, blank=True)
     Course = models.CharField(max_length=10, blank=True)
 
