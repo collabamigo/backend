@@ -7,4 +7,7 @@ class IsOwner(permissions.BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
-        return obj.Owner == request.user
+        if request.user.is_superuser:
+            return True
+        else:
+            return obj.Email == request.user
