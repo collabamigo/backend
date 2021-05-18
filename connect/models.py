@@ -110,13 +110,13 @@ class Teacher(models.Model):
         Profile, unique=True,
         on_delete=models.CASCADE,
         primary_key=True,
-        max_length=50,
+        max_length=100,
         auto_created=False,
         serialize=False,
         verbose_name='ID'
     )
     Skill_set = ArrayField(ArrayField(
-        models.CharField(max_length=15, blank=True), size=2,
+        models.CharField(max_length=100, blank=True), size=2,
         blank=True,
         default=list,
         null=True),
