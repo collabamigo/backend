@@ -1,5 +1,7 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
+
+
 # from django.core.mail import send_mail
 # from backend.settings import EMAIL_HOST_USER
 
@@ -54,15 +56,15 @@ class Profile(models.Model):
                           serialize=False, verbose_name='ID')
     First_Name = models.CharField(max_length=30)
     Last_Name = models.CharField(max_length=30, blank=True)
-    Gender = models.CharField(max_length=1, blank=True,)
+    Gender = models.CharField(max_length=1, blank=True, )
     Degree = models.CharField(max_length=1, blank=True)
     Course = models.CharField(max_length=10, blank=True)
     Handle = models.CharField(max_length=50, blank=True)
     IsTeacher = models.BooleanField(default=False)
     Created = models.DateTimeField(auto_now_add=True)
-    Email = models.ForeignKey('auth.User',
-                              on_delete=models.CASCADE,
-                              related_name='profile')
+    Email = models.OneToOneField(to='auth.User',
+                                 on_delete=models.CASCADE,
+                                 related_name='profile')
 
     def _str_(self):
         return self.Email
@@ -97,7 +99,6 @@ class Profile(models.Model):
 
 
 class Skill(models.Model):
-
     id = models.CharField(primary_key=True, unique=True,
                           max_length=30, auto_created=False,
                           serialize=False, verbose_name='ID')
