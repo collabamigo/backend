@@ -1,7 +1,7 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from rest_framework import mixins, generics, permissions
+from rest_framework import generics, permissions
 from django.contrib.auth.models import User
 
 from .models import Todo, Profile, Teacher, Skill
