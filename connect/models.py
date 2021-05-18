@@ -106,19 +106,11 @@ class Skill(models.Model):
 
 
 class Teacher(models.Model):
-    # id = models.OneToOneField(
-    #     Profile, unique=True,
-    #     on_delete=models.CASCADE,
-    #     primary_key=True,
-    #     max_length=100,
-    #     auto_created=False,
-    #     serialize=False,
-    #     verbose_name='ID'
-    # )
-    id = models.CharField(primary_key=True, unique=True,
-                          max_length=6,
-                          auto_created=False,
-                          serialize=False, verbose_name='ID')
+    id = models.OneToOneField(
+        Profile,
+        on_delete=models.CASCADE,
+        primary_key=True)
+
     Skill_set = ArrayField(ArrayField(
         models.CharField(max_length=100, blank=True), size=2,
         blank=True,
@@ -130,7 +122,7 @@ class Teacher(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        b = Profile(id=self.id)
+        b = Profile.objects.filter(id=self.id)
         b.IsTeacher = True
         b.lol()
 
