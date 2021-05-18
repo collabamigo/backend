@@ -12,13 +12,13 @@ class TodoSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    Owner = serializers.ReadOnlyField(source='owner.username')
+    Email = serializers.ReadOnlyField(source='Email.email')
 
     class Meta:
         model = Profile
         fields = ('First_Name', 'Last_Name', 'Gender',
                   'Degree', 'Course', 'Email', 'Handle', 'IsTeacher',
-                  'Created', 'Owner',)
+                  'Created', )
 
 
 class TeacherSerializer(serializers.ModelSerializer):
@@ -35,8 +35,8 @@ class SkillSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     profile = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=Profile.objects.all())
+        queryset=Profile.objects.all(),
+        many=True)
 
     class Meta:
         model = User

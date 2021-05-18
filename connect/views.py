@@ -75,17 +75,10 @@ class ProfileView(viewsets.ModelViewSet):
         if user.is_superuser:
             return Profile.objects.all()
         else:
-            return Profile.objects.filter(Owner=user)
+            return Profile.objects.filter(Email=user)
 
     def perform_create(self, serializer):
-        serializer.save(Owner=self.request.user)
-
-    def create(self, request, *args, **kwargs):
-        request.data["Email"] = request.user.email
-        # noinspection PyTypeChecker
-        return mixins.CreateModelMixin.create(self,
-                                              request,
-                                              *args, **kwargs)
+        serializer.save(Email=self.request.user)
 
 
 @method_decorator(csrf_exempt, name='dispatch')

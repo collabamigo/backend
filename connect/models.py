@@ -57,14 +57,10 @@ class Profile(models.Model):
     Gender = models.CharField(max_length=1, blank=True,)
     Degree = models.CharField(max_length=1, blank=True)
     Course = models.CharField(max_length=10, blank=True)
-
-    Email = models.EmailField(max_length=50,
-                              unique=True,
-                              blank=False)
     Handle = models.CharField(max_length=50, blank=True)
     IsTeacher = models.BooleanField(default=False)
     Created = models.DateTimeField(auto_now_add=True)
-    Owner = models.ForeignKey('auth.User',
+    Email = models.ForeignKey('auth.User',
                               on_delete=models.CASCADE,
                               related_name='profile')
 
