@@ -122,7 +122,7 @@ class Teacher(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        b = Profile.objects.get(id=self.id)
+        b = Profile.objects.get(id='B20064')
         b.IsTeacher = True
         b.lol()
 
