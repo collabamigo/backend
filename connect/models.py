@@ -1,6 +1,5 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-# from django.db.models.query import Prefetch
 # from django.core.mail import send_mail
 # from backend.settings import EMAIL_HOST_USER
 
@@ -63,7 +62,7 @@ class Profile(models.Model):
                               unique=True,
                               blank=False)
     Handle = models.CharField(max_length=50, blank=True)
-    IsTeacher = models.BooleanField(default=False, blank=True)
+    IsTeacher = models.BooleanField(default=False)
     Created = models.DateTimeField(auto_now_add=True)
     Owner = models.ForeignKey('auth.User',
                               on_delete=models.CASCADE,
@@ -88,6 +87,10 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         self.id = self.get_roll_number()
         super().save(*args, **kwargs)
+        if self.IsTeacher:
+            teach = Teacher()
+            teach.id = self
+            teach.save()
         # send_mail(
         #     'Registered',
         #     'You have been registered ' + self.id,
@@ -126,7 +129,19 @@ class Teacher(models.Model):
     Contact = models.BigIntegerField(blank=True, default=0)
 
     def save(self, *args, **kwargs):
-        prof = Profile(id=self.id)
-        prof.IsTeacher = True
-        prof.lol()
+        b = Profile(id=self.id)
+        b.IsTeacher = True
+        b.lol()
+
         super().save(*args, **kwargs)
+        # if self.IsTeacher:
+        #     teach = Teacher()
+        #     teach.id = self
+        #     teach.save()
+        # send_mail(
+        #     'Registered',
+        #     'You have been registered ' + self.id,
+        #     EMAIL_HOST_USER,
+        #     [self.Email],
+        #     fail_silently=False,
+        # )
