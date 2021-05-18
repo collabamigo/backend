@@ -24,7 +24,7 @@ jobs:
         run: PATH=$PATH:/home/codein2/.local/bin && flake8 ${{ github.workspace }}
 
       - name: Creating pipenv environment
-        run: PATH=$PATH:/home/codein2/.local/bin && cd ${{ github.workspace }} && (pipenv --rm || echo 1) &&
+        run: PATH=$PATH:/home/codein2/.local/bin && cd ${{ github.workspace }} &&
               pipenv install && echo "SECRET_KEY=a">.env
 
       - name: Setting git credentials
