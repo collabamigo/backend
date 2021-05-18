@@ -54,7 +54,7 @@ class Profile(models.Model):
                           serialize=False, verbose_name='ID')
     First_Name = models.CharField(max_length=30)
     Last_Name = models.CharField(max_length=30, blank=True)
-    Gender = models.CharField(max_length=1, blank=True, default='NA')
+    Gender = models.CharField(max_length=1, blank=True,)
     Degree = models.CharField(max_length=1, blank=True)
     Course = models.CharField(max_length=10, blank=True)
 
@@ -87,10 +87,10 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         self.id = self.get_roll_number()
         super().save(*args, **kwargs)
-        if self.IsTeacher:
-            teach = Teacher()
-            teach.id = self
-            teach.save()
+        # if self.IsTeacher:
+        #     teach = Teacher()
+        #     teach.id = self
+        #     teach.save()
         # send_mail(
         #     'Registered',
         #     'You have been registered ' + self.id,
@@ -120,7 +120,7 @@ class Teacher(models.Model):
         verbose_name='ID'
     )
     Skill_set = ArrayField(ArrayField(
-        models.CharField(max_length=30, blank=True), size=2,
+        models.CharField(max_length=15, blank=True), size=2,
         blank=True,
         default=list,
         null=True),
@@ -132,7 +132,6 @@ class Teacher(models.Model):
         b = Profile(id=self.id)
         b.IsTeacher = True
         b.lol()
-
         super().save(*args, **kwargs)
         # if self.IsTeacher:
         #     teach = Teacher()
