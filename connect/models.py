@@ -144,12 +144,12 @@ class Teacher(models.Model):
         b.IsTeacher = True
         b.lol()
 
-    def delete(self):
+    def delete(self, *args, **kwargs):
         iid = self.get_roll_number()
         b = Profile.objects.get(id=iid)
         b.IsTeacher = False
         b.lol()
-        super().delete()
+        super().delete(*args, **kwargs)
 
     # if self.IsTeacher:
     #     teach = Teacher()
