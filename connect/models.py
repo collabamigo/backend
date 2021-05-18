@@ -122,9 +122,10 @@ class Teacher(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        b = Profile.objects.get(id='B20064')
-        b.IsTeacher = True
-        b.lol()
+        print(self.id, flush=True)
+        # b = Profile.objects.get(id='B20064')
+        # b.IsTeacher = True
+        # b.lol()
 
         # if self.IsTeacher:
         #     teach = Teacher()
