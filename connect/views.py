@@ -49,12 +49,13 @@ def detail(request, search):
     calledskill = Skill.objects.get(id=search)
     output = dict()
     for k in range(len(calledskill.Teacher_set)):
-        for i, j in calledskill.Teacher_set[k]:
-            profileobject = dict(Profile.objects.get(id=str(i)))
-            teacherobject = dict(Teacher.objects.get(id=str(i)))
-            temp = profileobject
-            temp.update(teacherobject)
-            output += temp
+        iid = calledskill.Teacher_set[k][0]
+        profileobject = dict(Profile.objects.get(id=str(iid)))
+        teacherobject = dict(Teacher.objects.get(id=str(iid)))
+        temp = profileobject
+        temp.update(teacherobject)
+        calledskill.Teacher_set[k][0] = temp
+        output += calledskill.Teacher_set[k]
     return JsonResponse(output, safe=False)
 
 
