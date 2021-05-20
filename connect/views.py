@@ -48,15 +48,14 @@ def profile_list(request):
 
 def detail(request, search):
     calledskill = Skill.objects.get(id=search)
-    output = list()
+    output = dict()
     for k in range(len(calledskill.Teacher_set)):
-        iid = calledskill.Teacher_set[k][0]
+        iid = calledskill.Teacher_set[k]
         profileobject = model_to_dict(Profile.objects.get(id=str(iid)))
         teacherobject = model_to_dict(Teacher.objects.get(id=str(iid)))
         temp = profileobject
         temp.update(teacherobject)
-        calledskill.Teacher_set[k][0] = temp
-        output.append(calledskill.Teacher_set[k])
+        output[k] = temp
     return JsonResponse(output, safe=False)
 
 
