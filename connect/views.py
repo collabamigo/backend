@@ -47,7 +47,7 @@ def profile_list(request):
 
 
 def detail(request, search):
-    qm = (x for x in Skill.objects.filter(title=search)[::])
+    qm = (x for x in Skill.objects.filter(id=search)[::])
     output = ', '.join([q.Teacher_set for q in qm])
     return JsonResponse(output, safe=False)
 
