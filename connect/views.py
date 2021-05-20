@@ -46,10 +46,10 @@ def profile_list(request):
 #     return JsonResponse(output, safe=False)
 
 
-# def detail(request, titlee):
-#     qm = (x for x in Todo.objects.filter(title=titlee)[::])
-#     output = ', '.join([q.description for q in qm])
-#     return JsonResponse(output, safe=False)
+def detail(request, search):
+    qm = (x for x in Skill.objects.filter(title=search)[::])
+    output = ', '.join([q.Teacher_set for q in qm])
+    return JsonResponse(output, safe=False)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
