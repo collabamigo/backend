@@ -48,12 +48,13 @@ def profile_list(request):
 def detail(request, search):
     calledskill = Skill.objects.get(id=search)
     output = dict()
-    for i, j in calledskill.Teacher_set:
-        profileobject = dict(Profile.objects.get(id=str(i)))
-        teacherobject = dict(Teacher.objects.get(id=str(i)))
-        temp = profileobject
-        temp.update(teacherobject)
-        output += temp
+    for k in len(calledskill.Teacher_set):
+        for i, j in calledskill.Teacher_set[k]:
+            profileobject = dict(Profile.objects.get(id=str(i)))
+            teacherobject = dict(Teacher.objects.get(id=str(i)))
+            temp = profileobject
+            temp.update(teacherobject)
+            output += temp
     return JsonResponse(output, safe=False)
 
 
