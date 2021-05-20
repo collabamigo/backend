@@ -48,26 +48,13 @@ def profile_list(request):
 def detail(request, search):
     calledskill = Skill.objects.get(id=search)
     output = dict()
-    for i,j in calledskill.Teacher_set:
-        
+    for i, j in calledskill.Teacher_set:
         profileobject = dict(Profile.objects.get(id=str(i)))
         teacherobject = dict(Teacher.objects.get(id=str(i)))
-        # output+={
-            # 'id' : profileobject.id,
-            # 'First_Name' : profileobject.First_Name,
-            # 'Last_Name' : profileobject.Last_Name,
-            # 'Degree' : profileobject.Degree,
-            # 'Course' : profileobject.Course,
-            # 'Handle' : profileobject.Handle,
-            # 'Created': profileobject.Created,
-            
-        # }
         temp = profileobject
         temp.update(teacherobject)
-        output+= temp
-        
+        output += temp
     return JsonResponse(output, safe=False)
-
 
 @method_decorator(csrf_exempt, name='dispatch')
 class TodoView(viewsets.ModelViewSet):
