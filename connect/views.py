@@ -45,10 +45,27 @@ def profile_list(request):
 #     output = ', '.join([q.id for q in qm])
 #     return JsonResponse(output, safe=False)
 
-
 def detail(request, search):
-    qm = (x for x in Skill.objects.filter(id=search)[::])
-    output = ', '.join([q.Teacher_set for q in qm])
+    calledskill = Skill.objects.get(id=search)
+    output = dict()
+    for i,j in calledskill.Teacher_set:
+        
+        profileobject = dict(Profile.objects.get(id=str(i)))
+        teacherobject = dict(Teacher.objects.get(id=str(i)))
+        # output+={
+            # 'id' : profileobject.id,
+            # 'First_Name' : profileobject.First_Name,
+            # 'Last_Name' : profileobject.Last_Name,
+            # 'Degree' : profileobject.Degree,
+            # 'Course' : profileobject.Course,
+            # 'Handle' : profileobject.Handle,
+            # 'Created': profileobject.Created,
+            
+        # }
+        temp = profileobject
+        temp.update(teacherobject)
+        output+= temp
+        
     return JsonResponse(output, safe=False)
 
 
