@@ -103,7 +103,9 @@ class Skill(models.Model):
                           max_length=30, auto_created=False,
                           serialize=False, verbose_name='ID')
     Teacher_set = ArrayField(ArrayField(
-        models.CharField(max_length=30, blank=True), size=2), size=5)
+        models.CharField(max_length=30, blank=True)))
+# [[1,2],[2,3],[3,4],[5,6],[5,7]]
+# [["hfgdfsddfgh","dfghj"]]
 
 
 class Teacher(models.Model):

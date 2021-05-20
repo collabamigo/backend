@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from rest_framework import generics, permissions
 from django.contrib.auth.models import User
+from django.forms.models import model_to_dict
 
 from .models import Todo, Profile, Teacher, Skill
 from rest_framework import viewsets
@@ -50,8 +51,8 @@ def detail(request, search):
     output = dict()
     for k in range(len(calledskill.Teacher_set)):
         iid = calledskill.Teacher_set[k][0]
-        profileobject = dict(Profile.objects.get(id=str(iid)))
-        teacherobject = dict(Teacher.objects.get(id=str(iid)))
+        profileobject = model_to_dict(Profile.objects.get(id=str(iid)))
+        teacherobject = model_to_dict(Teacher.objects.get(id=str(iid)))
         temp = profileobject
         temp.update(teacherobject)
         calledskill.Teacher_set[k][0] = temp
