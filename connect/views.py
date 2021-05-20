@@ -56,6 +56,7 @@ def detail(request, search):
         output += temp
     return JsonResponse(output, safe=False)
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 class TodoView(viewsets.ModelViewSet):
     serializer_class = TodoSerializer
