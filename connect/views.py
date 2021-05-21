@@ -49,13 +49,20 @@ def profile_list(request):
 def detail(request, search):
     calledskill = Skill.objects.get(id=search)
     output = dict()
-    for k in range(len(calledskill.Teacher_set)):
-        iid = calledskill.Teacher_set[k][0]
-        profileobject = model_to_dict(Profile.objects.get(id=str(iid)))
-        teacherobject = model_to_dict(Teacher.objects.get(id=str(iid)))
-        temp = profileobject
-        temp.update(teacherobject)
-        output[k] = temp
+    output['Teachers': list(calledskill.Teacher_set)]
+    return JsonResponse(output, safe=False)
+
+
+def details(request):
+    calledskills = list(request.params)
+    output = dict()
+    j=0
+    for k in calledskills:
+        profileobject = model_to_dict(Profile.objects.get(id=str(k)))
+        teacherobject = model_to_dict(Teacher.objects.get(id=str(k)))
+        profileobject.update(teacherobject)
+        output[j] = profileobject
+        j+=1
     return JsonResponse(output, safe=False)
 
 
