@@ -6,7 +6,6 @@ name: Deploy testing to Heroku-dev
 jobs:
   Clone:
     runs-on: self-hosted
-    if: github.event.pusher.name != 'Github runner'
     steps:
       - name: Cloning the repository
         run: echo ${{github.event.pusher.name}} && cd ${{ github.workspace }}/../ && (rm * -rf || echo) && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-1 &&
@@ -22,6 +21,7 @@ jobs:
               else
                   exit 0;
               fi
+
   Deploy-testing-to-Heroku:
     runs-on: self-hosted
     needs: Clone
