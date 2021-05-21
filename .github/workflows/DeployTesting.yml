@@ -43,7 +43,7 @@ jobs:
         run: git config --global user.email "watsonhex@gmail.com" && git config --global user.name "Github runner"
 
       - name: Run makemigrations
-        run: PATH=$PATH:/home/codein2/.local/bin && pipenv run python manage.py makemigrations --noinput
+        run: PATH=$PATH:/home/codein2/.local/bin && yes | pipenv run python manage.py makemigrations
 
       - name: Git add and commit
         run: git add . && git commit --allow-empty -m "Migrations"
