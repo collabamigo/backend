@@ -18,6 +18,7 @@ cryptography = "*"
 google-auth = "*"
 requests = "*"
 pycryptodomex = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
