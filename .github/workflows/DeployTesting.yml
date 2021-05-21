@@ -30,7 +30,7 @@ jobs:
         run: echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
 
       - name: Creating issues
-        run: readarray -t array <<< $(git diff HEAD^ --name-only -G "TODO" -- ':!:*.yml' | xargs --no-run-if-empty git
+        run: readarray -t array <<< $(git diff HEAD^ --name-only -G "TODO" -- ':!:*.yml' | xargs git
                 grep -n "TODO" --) && for command in "${array[@]}"; do
                     gh issue create --title "${command##*#}" --body "${command}" --label "todo" || echo "ERROR $(command)";
                       done
