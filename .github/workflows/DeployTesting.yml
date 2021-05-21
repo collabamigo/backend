@@ -9,7 +9,7 @@ jobs:
     if: github.event.pusher.name != 'Github runner'
     steps:
       - name: Cloning the repository
-        run: echo github.event.pusher.name && cd ${{ github.workspace }}/../ && (rm * -rf || echo) && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-1 &&
+        run: echo ${{github.event.pusher.name}} && cd ${{ github.workspace }}/../ && (rm * -rf || echo) && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-1 &&
               git clone git@github.com:${{ github.repository }}
 
       - name: Checking out testing branch
