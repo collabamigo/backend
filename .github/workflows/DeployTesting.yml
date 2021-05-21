@@ -41,3 +41,6 @@ jobs:
         run:  cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-dev &&
                 git remote add heroku-dev https://git.heroku.com/blooming-peak-53825.git &&
                   git push heroku-dev -f testing:main
+
+      - name: Pushing to Github
+        run: git push origin
