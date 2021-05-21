@@ -17,9 +17,17 @@ jobs:
 
       - name: Loading committer
         run: committer = $(git log -1 --pretty=format:'%an') && echo $committer
+
+      - name: Checking committer
+        run: if [ "$committer" = "Github runner" ]; then
+                  exit 0
+              else
+                  exit 2
+              fi
   Deploy-testing-to-Heroku:
     runs-on: self-hosted
-    if: ${{committer}} != "Github runner"
+    needs: Clone
+    if: committer != "Github runner"
     steps:
       - name: Installing pip packages
         run: pip3 install bandit pipenv flake8
