@@ -12,7 +12,7 @@ router.register(r'skill', views.SkillView, 'skill')
 
 urlpatterns = [
     path('searchfor/<str:search>/', views.detail, name='detail'),
-    path('searchfordata//', views.detail, name='detail'),
+    path('searchfordata/', views.details, name='details'),
     path('get_profile/', views.Profilegetter, name='Profilegetter'),
     path('lolcheck/', views.profile_list, name='lolcheck'),
     path('api/', include(router.urls)),
