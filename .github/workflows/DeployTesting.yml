@@ -22,6 +22,20 @@ jobs:
                   exit 0;
               fi
 
+  Create-issues-using-TODO:
+    runs-on: self-hosted
+    needs: Clone
+    steps:
+      - name: Github login
+        run: gh auth login --with-token ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Creating issues
+        run: readarray -t array <<< $(git diff HEAD^ --name-only -G "TODO" | xargs git grep "TODO" --) &&
+              for command in "${array[@]}"; do     gh issue create --title "${command##*#}" --body "${command}" --label "todo"; done
+
+      - name: Github logout
+        run: gh auth logout -hostname github.com
+
   Deploy-testing-to-Heroku:
     runs-on: self-hosted
     needs: Clone
