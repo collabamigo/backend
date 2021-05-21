@@ -20,4 +20,5 @@ from django.contrib import admin
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('autocomplete/', include('autocomplete.urls')),
-    path('connect/', include('connect.urls')), ]
+    path('connect/', include('connect.urls')),
+    path('rating/', include('rating.urls'))]
