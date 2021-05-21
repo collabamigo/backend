@@ -12,6 +12,7 @@ from .permissions import IsOwner
 from .serializers import (TodoSerializer, ProfileSerializer,
                           TeacherSerializer, SkillSerializer, UserSerializer)
 from rest_framework.parsers import JSONParser
+import json
 
 
 @csrf_exempt
@@ -54,7 +55,8 @@ def detail(request, search):
 
 
 def details(request):
-    calledskills = list(request.GET)
+    calledskills = request.GET.get('id_list')
+    calledskills = json.loads(calledskills)
     output = dict()
     j = 0
     for k in calledskills:
