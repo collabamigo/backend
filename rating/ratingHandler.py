@@ -31,5 +31,5 @@ def set_ratings(student_email, teacher_email, vote) -> None:
 
 
 def worker():
-    # TODO: Create function using https://www.evanmiller.org/how-not-to-sort-by-average-rating.html
+    # TODO: https://www.evanmiller.org/how-not-to-sort-by-average-rating.html
     pass
