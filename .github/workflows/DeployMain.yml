@@ -4,7 +4,7 @@ name: Deploy main to production Heroku
     branches:
       - main
 jobs:
-  Deploy-testing-to-Heroku:
+  Clone:
     runs-on: self-hosted
     steps:
       - name: Cloning the repository
@@ -14,6 +14,19 @@ jobs:
       - name: Checking out testing branch
         run: cd ${{ github.workspace }} && git checkout testing
 
+
+      - name: Loading & Checking committer
+        run: committer=$(git log -1 --pretty=format:'%an');
+              echo "$committer"; if [ "$committer" = "Github runner" ]; then
+                  exit 2;
+              else
+                  exit 0;
+              fi
+
+  Deploy-main-to-Heroku:
+    runs-on: self-hosted
+    needs: Clone
+    steps:
       - name: Installing pip packages
         run: pip3 install bandit pipenv flake8
 
@@ -40,3 +53,7 @@ jobs:
       - name: Pushing to Heroku-dev
         run:  cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-1 &&
                 git remote add heroku-1 https://git.heroku.com/mysterious-savannah-09391.git && git push heroku-1
+
+      - name: Pushing to Github
+        run: cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/github &&
+              git push origin

@@ -20,7 +20,7 @@ class TeacherAdmin(admin.ModelAdmin):
 
 
 class SkillAdmin(admin.ModelAdmin):
-    list_display = ('id', 'Teacher_set')
+    list_display = ('name', 'Teacher_set')
 
 
 admin.site.register(Todo, TodoAdmin)

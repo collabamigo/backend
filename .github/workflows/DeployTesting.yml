@@ -4,16 +4,28 @@ name: Deploy testing to Heroku-dev
     branches:
       - testing
 jobs:
-  Deploy-testing-to-Heroku:
+  Clone:
     runs-on: self-hosted
     steps:
       - name: Cloning the repository
-        run: cd ${{ github.workspace }}/../ && (rm * -rf || echo) && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-1 &&
+        run: echo ${{github.event.pusher.name}} && cd ${{ github.workspace }}/../ && (rm * -rf || echo) && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-1 &&
               git clone git@github.com:${{ github.repository }}
 
       - name: Checking out testing branch
         run: cd ${{ github.workspace }} && git checkout testing
 
+      - name: Loading & Checking committer
+        run: committer=$(git log -1 --pretty=format:'%an');
+              echo "$committer"; if [ "$committer" = "Github runner" ]; then
+                  exit 2;
+              else
+                  exit 0;
+              fi
+
+  Deploy-testing-to-Heroku:
+    runs-on: self-hosted
+    needs: Clone
+    steps:
       - name: Installing pip packages
         run: pip3 install bandit pipenv flake8
 
@@ -21,7 +33,7 @@ jobs:
         run:  PATH=$PATH:/home/codein2/.local/bin && bandit -r ${{ github.workspace }}
 
       - name: Running flake8 tests
-        run: PATH=$PATH:/home/codein2/.local/bin && flake8 ${{ github.workspace }}
+        run: PATH=$PATH:/home/codein2/.local/bin && flake8 ${{ github.workspace }} --exclude=migrations
 
       - name: Creating pipenv environment
         run: PATH=$PATH:/home/codein2/.local/bin && cd ${{ github.workspace }} &&
@@ -31,8 +43,10 @@ jobs:
         run: git config --global user.email "watsonhex@gmail.com" && git config --global user.name "Github runner"
 
       - name: Run makemigrations
-        run: PATH=$PATH:/home/codein2/.local/bin && cd ${{ github.workspace }} &&
-              pipenv run python manage.py makemigrations --noinput && git add . && git commit --allow-empty -m "Migrations"
+        run: PATH=$PATH:/home/codein2/.local/bin && pipenv run python manage.py makemigrations --noinput
+
+      - name: Git add and commit
+        run: git add . && git commit --allow-empty -m "Migrations"
 
       - name: Set global git config
         run: git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
@@ -41,3 +55,7 @@ jobs:
         run:  cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-dev &&
                 git remote add heroku-dev https://git.heroku.com/blooming-peak-53825.git &&
                   git push heroku-dev -f testing:main
+
+      - name: Pushing to Github
+        run: cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/github &&
+              git push origin
