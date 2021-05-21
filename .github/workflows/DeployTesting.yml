@@ -20,9 +20,9 @@ jobs:
 
       - name: Checking committer
         run: if [ "$committer" = "Github runner" ]; then
-                  exit 0;
+                  exit 1;
               else
-                  exit 2;
+                  exit 0;
               fi
   Deploy-testing-to-Heroku:
     runs-on: self-hosted
