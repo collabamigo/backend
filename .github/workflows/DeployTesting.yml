@@ -19,7 +19,7 @@ jobs:
         run: committer=$(git log -1 --pretty=format:'%an') && echo $committer
 
       - name: Checking committer
-        run: if [ "$committer" = "Github runner" ]; then
+        run: echo "$committer"; if [ "$committer" = "Github runner" ]; then
                   exit 2;
               else
                   exit 0;
