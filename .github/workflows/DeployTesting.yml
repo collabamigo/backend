@@ -43,8 +43,10 @@ jobs:
         run: git config --global user.email "watsonhex@gmail.com" && git config --global user.name "Github runner"
 
       - name: Run makemigrations
-        run: PATH=$PATH:/home/codein2/.local/bin && cd ${{ github.workspace }} &&
-              pipenv run python manage.py makemigrations --noinput && git add . && git commit --allow-empty -m "Migrations"
+        run: PATH=$PATH:/home/codein2/.local/bin && pipenv run python manage.py makemigrations --noinput
+
+      - name: Git add and commit
+        run: git add . && git commit --allow-empty -m "Migrations"
 
       - name: Set global git config
         run: git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
