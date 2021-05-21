@@ -47,9 +47,9 @@ def profile_list(request):
 #     return JsonResponse(output, safe=False)
 
 def detail(request, search):
-    calledskill = Skill.objects.get(id=search)
+    CalledSkill = Skill.objects.get(name=search)
     output = dict()
-    output['Teachers': list(calledskill.Teacher_set)]
+    output['Teachers'] = list(CalledSkill.Teacher_set)
     return JsonResponse(output, safe=False)
 
 

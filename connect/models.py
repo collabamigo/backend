@@ -103,9 +103,9 @@ class Profile(models.Model):
 
 
 class Skill(models.Model):
-    id = models.CharField(primary_key=True, unique=True,
-                          max_length=30, auto_created=False,
-                          serialize=False, verbose_name='ID')
+    name = models.CharField(primary_key=True, unique=True,
+                            max_length=30, auto_created=False,
+                            serialize=False, verbose_name='ID')
     Teacher_set = ArrayField(models.CharField
                              (max_length=30, blank=True))
 # [[1,2],[2,3],[3,4],[5,6],[5,7]]

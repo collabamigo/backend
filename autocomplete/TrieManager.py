@@ -26,7 +26,7 @@ def generate_trie(tags: list, save_to_mongo: bool = True) -> list:
     collection = db[COLLECTION_NAME]
     trie = _create_trie(tags)
     if save_to_mongo:
-        collection.delete_many()
+        collection.delete_many({})
         collection.insert_many(trie)
     return trie
 
@@ -149,6 +149,11 @@ class _Node:
                     parent_id=self.parent_id,
                     parent_word=self.parent_word,
                     recommendations=self.recommendations)
+
+
+def worker_generate_trie():
+    from connect.models import Skill
+    generate_trie(list(Skill.objects.values_list('id', flat=True)))
 
 
 def main():
