@@ -54,7 +54,7 @@ def detail(request, search):
 
 
 def details(request):
-    calledskills = list(request.params)
+    calledskills = list(request.GET)
     output = dict()
     j = 0
     for k in calledskills:
