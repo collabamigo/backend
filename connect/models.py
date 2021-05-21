@@ -126,7 +126,6 @@ class Teacher(models.Model):
         size=5, blank=True, default=list, null=True)
 
     Contact = models.BigIntegerField(blank=True, default=0)
-    
     UpVotes = models.BigIntegerField(blank=True, default=0)
     DownVotes = models.BigIntegerField(blank=True, default=0)
 

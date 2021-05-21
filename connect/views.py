@@ -56,13 +56,13 @@ def detail(request, search):
 def details(request):
     calledskills = list(request.params)
     output = dict()
-    j=0
+    j = 0
     for k in calledskills:
         profileobject = model_to_dict(Profile.objects.get(id=str(k)))
         teacherobject = model_to_dict(Teacher.objects.get(id=str(k)))
         profileobject.update(teacherobject)
         output[j] = profileobject
-        j+=1
+        j += 1
     return JsonResponse(output, safe=False)
 
 

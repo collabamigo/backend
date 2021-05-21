@@ -16,7 +16,7 @@ class ProfileAdmin(admin.ModelAdmin):
 
 
 class TeacherAdmin(admin.ModelAdmin):
-    list_display = ('id', 'Skill_set', 'Contact','UpVotes','DownVotes')
+    list_display = ('id', 'Skill_set', 'Contact', 'UpVotes', 'DownVotes')
 
 
 class SkillAdmin(admin.ModelAdmin):
