@@ -5,6 +5,7 @@ name: Deploy testing to Heroku-dev
       - testing
 jobs:
   Deploy-testing-to-Heroku:
+    if: github.event.pusher.name != "Github runner"
     runs-on: self-hosted
     steps:
       - name: Cloning the repository
