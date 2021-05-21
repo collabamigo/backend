@@ -16,7 +16,7 @@ jobs:
         run: cd ${{ github.workspace }} && git checkout testing
 
       - name: Loading committer
-        run: committer = $(git log -1 --pretty=format:'%an') && echo $committer
+        run: committer=$(git log -1 --pretty=format:'%an') && echo $committer
 
       - name: Checking committer
         run: if [ "$committer" = "Github runner" ]; then
