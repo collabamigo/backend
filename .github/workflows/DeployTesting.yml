@@ -4,7 +4,7 @@ name: Deploy testing to Heroku-dev
     branches:
       - testing
 jobs:
-  Deploy-testing-to-Heroku:
+  Clone:
     runs-on: self-hosted
     if: github.event.pusher.name != 'Github runner'
     steps:
@@ -15,6 +15,12 @@ jobs:
       - name: Checking out testing branch
         run: cd ${{ github.workspace }} && git checkout testing
 
+      - name: Loading committer
+        run: committer = $(git log -1 --pretty=format:'%an') && echo $committer
+  Deploy-testing-to-Heroku:
+    runs-on: self-hosted
+    if: ${{committer}} != "Github runner"
+    steps:
       - name: Installing pip packages
         run: pip3 install bandit pipenv flake8
 
