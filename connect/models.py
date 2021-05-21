@@ -72,6 +72,7 @@ class Profile(models.Model):
 
     def _str_(self):
         return self.email
+# TODO: #3 Better ID extraction
 
     def get_roll_number(self):
         x = str(self.email)
@@ -89,6 +90,7 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         self.id = self.get_roll_number()
         super().save(*args, **kwargs)
+# TODO: #4 Better SMTP Calling
         # if self.IsTeacher:
         #     teach = Teacher()
         #     teach.id = self
