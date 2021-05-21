@@ -12,12 +12,12 @@ class TodoSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    Email = serializers.ReadOnlyField(source='Email.email')
+    email = serializers.ReadOnlyField(source='email.email')
 
     class Meta:
         model = Profile
         fields = ('First_Name', 'Last_Name', 'Gender',
-                  'Degree', 'Course', 'Email', 'Handle', 'IsTeacher',
+                  'Degree', 'Course', 'email', 'Handle', 'IsTeacher',
                   'Created', )
 
 

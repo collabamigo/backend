@@ -16,7 +16,7 @@ from rest_framework.parsers import JSONParser
 
 @csrf_exempt
 def Profilegetter(request):
-    qm = (x for x in Profile.objects.get(Email=request.user.email))
+    qm = (x for x in Profile.objects.get(email=request.user.email))
     output = ', '.join([q for q in qm])
     return JsonResponse(output, safe=False)
 
@@ -33,7 +33,7 @@ def profile_list(request):
 
     elif request.method == 'POST':
         data = JSONParser().parse(request)
-        data['Email'] = request.user.email
+        data['email'] = request.user.email
         serializer = TodoSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -82,10 +82,10 @@ class ProfileView(viewsets.ModelViewSet):
         if user.is_superuser:
             return Profile.objects.all()
         else:
-            return Profile.objects.filter(Email=user)
+            return Profile.objects.filter(email=user)
 
     def perform_create(self, serializer):
-        serializer.save(Email=self.request.user)
+        serializer.save(email=self.request.user)
 
 
 @method_decorator(csrf_exempt, name='dispatch')

@@ -11,7 +11,7 @@ class TodoAdmin(admin.ModelAdmin):
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('id', 'First_Name', 'Last_Name', 'Gender',
-                    'Degree', 'Course', 'Email', 'Handle',
+                    'Degree', 'Course', 'email', 'Handle',
                     'IsTeacher', 'Created')
 
 

@@ -1,6 +1,8 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
+from django.contrib.auth.models import User
+User._meta.get_field('email')._unique = True
 
 # from django.core.mail import send_mail
 # from backend.settings import EMAIL_HOST_USER
@@ -62,15 +64,17 @@ class Profile(models.Model):
     Handle = models.CharField(max_length=50, blank=True)
     IsTeacher = models.BooleanField(default=False)
     Created = models.DateTimeField(auto_now_add=True)
-    Email = models.OneToOneField(to='auth.User',
+    email = models.OneToOneField(to='auth.User',
                                  on_delete=models.CASCADE,
-                                 related_name='profile')
+                                 related_name='profile',
+                                 to_field='email',
+                                 db_column='email')
 
     def _str_(self):
-        return self.Email
+        return self.email
 
     def get_roll_number(self):
-        x = str(self.Email)
+        x = str(self.email)
         output = ""
         for i in x:
             if '0' <= i <= '9':
