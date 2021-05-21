@@ -27,7 +27,7 @@ jobs:
     needs: Clone
     steps:
       - name: Github login
-        run: gh auth login --with-token ${{ secrets.GITHUB_TOKEN }}
+        run: echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
 
       - name: Creating issues
         run: readarray -t array <<< $(git diff HEAD^ --name-only -G "TODO" | xargs git grep "TODO" --) &&
