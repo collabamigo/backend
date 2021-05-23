@@ -32,7 +32,7 @@ def set_ratings(student_email: str, teacher_email: str, vote: int) -> None:
     db = pymongo.MongoClient(os.environ['MONGODB_URI'])[DATABASE_NAME]
     collection = db[COLLECTION_NAME]
     entry = collection.find_one({"_id": student_email})
-    prev_vote=0
+    prev_vote = 0
     if not entry:
         entry = dict()
     else:
@@ -52,7 +52,9 @@ def set_ratings(student_email: str, teacher_email: str, vote: int) -> None:
     elif prev_vote == -1:
         teacher.DownVotes -= 1
     worker = Worker()
-    teacher.confidence = worker.return_confidence(teacher, use_cache=False, confidence_only=True)
+    teacher.confidence = worker.return_confidence(teacher,
+                                                  use_cache=False,
+                                                  confidence_only=True)
     teacher.save()
 
 
@@ -72,7 +74,7 @@ class Worker:
         if confidence_only:
             return element_confidence
         else:
-            return element_confidence, element.UpVotes, 1/element.DownVotes
+            return element_confidence, element.UpVotes, 1 / element.DownVotes
 
     # Disabled for now as I don't know how to sort a ManyToMany Field
     # def sort(self):
@@ -84,7 +86,9 @@ class Worker:
     def set_confidence(self):
         worker = Worker()
         for teacher in Teacher.objects.all():
-            teacher.confidence = worker.return_confidence(teacher, use_cache=False, confidence_only=True)
+            teacher.confidence = worker.return_confidence(teacher,
+                                                          use_cache=False,
+                                                          confidence_only=True)
             teacher.save()
 
 
@@ -109,4 +113,3 @@ def confidence(ups, downs):
         return 0
     else:
         return _confidence(ups, downs)
-
