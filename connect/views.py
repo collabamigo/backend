@@ -49,7 +49,7 @@ def profile_list(request):
 # TODO: RENAME THIS PLEASE
 def detail(request, search):
     skill = Skill.objects.get(name=search)
-    output = list(map(lambda item: str(item.id), skill.Teacher_set.all()))
+    output = list(map(lambda item: str(item), skill.Teacher_set.all()))
     return JsonResponse(output, safe=False)
 
 

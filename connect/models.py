@@ -135,6 +135,9 @@ class Teacher(models.Model):
     #                              on_delete=models.CASCADE,
     #                              related_name='profile')
 
+    def __str__(self):
+        return str(self.id)
+
     def get_roll_number(self):
         x = str(self.id)
         output = ""
