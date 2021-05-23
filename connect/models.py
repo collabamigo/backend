@@ -109,8 +109,6 @@ class Skill(models.Model):
                             max_length=30, auto_created=False,
                             serialize=False, verbose_name='ID')
     Teacher_set = models.ManyToManyField(to='connect.Teacher')
-# [[1,2],[2,3],[3,4],[5,6],[5,7]]
-# [["hfgdfsddfgh","dfghj"]]
 
 
 class Teacher(models.Model):
@@ -118,21 +116,10 @@ class Teacher(models.Model):
         Profile,
         on_delete=models.CASCADE,
         primary_key=True)
-
-    # Skill_set = ArrayField(ArrayField(
-    #     models.CharField(max_length=100, blank=True), size=2,
-    #     blank=True,
-    #     default=list,
-    #     null=True),
-    #     size=5, blank=True, default=list, null=True)
-
     Contact = models.BigIntegerField(blank=True, default=0)
-    UpVotes = models.BigIntegerField(blank=True, default=0)
-    DownVotes = models.BigIntegerField(blank=True, default=0)
-
-    # Email = models.OneToOneField(to='auth.User',
-    #                              on_delete=models.CASCADE,
-    #                              related_name='profile')
+    UpVotes = models.BigIntegerField(blank=False, default=0)
+    DownVotes = models.BigIntegerField(blank=False, default=0)
+    confidence = models.FloatField(blank=False, default=0)
 
     def __str__(self):
         return str(self.id)

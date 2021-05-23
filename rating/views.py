@@ -24,7 +24,7 @@ class Rating(APIView):
         if 'teacher' not in request.data or 'vote' not in request.data:
             ratingHandler.set_ratings(request.user.email,
                                       request.data['teacher'],
-                                      bool(int(request.data['vote'])))
+                                      int(request.data['vote']))
             return Response()
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
