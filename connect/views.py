@@ -50,7 +50,7 @@ def profile_list(request):
 def detail(request, search):
     skill = Skill.objects.get(name=search)
     output = list(map(lambda item: str(item), skill.Teacher_set.all()))
-    return JsonResponse(output, safe=False)
+    return JsonResponse(output)
 
 
 def details(request):
@@ -64,7 +64,7 @@ def details(request):
         profileobject.update(teacherobject)
         output[j] = profileobject
         j += 1
-    return JsonResponse(output, safe=False)
+    return JsonResponse(output)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
