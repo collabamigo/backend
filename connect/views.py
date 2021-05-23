@@ -46,11 +46,10 @@ def profile_list(request):
 #     qm = (x for x in Profile.objects.filter(Email=Value)[::])
 #     output = ', '.join([q.id for q in qm])
 #     return JsonResponse(output, safe=False)
-
+# TODO: RENAME THIS PLEASE
 def detail(request, search):
-    CalledSkill = Skill.objects.get(name=search)
-    output = dict()
-    output['Teachers'] = list(CalledSkill.Teacher_set)
+    skill = Skill.objects.get(name=search)
+    output = list(map(lambda item: str(item.id), skill.Teacher_set.all()))
     return JsonResponse(output, safe=False)
 
 

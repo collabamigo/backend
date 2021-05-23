@@ -16,14 +16,9 @@ class ProfileAdmin(admin.ModelAdmin):
 
 
 class TeacherAdmin(admin.ModelAdmin):
-    list_display = ('id', 'Skill_set', 'Contact', 'UpVotes', 'DownVotes')
-
-
-class SkillAdmin(admin.ModelAdmin):
-    list_display = ('name', 'Teacher_set')
+    list_display = ('id', 'Contact', 'UpVotes', 'DownVotes')
 
 
 admin.site.register(Todo, TodoAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Teacher, TeacherAdmin)
-admin.site.register(Skill, SkillAdmin)

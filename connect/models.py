@@ -70,8 +70,9 @@ class Profile(models.Model):
                                  to_field='email',
                                  db_column='email')
 
-    def _str_(self):
-        return self.email
+    def __str__(self):
+        return self.id
+
 # TODO: #3 Better ID extraction
 
     def get_roll_number(self):
@@ -108,8 +109,7 @@ class Skill(models.Model):
     name = models.CharField(primary_key=True, unique=True,
                             max_length=30, auto_created=False,
                             serialize=False, verbose_name='ID')
-    Teacher_set = ArrayField(models.CharField
-                             (max_length=30, blank=True))
+    Teacher_set = models.ManyToManyField(to='connect.Teacher')
 # [[1,2],[2,3],[3,4],[5,6],[5,7]]
 # [["hfgdfsddfgh","dfghj"]]
 
@@ -120,12 +120,12 @@ class Teacher(models.Model):
         on_delete=models.CASCADE,
         primary_key=True)
 
-    Skill_set = ArrayField(ArrayField(
-        models.CharField(max_length=100, blank=True), size=2,
-        blank=True,
-        default=list,
-        null=True),
-        size=5, blank=True, default=list, null=True)
+    # Skill_set = ArrayField(ArrayField(
+    #     models.CharField(max_length=100, blank=True), size=2,
+    #     blank=True,
+    #     default=list,
+    #     null=True),
+    #     size=5, blank=True, default=list, null=True)
 
     Contact = models.BigIntegerField(blank=True, default=0)
     UpVotes = models.BigIntegerField(blank=True, default=0)

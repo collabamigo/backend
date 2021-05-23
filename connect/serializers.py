@@ -24,7 +24,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teacher
-        fields = ('id', 'Skill_set', 'Contact', 'UpVotes', 'DownVotes')
+        fields = ('id', 'Contact', 'UpVotes', 'DownVotes')
 
 
 class SkillSerializer(serializers.ModelSerializer):
