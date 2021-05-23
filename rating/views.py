@@ -21,7 +21,8 @@ class Rating(APIView):
                                                      users))
 
     def post(self, request):
-        if 'teacher' not in request.data or 'vote' not in request.data:
+        if 'teacher' in request.data and 'vote' in request.data and \
+                int(request.data['vote']) in [-1, 0, +1]:
             ratingHandler.set_ratings(request.user.email,
                                       request.data['teacher'],
                                       int(request.data['vote']))

@@ -29,7 +29,6 @@ def set_ratings(student_email: str, teacher_email: str, vote: int) -> None:
         teacher_email:
         vote: +1 if upvote; -1 if downvote; 0 to reset
     """
-    assert(vote in [+1, 0, -1])
     db = pymongo.MongoClient(os.environ['MONGODB_URI'])[DATABASE_NAME]
     collection = db[COLLECTION_NAME]
     entry = collection.find_one({"_id": student_email})
