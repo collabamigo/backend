@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from .models import Todo, Profile, Teacher, Skill
+from .models import Todo, Profile, Teacher
 
 
 class TodoAdmin(admin.ModelAdmin):
