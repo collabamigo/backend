@@ -1,8 +1,7 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from rest_framework import generics, permissions
-from django.contrib.auth.models import User
+from rest_framework import permissions
 from django.forms.models import model_to_dict
 from rest_framework.permissions import IsAdminUser
 
@@ -11,8 +10,7 @@ from rest_framework import viewsets
 
 from .permissions import IsOwner
 from .serializers import (TodoSerializer, ProfileSerializer,
-                          TeacherSerializer, SkillSerializer, UserSerializer)
-from rest_framework.parsers import JSONParser
+                          TeacherSerializer, SkillSerializer)
 import json
 
 
