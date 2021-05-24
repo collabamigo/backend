@@ -46,24 +46,23 @@ def profile_list(request):
 #     qm = (x for x in Profile.objects.filter(Email=Value)[::])
 #     output = ', '.join([q.id for q in qm])
 #     return JsonResponse(output, safe=False)
+
 # TODO: RENAME THIS PLEASE
-def detail(request, search):
+def teacheridsfor(request, search):
     skill = Skill.objects.get(name=search)
     output = list(map(lambda item: str(item), skill.Teacher_set.all()))
     return JsonResponse(output, safe=False)
 
 
-def details(request):
+def teachersdata(request):
     calledskills = request.GET.get('id_list')
     calledskills = json.loads(calledskills)
-    output = dict()
-    j = 0
+    output = list()
     for k in calledskills:
         profileobject = model_to_dict(Profile.objects.get(id=str(k)))
         teacherobject = model_to_dict(Teacher.objects.get(id=str(k)))
         profileobject.update(teacherobject)
-        output[j] = profileobject
-        j += 1
+        output.append(profileobject)
     return JsonResponse(output, safe=False)
 
 
