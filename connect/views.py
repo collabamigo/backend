@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from rest_framework import permissions
 from django.forms.models import model_to_dict
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
 from .models import Todo, Profile, Teacher, Skill
 from rest_framework import viewsets
@@ -81,6 +81,6 @@ class TeacherView(viewsets.ModelViewSet):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class SkillView(viewsets.ModelViewSet):
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
     serializer_class = SkillSerializer
     queryset = Skill.objects.all()
