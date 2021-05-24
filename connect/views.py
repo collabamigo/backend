@@ -50,7 +50,10 @@ def profile_list(request):
 # TODO: RENAME THIS PLEASE
 def teacheridsfor(request, search):
     skill = Skill.objects.get(name=search)
-    output = list(map(lambda item: str(item), skill.Teacher_set.all()))
+    output = list(map(lambda item: str(item), skill.Teacher_set.all().order_by(
+        '-confidence',
+        '-UpVotes',
+        'DownVotes')))
     return JsonResponse(output, safe=False)
 
 
