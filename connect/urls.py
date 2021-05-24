@@ -1,7 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers
 from . import views
-
 router = routers.DefaultRouter()
 
 router.register(r'todo', views.TodoView, 'todo')
@@ -15,7 +14,4 @@ urlpatterns = [
          name='teacheridsfor'),
     path('teachersdata/', views.teachersdata, name='teachersdata'),
     path('get_profile/', views.Profilegetter, name='Profilegetter'),
-    path('lolcheck/', views.profile_list, name='lolcheck'),
-    path('api/', include(router.urls)),
-    path('users/', views.UserList.as_view()),
-    path('users/<int:pk>/', views.UserDetail.as_view()), ]
+    path('api/', include(router.urls)), ]

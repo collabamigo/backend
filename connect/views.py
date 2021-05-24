@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from rest_framework import generics, permissions
 from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
+from rest_framework.permissions import IsAdminUser
 
 from .models import Todo, Profile, Teacher, Skill
 from rest_framework import viewsets
@@ -21,31 +22,6 @@ def Profilegetter(request):
     output = ', '.join([q for q in qm])
     return JsonResponse(output, safe=False)
 
-
-@csrf_exempt
-def profile_list(request):
-    """
-    List all code snippets, or create a new snippet.
-    """
-    if request.method == 'GET':
-        snippets = Todo.objects.all()
-        serializer = TodoSerializer(snippets, many=True)
-        return JsonResponse(serializer.data, safe=False)
-
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        data['email'] = request.user.email
-        serializer = TodoSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
-
-
-# def Profilegetter(request, Value):
-#     qm = (x for x in Profile.objects.filter(Email=Value)[::])
-#     output = ', '.join([q.id for q in qm])
-#     return JsonResponse(output, safe=False)
 
 # TODO: RENAME THIS PLEASE
 def teacheridsfor(request, search):
@@ -79,9 +55,9 @@ class TodoView(viewsets.ModelViewSet):
 class ProfileView(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
-    permission_classes = (
+    permission_classes = [
         permissions.IsAuthenticated,
-        IsOwner, )
+        IsOwner, ]
 
     def get_queryset(self):
         """
@@ -100,21 +76,13 @@ class ProfileView(viewsets.ModelViewSet):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class TeacherView(viewsets.ModelViewSet):
+    permission_classes = [IsAdminUser]
     serializer_class = TeacherSerializer
     queryset = Teacher.objects.all()
 
 
 @method_decorator(csrf_exempt, name='dispatch')
 class SkillView(viewsets.ModelViewSet):
+    permission_classes = [IsAdminUser]
     serializer_class = SkillSerializer
     queryset = Skill.objects.all()
-
-
-class UserList(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-class UserDetail(generics.RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
