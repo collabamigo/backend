@@ -53,6 +53,7 @@ class Todo(models.Model):
         #     "Email": self.Email
         # }
         # registration_email(person)
+        # lol
 
 
 class Profile(models.Model):
