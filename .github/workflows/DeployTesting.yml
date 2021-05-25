@@ -42,6 +42,13 @@ jobs:
     runs-on: self-hosted
     needs: Clone
     steps:
+      - uses: actions/checkout@v2
+        with:
+            fetch-depth: 0
+
+      - name: Checking out testing branch
+        run: git checkout testing
+
       - name: Installing pip packages
         run: pip3 install bandit pipenv flake8
 
