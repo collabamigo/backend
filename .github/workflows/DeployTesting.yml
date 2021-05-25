@@ -69,8 +69,9 @@ jobs:
 
       - name: Pushing to Heroku-dev
         run:  cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-dev &&
-                git remote add heroku-dev https://git.heroku.com/blooming-peak-53825.git &&
-                  git push heroku-dev -f testing:main
+                (git remote add heroku-dev https://git.heroku.com/blooming-peak-53825.git ||
+                  echo "Remote heroku-dev already exists" ) &&
+                    git push heroku-dev -f testing:main
 
       - name: Pushing to Github
         run: cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/github &&
