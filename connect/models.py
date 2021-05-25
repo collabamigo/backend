@@ -1,7 +1,6 @@
 import os
 from django.db import models
-from django.core.mail import send_mail
-from . emailhandler import registration_email
+from .emailhandler import registration_email
 from django.contrib.auth.models import User
 User._meta.get_field('email')._unique = True
 EMAIL_HOST_USER = os.getenv("EMAIL")
@@ -77,33 +76,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.id
-    
+
     def getrollnumber(self):
         x = str(self.Email)
-        output = ""
-        for i in x:
-            if '0' <= i <= '9':
-                output += i
-
-        m = str(self.Degree) + output
-        return m
-
-    def save(self, *args, **kwargs):
-        self.id = self.getrollnumber()
-        super().save(*args, **kwargs)
-        
-        person = {
-            "Id": self.id,
-            "Name": self.First_Name+" "+self.Last_Name,
-            "Email": self.Email
-        }
-        registration_email(person)
-    
-
-# TODO: #3 Better ID extraction
-
-    def get_roll_number(self):
-        x = str(self.email)
         output = ""
         for i in x:
             if '0' <= i <= '9':
@@ -116,8 +91,30 @@ class Profile(models.Model):
         super().save(*args, **kwargs)
 
     def save(self, *args, **kwargs):
-        self.id = self.get_roll_number()
+        self.id = self.getrollnumber()
         super().save(*args, **kwargs)
+
+        person = {
+            "Id": self.id,
+            "Name": self.First_Name + " " + self.Last_Name,
+            "Email": self.Email
+        }
+        registration_email(person)
+
+
+# TODO: #3 Better ID extraction
+    # def get_roll_number(self):
+    #     x = str(self.email)
+    #     output = ""
+    #     for i in x:
+    #         if '0' <= i <= '9':
+    #             output += i
+
+    #     m = str(self.Degree) + output
+    #     return m
+    # def save(self, *args, **kwargs):
+    #     self.id = self.get_roll_number()
+    #     super().save(*args, **kwargs)
 # TODO: #4 Better SMTP Calling
         # if self.IsTeacher:
         #     teach = Teacher()
