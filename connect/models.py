@@ -1,5 +1,4 @@
 from django.db import models
-
 from django.contrib.auth.models import User
 User._meta.get_field('email')._unique = True
 
@@ -42,10 +41,6 @@ class Profile(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-    
-        
-    
-        
 
 
 class Skill(models.Model):
@@ -66,7 +61,12 @@ class Teacher(models.Model):
     confidence = models.FloatField(blank=True, default=0)
     Gitname = models.CharField(max_length=100, blank=True, default='NA')
     Linkedin = models.CharField(max_length=100, blank=True, default='NA')
-    
+    email = models.OneToOneField(to='auth.User',
+                                 on_delete=models.CASCADE,
+                                 related_name='profile',
+                                 to_field='email',
+                                 db_column='email')
+
     def __str__(self):
         return str(self.id)
 
@@ -82,12 +82,6 @@ class Teacher(models.Model):
 
     def new(self, person, *args, **kwargs):
         super().save(*args, **kwargs)
-        new_teacher_email(person)
-        
-    def 
-    
-        
-    
 
     def delete(self, *args, **kwargs):
         iid = self.get_roll_number()

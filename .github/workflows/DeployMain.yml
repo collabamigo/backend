@@ -4,29 +4,18 @@ name: Deploy main to production Heroku
     branches:
       - main
 jobs:
-  Clone:
-    runs-on: self-hosted
-    steps:
-      - name: Cloning the repository
-        run: cd ${{ github.workspace }}/../ && (rm * -rf || echo) && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-1 &&
-              git clone git@github.com:${{ github.repository }}
-
-      - name: Checking out testing branch
-        run: cd ${{ github.workspace }} && git checkout testing
-
-
-      - name: Loading & Checking committer
-        run: committer=$(git log -1 --pretty=format:'%an');
-              echo "$committer"; if [ "$committer" = "Github runner" ]; then
-                  exit 2;
-              else
-                  exit 0;
-              fi
 
   Deploy-main-to-Heroku:
     runs-on: self-hosted
-    needs: Clone
     steps:
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Checking out main branch
+        run: git checkout main
+
       - name: Installing pip packages
         run: pip3 install bandit pipenv flake8
 
@@ -57,5 +46,20 @@ jobs:
                 git remote add heroku-1 https://git.heroku.com/mysterious-savannah-09391.git && git push heroku-1
 
       - name: Pushing to Github
-        run: cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/github &&
-              git push origin
+        run: git push
+
+  Create-issues-using-TODO:
+    runs-on: self-hosted
+    needs: Deploy-main-to-Heroku
+    steps:
+      - name: Github login
+        run: echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
+
+      - name: Creating issues
+        run: readarray -t array <<< $(git diff HEAD^ --name-only -G "TODO" -- ':!:*.yml' | xargs --no-run-if-empty git
+                grep -n "TODO" --) && for command in "${array[@]}"; do
+                    gh issue create --title "${command##*#}" --body "${command}" --label "todo" || echo "ERROR $(command)";
+                      done
+
+      - name: Github logout
+        run: gh auth logout --hostname github.com

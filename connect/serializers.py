@@ -14,6 +14,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class TeacherSerializer(serializers.ModelSerializer):
+    email = serializers.ReadOnlyField(source='email.email')
+
     class Meta:
         model = Teacher
         fields = ('id', 'Contact', 'UpVotes', 'DownVotes', 'Gitname',

@@ -13,31 +13,15 @@ from .serializers import (ProfileSerializer,
 from . emailhandler import registration_email, new_teacher_email
 
 
-@csrf_exempt
-def Profilegetter(request):
-    qm = (x for x in Profile.objects.get(email=request.user.email))
-    output = ', '.join([q for q in qm])
-    return JsonResponse(output, safe=False)
-
-
-def teacheridsfor(request, search):
-    skill = Skill.objects.get(name=search)
-    output = list(map(lambda item: str(item), skill.Teacher_set.all().order_by(
-        '-confidence',
-        '-UpVotes',
-        'DownVotes')))
-    return JsonResponse(output, safe=False)
-
-
 def teachersdata(request):
-    calledskills = request.GET.get('id_list')
-    calledskills = json.loads(calledskills)
+    called_skills = request.GET.get('id_list')
+    called_skills = json.loads(called_skills)
     output = list()
-    for k in calledskills:
-        profileobject = model_to_dict(Profile.objects.get(id=str(k)))
-        teacherobject = model_to_dict(Teacher.objects.get(id=str(k)))
-        profileobject.update(teacherobject)
-        output.append(profileobject)
+    for k in called_skills:
+        profile_object = model_to_dict(Profile.objects.get(id=str(k)))
+        teacher_object = model_to_dict(Teacher.objects.get(id=str(k)))
+        profile_object.update(teacher_object)
+        output.append(profile_object)
     return JsonResponse(output, safe=False)
 
 

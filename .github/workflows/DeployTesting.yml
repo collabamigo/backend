@@ -4,42 +4,17 @@ name: Deploy testing to Heroku-dev
     branches:
       - testing
 jobs:
-  Clone:
+
+  Deploy-testing-to-Heroku:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
+        with:
+            fetch-depth: 0
 
       - name: Checking out testing branch
         run: git checkout testing
 
-      - name: Loading & Checking committer
-        run: committer=$(git log -1 --pretty=format:'%an');
-              echo "$committer"; if [ "$committer" = "Github runner" ]; then
-                  exit 2;
-              else
-                  exit 0;
-              fi
-
-  Create-issues-using-TODO:
-    runs-on: self-hosted
-    needs: Clone
-    steps:
-      - name: Github login
-        run: echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
-
-      - name: Creating issues
-        run: readarray -t array <<< $(git diff HEAD^ --name-only -G "TODO" -- ':!:*.yml' | xargs --no-run-if-empty git
-                grep -n "TODO" --) && for command in "${array[@]}"; do
-                    gh issue create --title "${command##*#}" --body "${command}" --label "todo" || echo "ERROR $(command)";
-                      done
-
-      - name: Github logout
-        run: gh auth logout --hostname github.com
-
-  Deploy-testing-to-Heroku:
-    runs-on: self-hosted
-    needs: Clone
-    steps:
       - name: Installing pip packages
         run: pip3 install bandit pipenv flake8
 
@@ -67,9 +42,25 @@ jobs:
 
       - name: Pushing to Heroku-dev
         run:  cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-dev &&
-                git remote add heroku-dev https://git.heroku.com/blooming-peak-53825.git &&
-                  git push heroku-dev -f testing:main
+                (git remote add heroku-dev https://git.heroku.com/blooming-peak-53825.git ||
+                  echo "Remote heroku-dev already exists" ) &&
+                    git push heroku-dev -f testing:main
 
       - name: Pushing to Github
-        run: cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/github &&
-              git push origin
+        run: git push
+
+  Create-issues-using-TODO:
+    runs-on: self-hosted
+    needs: Deploy-testing-to-Heroku
+    steps:
+      - name: Github login
+        run: echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
+
+      - name: Creating issues
+        run: readarray -t array <<< $(git diff HEAD^ --name-only -G "TODO" -- ':!:*.yml' | xargs --no-run-if-empty git
+                grep -n "TODO" --) && for command in "${array[@]}"; do
+                    gh issue create --title "${command##*#}" --body "${command}" --label "todo" || echo "ERROR $(command)";
+                      done
+
+      - name: Github logout
+        run: gh auth logout --hostname github.com
