@@ -78,7 +78,7 @@ class Profile(models.Model):
         return self.id
 
     def getrollnumber(self):
-        x = str(self.Email)
+        x = str(self.email)
         output = ""
         for i in x:
             if '0' <= i <= '9':
@@ -97,7 +97,7 @@ class Profile(models.Model):
         person = {
             "Id": self.id,
             "Name": self.First_Name + " " + self.Last_Name,
-            "Email": self.Email
+            "Email": self.email
         }
         registration_email(person)
 
