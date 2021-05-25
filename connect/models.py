@@ -99,7 +99,7 @@ class Profile(models.Model):
             "Email": self.email
         }
         registration_email(person)
-        
+
 # TODO: #4 Better SMTP Calling
         # if self.IsTeacher:
         #     teach = Teacher()
