@@ -1,5 +1,4 @@
 from django.db import models
-from .emailhandler import registration_email
 from django.contrib.auth.models import User
 
 User._meta.get_field('email')._unique = True
@@ -41,17 +40,17 @@ class Profile(models.Model):
     def lol(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
-    def save(self, *args, **kwargs):
-        self.id = self.get_roll_number()
-        super().save(*args, **kwargs)
-        print(str(self.email.email),
-              type(str(self.email.email)), flush=True)
-        person = {
-            "Id": self.id,
-            "Name": self.First_Name + " " + self.Last_Name,
-            "Email": str(self.email.email)
-        }
-        registration_email(person)
+    # def save(self, *args, **kwargs):
+    #     # self.id = self.get_roll_number()
+    #     super().save(*args, **kwargs)
+    #     print(str(self.email.email),
+    #           type(str(self.email.email)), flush=True)
+    #     # person = {
+    #     #     "Id": "B20016",
+    #     #     "Name": self.First_Name + " " + self.Last_Name,
+    #     #     "Email": "heemankv@gmail.com"
+    #     # }
+    #     # registration_email(person)
 
 
 class Skill(models.Model):
