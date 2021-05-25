@@ -1,17 +1,15 @@
+import json
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from rest_framework import permissions
 from django.forms.models import model_to_dict
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-
-from .models import Todo, Profile, Teacher, Skill
+from .models import Profile, Teacher, Skill
 from rest_framework import viewsets
-
 from .permissions import IsOwner
-from .serializers import (TodoSerializer, ProfileSerializer,
+from .serializers import (ProfileSerializer,
                           TeacherSerializer, SkillSerializer)
-import json
 
 
 @csrf_exempt
@@ -21,7 +19,6 @@ def Profilegetter(request):
     return JsonResponse(output, safe=False)
 
 
-# TODO: RENAME THIS PLEASE
 def teacheridsfor(request, search):
     skill = Skill.objects.get(name=search)
     output = list(map(lambda item: str(item), skill.Teacher_set.all().order_by(
@@ -44,24 +41,14 @@ def teachersdata(request):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class TodoView(viewsets.ModelViewSet):
-    serializer_class = TodoSerializer
-    queryset = Todo.objects.all()
-
-
-@method_decorator(csrf_exempt, name='dispatch')
 class ProfileView(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
     permission_classes = [
         permissions.IsAuthenticated,
-        IsOwner, ]
+        IsOwner]
 
     def get_queryset(self):
-        """
-        This view should return a list of all the purchases
-        for the currently authenticated user.
-        """
         user = self.request.user
         if user.is_superuser:
             return Profile.objects.all()

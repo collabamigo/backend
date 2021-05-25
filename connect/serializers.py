@@ -1,14 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-
-from .models import Todo, Profile, Teacher, Skill
-
-
-class TodoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Todo
-        fields = ('First_Name', 'Last_Name', 'Gender',
-                  'Degree', 'Course', 'Email', 'Handle', 'IsTeacher')
+from .models import Profile, Teacher, Skill
 
 
 class ProfileSerializer(serializers.ModelSerializer):

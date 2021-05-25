@@ -4,55 +4,6 @@ from django.contrib.auth.models import User
 User._meta.get_field('email')._unique = True
 
 
-class Todo(models.Model):
-    id = models.CharField(primary_key=True, unique=True,
-                          max_length=6,
-                          auto_created=False,
-                          serialize=False, verbose_name='ID')
-    First_Name = models.CharField(max_length=30, blank=True)
-    Last_Name = models.CharField(max_length=30, blank=True)
-    Gender = models.CharField(max_length=10, blank=True, default='N')
-    Degree = models.CharField(max_length=10, blank=True)
-    Course = models.CharField(max_length=10, blank=True)
-    Email = models.EmailField(max_length=50, unique=True, blank=False)
-    Handle = models.CharField(max_length=50, blank=True)
-    IsTeacher = models.BooleanField(default=False)
-
-    def _str_(self):
-        return self.Email
-
-    def getrollnumber(self):
-        x = str(self.Email)
-        output = ""
-        for i in x:
-            if '0' <= i <= '9':
-                output += i
-
-        m = str(self.Degree) + output
-        return m
-
-    def save(self, *args, **kwargs):
-        self.id = self.getrollnumber()
-        super().save(*args, **kwargs)
-        if self.IsTeacher:
-            teach = Teacher()
-            teach.id = self
-            teach.save()
-        # send_mail(
-        #     'Registered',
-        #     'You have been registered ' + self.id,
-        #     EMAIL_HOST_USER,
-        #     [self.Email],
-        #     fail_silently=False,
-        # )
-        person = {
-            "Id": self.id,
-            "Name": self.First_Name+" "+self.Last_Name,
-            "Email": self.Email
-        }
-        registration_email(person)
-
-
 class Profile(models.Model):
     id = models.CharField(primary_key=True, unique=True,
                           max_length=6,
@@ -76,7 +27,6 @@ class Profile(models.Model):
         return self.id
 
 # TODO: #3 Better ID extraction
-
     def get_roll_number(self):
         x = str(self.email)
         output = ""
@@ -101,19 +51,6 @@ class Profile(models.Model):
             "Email": str((self.email).email)
         }
         registration_email(person)
-
-# TODO: #4 Better SMTP Calling
-        # if self.IsTeacher:
-        #     teach = Teacher()
-        #     teach.id = self
-        #     teach.save()
-        # send_mail(
-        #     'Registered',
-        #     'You have been registered ' + self.id,
-        #     EMAIL_HOST_USER,
-        #     [self.Email],
-        #     fail_silently=False,
-        # )
 
 
 class Skill(models.Model):
@@ -161,15 +98,3 @@ class Teacher(models.Model):
         b.IsTeacher = False
         b.lol()
         super().delete(*args, **kwargs)
-
-    # if self.IsTeacher:
-    #     teach = Teacher()
-    #     teach.id = self
-    #     teach.save()
-    # send_mail(
-    #     'Registered',
-    #     'You have been registered ' + self.id,
-    #     EMAIL_HOST_USER,
-    #     [self.Email],
-    #     fail_silently=False,
-    # )
