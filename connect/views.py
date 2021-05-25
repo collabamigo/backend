@@ -19,15 +19,6 @@ def Profilegetter(request):
     return JsonResponse(output, safe=False)
 
 
-def teacheridsfor(request, search):
-    skill = Skill.objects.get(name=search)
-    output = list(map(lambda item: str(item), skill.Teacher_set.all().order_by(
-        '-confidence',
-        '-UpVotes',
-        'DownVotes')))
-    return JsonResponse(output, safe=False)
-
-
 def teachersdata(request):
     calledskills = request.GET.get('id_list')
     calledskills = json.loads(calledskills)

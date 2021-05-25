@@ -1,6 +1,7 @@
 from django.db import models
-from . emailhandler import registration_email
+from .emailhandler import registration_email
 from django.contrib.auth.models import User
+
 User._meta.get_field('email')._unique = True
 
 
@@ -43,12 +44,12 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         self.id = self.get_roll_number()
         super().save(*args, **kwargs)
-        print(str((self.email).email),
-              type(str((self.email).email)), flush=True)
+        print(str(self.email.email),
+              type(str(self.email.email)), flush=True)
         person = {
             "Id": self.id,
-            "Name": self.First_Name+" "+self.Last_Name,
-            "Email": str((self.email).email)
+            "Name": self.First_Name + " " + self.Last_Name,
+            "Email": str(self.email.email)
         }
         registration_email(person)
 
@@ -81,6 +82,8 @@ class Teacher(models.Model):
                 output += i
             if '0' <= i <= '9':
                 output += i
+            if i == "@":
+                break
         return output
 
     def save(self, *args, **kwargs):
@@ -98,3 +101,9 @@ class Teacher(models.Model):
         b.IsTeacher = False
         b.lol()
         super().delete(*args, **kwargs)
+
+    class Meta:
+        ordering = [
+            '-confidence',
+            '-UpVotes',
+            'DownVotes', ]

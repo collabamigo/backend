@@ -8,21 +8,22 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('First_Name', 'Last_Name', 'Gender',
+        fields = ['First_Name', 'Last_Name', 'Gender',
                   'Degree', 'Course', 'email', 'Handle', 'IsTeacher',
-                  'Created', )
+                  'Created', ]
 
 
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teacher
-        fields = ('id', 'Contact', 'UpVotes', 'DownVotes')
+        fields = ['id', 'Contact', 'UpVotes', 'DownVotes', ]
 
 
 class SkillSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Skill
-        fields = ('name', 'Teacher_set')
+        fields = ['name', 'Teacher_set', ]
 
 
 class UserSerializer(serializers.ModelSerializer):
