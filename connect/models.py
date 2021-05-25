@@ -1,11 +1,7 @@
 from django.db import models
-
+from . emailhandler import registration_email
 from django.contrib.auth.models import User
 User._meta.get_field('email')._unique = True
-
-# from django.core.mail import send_mail
-# from backend.settings import EMAIL_HOST_USER
-
 
 class Todo(models.Model):
     id = models.CharField(primary_key=True, unique=True,
@@ -48,6 +44,12 @@ class Todo(models.Model):
         #     [self.Email],
         #     fail_silently=False,
         # )
+        person = {
+            "Id":self.id,
+            "Name":self.First_Name+" "+self.Last_Name,
+            "Email":self.Email
+        }
+        registration_email(person)
 
 
 class Profile(models.Model):
