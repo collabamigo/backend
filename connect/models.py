@@ -96,7 +96,7 @@ class Profile(models.Model):
         person = {
             "Id": self.id,
             "Name": self.First_Name+" "+self.Last_Name,
-            "Email": self.email
+            "Email": "heemank20064"
         }
         registration_email(person)
 
