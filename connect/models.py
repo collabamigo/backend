@@ -1,5 +1,5 @@
 from django.db import models
-from . emailhandler import registration_email
+
 from django.contrib.auth.models import User
 User._meta.get_field('email')._unique = True
 
@@ -41,16 +41,11 @@ class Profile(models.Model):
         super().save(*args, **kwargs)
 
     def save(self, *args, **kwargs):
-        self.id = self.get_roll_number()
         super().save(*args, **kwargs)
-        print(str((self.email).email),
-              type(str((self.email).email)), flush=True)
-        person = {
-            "Id": self.id,
-            "Name": self.First_Name+" "+self.Last_Name,
-            "Email": str((self.email).email)
-        }
-        registration_email(person)
+    
+        
+    
+        
 
 
 class Skill(models.Model):
@@ -69,7 +64,9 @@ class Teacher(models.Model):
     UpVotes = models.BigIntegerField(blank=True, default=0)
     DownVotes = models.BigIntegerField(blank=True, default=0)
     confidence = models.FloatField(blank=True, default=0)
-
+    Gitname = models.CharField(max_length=100, blank=True, default='NA')
+    Linkedin = models.CharField(max_length=100, blank=True, default='NA')
+    
     def __str__(self):
         return str(self.id)
 
@@ -83,14 +80,14 @@ class Teacher(models.Model):
                 output += i
         return output
 
-    def save(self, *args, **kwargs):
+    def new(self, person, *args, **kwargs):
         super().save(*args, **kwargs)
-        print(self.id, flush=True)
-        iid = self.get_roll_number()
-        print(iid, type(iid), flush=True)
-        b = Profile.objects.get(id=iid)
-        b.IsTeacher = True
-        b.lol()
+        new_teacher_email(person)
+        
+    def 
+    
+        
+    
 
     def delete(self, *args, **kwargs):
         iid = self.get_roll_number()

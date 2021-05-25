@@ -12,3 +12,14 @@ def registration_email(reciever):
     send_mail(Subject, Message, EMAIL_HOST_USER,
               [email], fail_silently=False)
     return True
+
+
+def new_teacher_email(reciever):
+    Subject = "Welcome To Collabconnect"
+    Message = "Hi " + reciever["Name"] + \
+        ". You have been registered as teacher "\
+        + reciever["Id"] + "."
+    email = reciever["Email"]
+    send_mail(Subject, Message, EMAIL_HOST_USER,
+              [email], fail_silently=False)
+    return True

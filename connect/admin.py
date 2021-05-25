@@ -9,7 +9,7 @@ class ProfileAdmin(admin.ModelAdmin):
 
 
 class TeacherAdmin(admin.ModelAdmin):
-    list_display = ('id', 'Contact', 'UpVotes', 'DownVotes')
+    list_display = ('id', 'Contact', 'UpVotes', 'DownVotes','Gitname','Linkedin')
 
 
 admin.site.register(Profile, ProfileAdmin)
