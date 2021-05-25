@@ -2,6 +2,9 @@ from django.db import models
 from . emailhandler import registration_email
 from django.contrib.auth.models import User
 User._meta.get_field('email')._unique = True
+from django.core.mail import send_mail
+import os
+EMAIL_HOST_USER = os.getenv("EMAIL")
 
 
 class Todo(models.Model):
@@ -38,13 +41,13 @@ class Todo(models.Model):
             teach = Teacher()
             teach.id = self
             teach.save()
-        # send_mail(
-        #     'Registered',
-        #     'You have been registered ' + self.id,
-        #     EMAIL_HOST_USER,
-        #     [self.Email],
-        #     fail_silently=False,
-        # )
+        send_mail(
+            'Registered',
+            'You have been registered ' + self.id,
+            EMAIL_HOST_USER,
+            [self.Email],
+            fail_silently=False,
+        )
         person = {
             "Id": self.id,
             "Name": self.First_Name+" "+self.Last_Name,
