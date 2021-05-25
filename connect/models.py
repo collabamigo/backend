@@ -117,9 +117,9 @@ class Teacher(models.Model):
         on_delete=models.CASCADE,
         primary_key=True)
     Contact = models.BigIntegerField(blank=True, default=0)
-    UpVotes = models.BigIntegerField(blank=False, default=0)
-    DownVotes = models.BigIntegerField(blank=False, default=0)
-    confidence = models.FloatField(blank=False, default=0)
+    UpVotes = models.BigIntegerField(blank=True, default=0)
+    DownVotes = models.BigIntegerField(blank=True, default=0)
+    confidence = models.FloatField(blank=True, default=0)
 
     def __str__(self):
         return str(self.id)
