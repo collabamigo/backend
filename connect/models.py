@@ -93,13 +93,13 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         self.id = self.get_roll_number()
         super().save(*args, **kwargs)
+        print(str((self.email).email),
+              type(str((self.email).email)), flush=True)
         person = {
             "Id": self.id,
             "Name": self.First_Name+" "+self.Last_Name,
             "Email": str((self.email).email)
         }
-        print(str((self.email).email),
-              type(str((self.email).email)), flush=True)
         registration_email(person)
 
 # TODO: #4 Better SMTP Calling
