@@ -3,6 +3,7 @@ from . emailhandler import registration_email
 from django.contrib.auth.models import User
 User._meta.get_field('email')._unique = True
 
+
 class Todo(models.Model):
     id = models.CharField(primary_key=True, unique=True,
                           max_length=6,
@@ -45,9 +46,9 @@ class Todo(models.Model):
         #     fail_silently=False,
         # )
         person = {
-            "Id":self.id,
-            "Name":self.First_Name+" "+self.Last_Name,
-            "Email":self.Email
+            "Id": self.id,
+            "Name": self.First_Name+" "+self.Last_Name,
+            "Email": self.Email
         }
         registration_email(person)
 
