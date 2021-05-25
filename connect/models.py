@@ -41,19 +41,19 @@ class Todo(models.Model):
             teach = Teacher()
             teach.id = self
             teach.save()
-        send_mail(
-            'Registered',
-            'You have been registered ' + self.id,
-            EMAIL_HOST_USER,
-            [self.Email],
-            fail_silently=False,
-        )
-        person = {
-            "Id": self.id,
-            "Name": self.First_Name+" "+self.Last_Name,
-            "Email": self.Email
-        }
-        registration_email(person)
+        # send_mail(
+        #     'Registered',
+        #     'You have been registered ' + self.id,
+        #     EMAIL_HOST_USER,
+        #     [self.Email],
+        #     fail_silently=False,
+        # )
+        # person = {
+        #     "Id": self.id,
+        #     "Name": self.First_Name+" "+self.Last_Name,
+        #     "Email": self.Email
+        # }
+        # registration_email(person)
 
 
 class Profile(models.Model):
@@ -77,6 +77,28 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.id
+    
+    def getrollnumber(self):
+        x = str(self.Email)
+        output = ""
+        for i in x:
+            if '0' <= i <= '9':
+                output += i
+
+        m = str(self.Degree) + output
+        return m
+
+    def save(self, *args, **kwargs):
+        self.id = self.getrollnumber()
+        super().save(*args, **kwargs)
+        
+        person = {
+            "Id": self.id,
+            "Name": self.First_Name+" "+self.Last_Name,
+            "Email": self.Email
+        }
+        registration_email(person)
+    
 
 # TODO: #3 Better ID extraction
 
