@@ -57,7 +57,8 @@ class Skill(models.Model):
     name = models.CharField(primary_key=True, unique=True,
                             max_length=30, auto_created=False,
                             serialize=False, verbose_name='ID')
-    Teacher_set = models.ManyToManyField(to='connect.Teacher')
+    Teacher_set = models.ManyToManyField(to='connect.Teacher',
+                                         related_name='skills')
 
 
 class Teacher(models.Model):
