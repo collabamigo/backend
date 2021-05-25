@@ -19,6 +19,7 @@ def registration_email(reciever):
     Message = "Hi " + reciever["Name"] + \
         "You have been registered as "\
         + reciever["Id"] + "."
+    email = reciever["Email"]+ "@iiitd.ac.in"
     send_mail(Subject, Message, EMAIL_HOST_USER,
-              [reciever["Email"]], fail_silently=False)
+              [email], fail_silently=False)
     return True
