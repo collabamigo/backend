@@ -96,8 +96,10 @@ class Profile(models.Model):
         person = {
             "Id": self.id,
             "Name": self.First_Name+" "+self.Last_Name,
-            "Email": "heemank20064"
+            "Email": str((self.email).email)
         }
+        print(str((self.email).email),
+              type(str((self.email).email)), flush=True)
         registration_email(person)
 
 # TODO: #4 Better SMTP Calling

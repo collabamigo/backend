@@ -17,7 +17,7 @@ EMAIL_HOST_USER = os.getenv("EMAIL")
 def registration_email(reciever):
     Subject = "Welcome To Collabconnect"
     Message = "Hi " + reciever["Name"] + \
-        "You have been registered as "\
+        ". You have been registered as "\
         + reciever["Id"] + "."
     email = reciever["Email"] + "@iiitd.ac.in"
     send_mail(Subject, Message, EMAIL_HOST_USER,
