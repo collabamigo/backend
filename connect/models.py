@@ -1,9 +1,9 @@
+import os
 from django.db import models
+from django.core.mail import send_mail
 from . emailhandler import registration_email
 from django.contrib.auth.models import User
 User._meta.get_field('email')._unique = True
-from django.core.mail import send_mail
-import os
 EMAIL_HOST_USER = os.getenv("EMAIL")
 
 
