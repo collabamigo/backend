@@ -34,7 +34,7 @@ class Profile(models.Model):
             if '0' <= i <= '9':
                 output += i
 
-        m = str(self.Degree) + output
+        m = str(self.degree) + output
         return m
 
 
@@ -48,7 +48,10 @@ class Skill(models.Model):
 
 class Teacher(models.Model):
     id = models.OneToOneField(
-        Profile,
+        to=Profile,
+        related_name='teacher',
+        to_field='id',
+        db_column='id',
         on_delete=models.CASCADE,
         primary_key=True)
     Contact = models.BigIntegerField(blank=True, default=0)
@@ -76,19 +79,19 @@ class Teacher(models.Model):
                 output += i
         return output
 
-    def save(self, *args, **kwargs):
-        iid = self.get_roll_number()
-        b = Profile.objects.get(id=iid)
-        if b.IsTeacher is False:
-            b.IsTeacher = True
-            person = {
-                "Id": b.id,
-                "Name": b.First_Name + " " + b.Last_Name,
-                "Email": str((b.email).email)
-                }
-            new_teacher_email(person)
-            b.save()
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     iid = self.get_roll_number()
+    #     b = Profile.objects.get(id=iid)
+    #     if b.IsTeacher is False:
+    #         b.IsTeacher = True
+    #         person = {
+    #             "Id": b.id,
+    #             "Name": b.First_Name + " " + b.Last_Name,
+    #             "Email": str((b.email).email)
+    #             }
+    #         new_teacher_email(person)
+    #         b.save()
+    #     super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         iid = self.get_roll_number()
