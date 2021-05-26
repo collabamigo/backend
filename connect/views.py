@@ -51,7 +51,7 @@ class ProfileView(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         emai = str(self.request.user.email)
         deg = self.request.data["Degree"]
-        self.request.data["id"] = self.get_roll_number(emai, deg)
+        id_ = self.get_roll_number(emai, deg)
         person = {
             "Id": self.request.data["id"],
             "Name": self.request.data["First_Name"]+" " +
@@ -59,7 +59,8 @@ class ProfileView(viewsets.ModelViewSet):
             "Email": emai
         }
         registration_email(person)
-        serializer.save(email=self.request.user)
+        serializer.save(email=self.request.user,
+                        id= id_)
 
 
 @method_decorator(csrf_exempt, name='dispatch')

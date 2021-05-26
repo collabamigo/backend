@@ -10,7 +10,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ('First_Name', 'Last_Name', 'Gender',
                   'Degree', 'Course', 'email', 'Handle', 'IsTeacher',
-                  'Created', )
+                  'Created', 'id')
 
 
 class TeacherSerializer(serializers.ModelSerializer):
