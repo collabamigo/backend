@@ -46,7 +46,6 @@ class ProfileView(viewsets.ModelViewSet):
         for i in x:
             if '0' <= i <= '9':
                 output += i
-
         m = str(self.Degree) + output
         return m
 
