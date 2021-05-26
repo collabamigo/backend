@@ -10,4 +10,4 @@ class IsOwner(permissions.BasePermission):
         if request.user.is_superuser:
             return True
         else:
-            return obj.Email == request.user
+            return obj.email == request.user
