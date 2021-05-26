@@ -95,4 +95,5 @@ class Teacher(models.Model):
         b = Profile.objects.get(id=iid)
         b.IsTeacher = False
         b.save()
+        print("yes this delete is getting called", flush=True)
         super().delete(*args, **kwargs)
