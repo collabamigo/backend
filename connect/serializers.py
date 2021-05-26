@@ -28,7 +28,6 @@ class TeacherSerializer(serializers.ModelSerializer):
         read_only_fields = ['UpVotes', 'DownVotes']
 
 
-
 class SkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skill
