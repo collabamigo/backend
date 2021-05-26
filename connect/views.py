@@ -40,8 +40,8 @@ class ProfileView(viewsets.ModelViewSet):
         else:
             return Profile.objects.filter(email=user)
 
-    def get_roll_number(self):
-        x = str(self.email)
+    def get_roll_number(self, em):
+        x = em
         output = ""
         for i in x:
             if '0' <= i <= '9':
@@ -50,11 +50,12 @@ class ProfileView(viewsets.ModelViewSet):
         return m
 
     def perform_create(self, serializer):
-        self.id = self.get_roll_number()
+        emai = str(self.request.user.email)
+        self.id = self.get_roll_number(emai)
         person = {
             "Id": self.id,
             "Name": self.First_Name+" "+self.Last_Name,
-            "Email": str((self.email).email)
+            "Email": emai
         }
         registration_email(person)
         serializer.save(email=self.request.user)
