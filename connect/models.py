@@ -94,5 +94,5 @@ class Teacher(models.Model):
         iid = self.get_roll_number()
         b = Profile.objects.get(id=iid)
         b.IsTeacher = False
-        b.lol()
+        b.save()
         super().delete(*args, **kwargs)
