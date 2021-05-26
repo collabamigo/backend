@@ -55,7 +55,7 @@ class ProfileView(viewsets.ModelViewSet):
         person = {
             "Id": self.request.data["id"],
             "Name": self.request.data["First_Name"] + " " +
-                    self.request.data["Last_Name"],
+            self.request.data["Last_Name"],
             "Email": emai
         }
         registration_email(person)
