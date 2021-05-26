@@ -53,7 +53,7 @@ class ProfileView(viewsets.ModelViewSet):
         emai = str(self.request.user.email)
         aqs = dict(self.request.POST.items())
         ass = self.request.POST.get("First_Name")
-        
+
         print(ass, aqs)
         self.id = self.get_roll_number(emai)
         # person = {
