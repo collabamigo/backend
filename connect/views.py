@@ -49,14 +49,14 @@ class ProfileView(viewsets.ModelViewSet):
         return m
 
     def perform_create(self, serializer):
-        emai = str(self.request.user.email)
-        deg = self.request.data["Degree"]
-        id_ = self.get_roll_number(emai, deg)
+        email = str(self.request.user.email)
+        deg = self.request.data["degree"]
+        id_ = self.get_roll_number(email, deg)
         person = {
             "Id": id_,
-            "Name": self.request.data["First_Name"]+" " +
+            "Name": self.request.data["First_Name"] + " " +
             self.request.data["Last_Name"],
-            "Email": emai
+            "Email": email
         }
         registration_email(person)
         serializer.save(email=self.request.user,
@@ -76,7 +76,7 @@ class TeacherView(viewsets.ModelViewSet):
         person = {
             "Id": b.id,
             "Name": b.First_Name + " " + b.Last_Name,
-            "Email": str((b.email).email)
+            "Email": str(b.email.email)
         }
         b.lol()
         serializer.save(email=self.request.user)
