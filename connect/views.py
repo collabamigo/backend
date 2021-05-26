@@ -51,13 +51,15 @@ class ProfileView(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         emai = str(self.request.user.email)
+        lol = str(self.request.Degree)
+        print(lol)
         self.id = self.get_roll_number(emai)
-        person = {
-            "Id": self.id,
-            "Name": self.First_Name+" "+self.Last_Name,
-            "Email": emai
-        }
-        registration_email(person)
+        # person = {
+        #     "Id": self.id,
+        #     "Name": self.First_Name+" "+self.Last_Name,
+        #     "Email": emai
+        # }
+        # registration_email(person)
         serializer.save(email=self.request.user)
 
 
