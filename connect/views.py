@@ -72,14 +72,14 @@ class TeacherView(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         b = Profile.objects.get(id=self.id)
         b.IsTeacher = True
-        # person = {
-        #     "Id": b.id,
-        #     "Name": b.First_Name+" "+b.Last_Name,
-        #     "Email": str((b.email).email)
-        # }
+        person = {
+            "Id": b.id,
+            "Name": b.First_Name+" "+b.Last_Name,
+            "Email": str((b.email).email)
+        }
         b.lol()
         serializer.save(email=self.request.user)
-        # new_teacher_email(person)
+        new_teacher_email(person)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
