@@ -63,7 +63,7 @@ class Teacher(models.Model):
     Linkedin = models.CharField(max_length=100, blank=True, default='NA')
     email = models.OneToOneField(to='auth.User',
                                  on_delete=models.CASCADE,
-                                 related_name='profile',
+                                 related_name='teacher',
                                  to_field='email',
                                  db_column='email')
 
