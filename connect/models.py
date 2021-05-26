@@ -60,8 +60,8 @@ class Teacher(models.Model):
     UpVotes = models.BigIntegerField(blank=True, default=0)
     DownVotes = models.BigIntegerField(blank=True, default=0)
     confidence = models.FloatField(blank=True, default=0)
-    Gitname = models.CharField(max_length=100, blank=True, default='NA')
-    Linkedin = models.CharField(max_length=100, blank=True, default='NA')
+    Gitname = models.CharField(max_length=100, blank=True, )
+    Linkedin = models.CharField(max_length=100, blank=True, )
     email = models.OneToOneField(to='auth.User',
                                  on_delete=models.CASCADE,
                                  related_name='teacher',

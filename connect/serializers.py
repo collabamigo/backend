@@ -15,11 +15,15 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class TeacherSerializer(serializers.ModelSerializer):
     email = serializers.ReadOnlyField(source='email.email')
+    skills = serializers.SerializerMethodField()
+
+    def get_skills(self, obj):
+        return obj.skills.values_list(flat=True)
 
     class Meta:
         model = Teacher
-        fields = ('id', 'Contact', 'UpVotes', 'DownVotes', 'Gitname',
-                  'Linkedin')
+        fields = ['id', 'Contact', 'UpVotes', 'DownVotes', 'Gitname',
+                  'Linkedin', 'email', 'skills', ]
 
 
 class SkillSerializer(serializers.ModelSerializer):
