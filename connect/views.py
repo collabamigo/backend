@@ -10,7 +10,7 @@ from rest_framework import viewsets
 from .permissions import IsOwner
 from .serializers import (ProfileSerializer,
                           TeacherSerializer, SkillSerializer)
-# from . emailhandler import registration_email, new_teacher_email
+from . emailhandler import registration_email, new_teacher_email
 
 
 def teachersdata(request):
@@ -40,29 +40,25 @@ class ProfileView(viewsets.ModelViewSet):
         else:
             return Profile.objects.filter(email=user)
 
-    def get_roll_number(self, em):
-        x = em
+    def get_roll_number(self, em, deg):
         output = ""
-        for i in x:
+        for i in em:
             if '0' <= i <= '9':
                 output += i
-        m = str(self.Degree) + output
+        m = str(deg) + output
         return m
 
     def perform_create(self, serializer):
         emai = str(self.request.user.email)
-        aqs = dict(self.request.POST.items())
-        ass = self.request.data["First_Name"]
-
-        print(ass, aqs)
-        self.id = self.get_roll_number(emai)
-        # person = {
-        # lol
-        #     "Id": self.id,
-        #     "Name": self.First_Name+" "+self.Last_Name,
-        #     "Email": emai
-        # }
-        # registration_email(person)
+        deg = self.request.data["Degree"]
+        self.id = self.get_roll_number(emai, deg)
+        person = {
+            "Id": self.id,
+            "Name": self.request.data["First_Name"]+" " +
+            self.request.data["Last_Name"],
+            "Email": emai
+        }
+        registration_email(person)
         serializer.save(email=self.request.user)
 
 
