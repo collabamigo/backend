@@ -51,7 +51,7 @@ class ProfileView(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         emai = str(self.request.user.email)
-        ass = str(self.request.POST.get("Degree"))
+        ass = self.request.POST.items
         print(ass)
         self.id = self.get_roll_number(emai)
         # person = {
