@@ -10,7 +10,7 @@ from rest_framework import viewsets
 from .permissions import IsOwner
 from .serializers import (ProfileSerializer,
                           TeacherSerializer, SkillSerializer)
-from . emailhandler import registration_email, new_teacher_email
+from .emailhandler import registration_email, new_teacher_email
 
 
 def teachersdata(request):
@@ -54,13 +54,13 @@ class ProfileView(viewsets.ModelViewSet):
         id_ = self.get_roll_number(emai, deg)
         person = {
             "Id": self.request.data["id"],
-            "Name": self.request.data["First_Name"]+" " +
-            self.request.data["Last_Name"],
+            "Name": self.request.data["First_Name"] + " " +
+                    self.request.data["Last_Name"],
             "Email": emai
         }
         registration_email(person)
         serializer.save(email=self.request.user,
-                        id= id_)
+                        id=id_)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -75,7 +75,7 @@ class TeacherView(viewsets.ModelViewSet):
         b.IsTeacher = True
         person = {
             "Id": b.id,
-            "Name": b.First_Name+" "+b.Last_Name,
+            "Name": b.First_Name + " " + b.Last_Name,
             "Email": str((b.email).email)
         }
         b.lol()
