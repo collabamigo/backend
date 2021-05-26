@@ -1,3 +1,4 @@
+from connect.emailhandler import new_teacher_email
 from django.db import models
 from django.contrib.auth.models import User
 User._meta.get_field('email')._unique = True
@@ -35,12 +36,6 @@ class Profile(models.Model):
 
         m = str(self.Degree) + output
         return m
-
-    def lol(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
 
 
 class Skill(models.Model):
@@ -81,7 +76,18 @@ class Teacher(models.Model):
                 output += i
         return output
 
-    def new(self, person, *args, **kwargs):
+    def save(self, *args, **kwargs):
+        iid = self.get_roll_number()
+        b = Profile.objects.get(id=iid)
+        if b.IsTeacher is False:
+            b.IsTeacher = True
+            person = {
+                "Id": b.id,
+                "Name": b.First_Name + " " + b.Last_Name,
+                "Email": str((b.email).email)
+                }
+            new_teacher_email(person)
+            b.save()
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
