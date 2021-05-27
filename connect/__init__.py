@@ -1,1 +1,1 @@
-default_app_config = 'connect.apps.ProfilesConfig'
+default_app_config = 'connect.apps.connectConfig'
