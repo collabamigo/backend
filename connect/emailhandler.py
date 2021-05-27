@@ -26,4 +26,5 @@ def new_teacher_email(reciever):
 def send_mail(to, subject: str = "", body: list = "", html: bool = False):
     if type(to) == str:
         to = [to]
-    mail.send_mail(subject=subject, message=body, from_email=EMAIL_HOST_USER, recipient_list=to)
+    mail.send_mail(subject=subject, message=body, from_email=EMAIL_HOST_USER,
+                   recipient_list=to)
