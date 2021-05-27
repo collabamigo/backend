@@ -1,4 +1,4 @@
-#from connect.emailhandler import new_teacher_email
+# from connect.emailhandler import new_teacher_email
 from django.db import models
 from django.contrib.auth.models import User
 User._meta.get_field('email')._unique = True

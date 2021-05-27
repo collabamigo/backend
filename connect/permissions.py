@@ -18,7 +18,8 @@ class IsOwner(permissions.BasePermission):
 
 class IsAdminOrReadOnlyIfAuthenticated(permissions.BasePermission):
     """
-    Custom permission to only allow authenticated requests to read and admin requests to write
+    Custom permission to only allow authenticated requests to read
+        and admin requests to write
     """
     def has_object_permission(self, request, view, obj):
         if request.user:

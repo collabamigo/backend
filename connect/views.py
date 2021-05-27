@@ -2,14 +2,13 @@ import json
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from rest_framework import permissions
 from django.forms.models import model_to_dict
 from .models import Profile, Teacher, Skill
 from rest_framework import viewsets
 from .permissions import IsOwner, IsAdminOrReadOnlyIfAuthenticated
 from .serializers import (ProfileSerializer,
                           TeacherSerializer, SkillSerializer)
-# from .emailhandler import registration_email
+from .emailhandler import registration_email
 
 
 def teachersdata(request):
@@ -55,7 +54,7 @@ class ProfileView(viewsets.ModelViewSet):
             self.request.data["Last_Name"],
             "Email": email
         }
-        # registration_email(person)
+        registration_email(person)
         serializer.save(email=self.request.user,
                         id=id_)
 
