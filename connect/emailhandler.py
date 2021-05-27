@@ -1,25 +1,29 @@
 import os
-from django.core.mail import send_mail
+from django.core import mail
 EMAIL_HOST_USER = os.getenv("EMAIL")
 
 
 def registration_email(reciever):
-    Subject = "Welcome To Collabconnect"
-    Message = "Hi " + reciever["Name"] + \
+    subject = "Welcome To Collabconnect"
+    message = "Hi " + reciever["Name"] + \
         ". You have been registered as "\
         + reciever["Id"] + "."
     email = reciever["Email"]
-    send_mail(Subject, Message, EMAIL_HOST_USER,
-              [email], fail_silently=False)
+    send_mail(subject=subject, body=message, to=[email])
     return True
 
 
 def new_teacher_email(reciever):
-    Subject = "Welcome To Collabconnect"
-    Message = "Hi " + reciever["Name"] + \
+    subject = "Welcome To Collabconnect"
+    message = "Hi " + reciever["Name"] + \
         ". You have been registered as teacher "\
         + reciever["Id"] + "."
     email = reciever["Email"]
-    send_mail(Subject, Message, EMAIL_HOST_USER,
-              [email], fail_silently=False)
+    send_mail(subject=subject, body=message, to=[email])
     return True
+
+
+def send_mail(to, subject: str = "", body: list = "", html: bool = False):
+    if type(to) == str:
+        to = [to]
+    mail.send_mail(subject=subject, message=body, from_email=EMAIL_HOST_USER, recipient_list=to)
