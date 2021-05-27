@@ -1,15 +1,20 @@
 import json
+
+from backend import settings
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
+from rest_framework.exceptions import ParseError, NotFound
+
+from .logger import request_connection, accept_connection
 from .models import Profile, Teacher, Skill
-from rest_framework import viewsets
+from rest_framework import viewsets, views, permissions
 from .permissions import IsOwner, IsAdminOrReadOnlyIfAuthenticated
 from .serializers import (ProfileSerializer,
                           TeacherSerializer, SkillSerializer)
-from .emailhandler import registration_email
-
+from .emailhandler import registration_email, send_mail
+from . import email_templates
 
 def teachersdata(request):
     called_skills = request.GET.get('id_list')
@@ -51,7 +56,7 @@ class ProfileView(viewsets.ModelViewSet):
         person = {
             "Id": id_,
             "Name": self.request.data["First_Name"] + " " +
-            self.request.data["Last_Name"],
+                    self.request.data["Last_Name"],
             "Email": email
         }
         registration_email(person)
@@ -106,3 +111,46 @@ class SkillView(viewsets.ModelViewSet):
             return Skill.objects.all()
         else:
             return Skill.objects.none()
+
+
+class ConnectionRequest(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        if 'id' in request.data and 'skills' in request.data and \
+                request.data.get('id') != str(request.user.profile.id):
+            teacher = None
+            try:
+                teacher = Profile.objects.get(request.data['id'])
+            except Profile.DoesNotExist:
+                raise NotFound()
+            student = request.user.profile
+            skills = list(request.data['skills'])
+            request_id = request_connection(student=str(student.profile.id),
+                                            teacher=str(teacher.profile.id),
+                                            skills=skills)
+            url = 'https://collabconnect-development.firebaseapp.com/' if settings.DEBUG else 'https://collabconnect.web.app/'
+            url += '/connection/?request_id=' + request_id
+            format_dict = {
+                "buttonUrl": url,
+                "senderName": student.profile.First_Name + student.profile.Last_Name,
+                "skillsAsStr": ", ".join(skills)
+            }
+            if request.data.get("message"):
+                format_dict['message'] = "Message from " + format_dict['senderName']+": \n" + \
+                                         request.data.get('message')
+            else:
+                format_dict['message'] = ''
+
+            send_mail(to=[str(teacher.email)], subject="CollabConnect Connection Request",
+                      body=email_templates.connection_request_text.format(**format_dict),
+                      html=email_templates.connection_request_html.format(**format_dict))
+
+        elif 'request_id' in request.data and 'mobile' in request.data:
+            obj = accept_connection(request.data['request_id'])
+            if not obj:
+                raise ParseError()
+            # student = profile pf student
+
+        else:
+            raise ParseError()
