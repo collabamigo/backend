@@ -4,13 +4,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from rest_framework import permissions
 from django.forms.models import model_to_dict
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .models import Profile, Teacher, Skill
 from rest_framework import viewsets
 from .permissions import IsOwner
 from .serializers import (ProfileSerializer,
                           TeacherSerializer, SkillSerializer)
-from .emailhandler import registration_email
+# from .emailhandler import registration_email
 
 
 def teachersdata(request):
@@ -58,7 +58,7 @@ class ProfileView(viewsets.ModelViewSet):
             self.request.data["Last_Name"],
             "Email": email
         }
-        registration_email(person)
+        # registration_email(person)
         serializer.save(email=self.request.user,
                         id=id_)
 
@@ -70,8 +70,16 @@ class TeacherView(viewsets.ModelViewSet):
     serializer_class = TeacherSerializer
     queryset = Teacher.objects.all()
 
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser:
+            return Teacher.objects.all()
+        else:
+            return Teacher.objects.filter(email=user)
+
     def perform_create(self, serializer):
-        serializer.save(email=self.request.user)
+        serializer.save(email=self.request.user,
+                        id=self.request.user.profile)
         # person = {
         #     "Id": b.id,
         #     "Name": b.First_Name + " " + b.Last_Name,
@@ -84,6 +92,6 @@ class TeacherView(viewsets.ModelViewSet):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class SkillView(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     serializer_class = SkillSerializer
     queryset = Skill.objects.all()
