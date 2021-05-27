@@ -7,7 +7,24 @@ class IsOwner(permissions.BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
-        if request.user.is_superuser:
-            return True
+        if request.user:
+            if request.user.is_staff:
+                return True
+            else:
+                return obj.email == request.user
         else:
-            return obj.email == request.user
+            return False
+
+
+class IsAdminOrReadOnlyIfAuthenticated(permissions.BasePermission):
+    """
+    Custom permission to only allow authenticated requests to read and admin requests to write
+    """
+    def has_object_permission(self, request, view, obj):
+        if request.user:
+            if request.user.is_staff:
+                return True
+            else:
+                return request.method in permissions.SAFE_METHODS
+        else:
+            return False

@@ -4,10 +4,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from rest_framework import permissions
 from django.forms.models import model_to_dict
-from rest_framework.permissions import IsAuthenticated
 from .models import Profile, Teacher, Skill
 from rest_framework import viewsets
-from .permissions import IsOwner
+from .permissions import IsOwner, IsAdminOrReadOnlyIfAuthenticated
 from .serializers import (ProfileSerializer,
                           TeacherSerializer, SkillSerializer)
 # from .emailhandler import registration_email
@@ -29,9 +28,7 @@ def teachersdata(request):
 class ProfileView(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
-    permission_classes = [
-        permissions.IsAuthenticated,
-        IsOwner]
+    permission_classes = [IsOwner]
 
     def get_queryset(self):
         user = self.request.user
@@ -65,8 +62,7 @@ class ProfileView(viewsets.ModelViewSet):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class TeacherView(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticated,
-                          IsOwner]
+    permission_classes = [IsOwner]
     serializer_class = TeacherSerializer
     queryset = Teacher.objects.all()
 
@@ -92,6 +88,12 @@ class TeacherView(viewsets.ModelViewSet):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class SkillView(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
     serializer_class = SkillSerializer
     queryset = Skill.objects.all()
+
+    def get_queryset(self):
+        if self.action == "retrieve" or self.request.user.is_staff:
+            return Skill.objects.all()
+        else:
+            return Skill.objects.none()
