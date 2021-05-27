@@ -7,5 +7,5 @@ class ConnectConfig(AppConfig):
     verbose_name = _('connect')
 
     def ready(self):
-        import connect.signals
-        connect.signals.varia()
+        from . import signals
+        signals.varia()
