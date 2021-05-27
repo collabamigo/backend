@@ -73,17 +73,25 @@ class TeacherView(viewsets.ModelViewSet):
         else:
             return Teacher.objects.filter(email=user)
 
+# TODO: V2 Better get_roll_number implementation needed
+
+    def get_roll_number(self):
+        x = str(self.id)
+        output = ""
+        for i in x:
+            if i == 'B' or i == 'M':
+                output += i
+            if '0' <= i <= '9':
+                output += i
+        return output
+
     def perform_create(self, serializer):
+        iid = self.get_roll_number()
+        b = Profile.objects.get(id=iid)
+        b.IsTeacher = True
+        b.save()
         serializer.save(email=self.request.user,
                         id=self.request.user.profile)
-        # person = {
-        #     "Id": b.id,
-        #     "Name": b.First_Name + " " + b.Last_Name,
-        #     "Email": str((b.email).email)
-        # }
-        # b.save()
-        # print(person, flush=True)
-        # new_teacher_email(person)
 
 
 @method_decorator(csrf_exempt, name='dispatch')

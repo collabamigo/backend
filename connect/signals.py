@@ -9,22 +9,17 @@ def profile_isteacher_true(sender, instance, created, **kwargs):
     if created:
         print(instance.id, flush=True)
         b = Profile.objects.get(id=str(instance.id))
-        b.IsTeacher = True
         person = {
             "Id": b.id,
             "Name": b.First_Name + " " + b.Last_Name,
             "Email": str((b.email).email)
             }
         new_teacher_email(person)
-        b.save()
 
 
 @receiver(post_save, sender=Teacher)
 def profile_isteacher_false(sender, instance, **kwargs):
     print(instance.id, flush=True)
-    b = Profile.objects.get(id=str(instance.id))
-    b.IsTeacher = False
-    b.save()
 
 
 def varia():
