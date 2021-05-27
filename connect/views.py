@@ -18,6 +18,7 @@ def teachersdata(request):
     for k in called_skills:
         profile_object = model_to_dict(Profile.objects.get(id=str(k)))
         teacher_object = model_to_dict(Teacher.objects.get(id=str(k)))
+        teacher_object = model_to_dict(Profile.Teacher)
         profile_object.update(teacher_object)
         output.append(profile_object)
     return JsonResponse(output, safe=False)

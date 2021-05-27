@@ -93,10 +93,10 @@ class Teacher(models.Model):
     #         b.save()
     #     super().save(*args, **kwargs)
 
-    def delete(self, *args, **kwargs):
-        iid = self.get_roll_number()
-        b = Profile.objects.get(id=iid)
-        b.IsTeacher = False
-        b.save()
-        print("yes this delete is getting called", flush=True)
-        super().delete(*args, **kwargs)
+    # def delete(self, *args, **kwargs):
+    #     iid = self.get_roll_number()
+    #     b = Profile.objects.get(id=iid)
+    #     b.IsTeacher = False
+    #     b.save()
+    #     print("yes this delete is getting called", flush=True)
+    #     super().delete(*args, **kwargs)

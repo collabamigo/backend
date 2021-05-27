@@ -11,7 +11,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ['id', 'First_Name', 'Last_Name', 'gender',
                   'degree', 'course', 'email', 'handle', 'IsTeacher',
                   'Created', ]
-        read_only_fields = ['id', 'Created', 'email', 'IsTeacher', ]
+        read_only_fields = ['id', 'Created', 'email']
 
 
 class TeacherSerializer(serializers.ModelSerializer):
