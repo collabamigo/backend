@@ -32,7 +32,7 @@ class ProfileView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_superuser:
+        if user.is_staff:
             return Profile.objects.all()
         else:
             return Profile.objects.filter(email=user)
@@ -68,7 +68,7 @@ class TeacherView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_superuser:
+        if user.is_staff:
             return Teacher.objects.all()
         else:
             return Teacher.objects.filter(email=user)
