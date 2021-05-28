@@ -47,7 +47,7 @@ jobs:
                     git push heroku-dev -f testing:main
 
       - name: Pushing to Github
-        run: git push
+        run: git pull && git push
 
   Create-issues-using-TODO:
     runs-on: self-hosted
