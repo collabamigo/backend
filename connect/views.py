@@ -158,7 +158,8 @@ class ConnectionApprove(views.APIView):
             if not obj:
                 raise ParseError()
             if obj['approvedAt']:
-                return Response("Already approved", status=status.HTTP_208_ALREADY_REPORTED)
+                return Response("Already approved",
+                                status=status.HTTP_208_ALREADY_REPORTED)
 
             student = Profile.objects.get(id=obj['student'])
             teacher = Profile.objects.get(id=obj['teacher'])
