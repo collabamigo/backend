@@ -163,8 +163,10 @@ class ConnectionApprove(views.APIView):
             student = Profile.objects.get(id=obj['student'])
             teacher = Profile.objects.get(id=obj['teacher'])
             contact_details = {
-                'Handle': teacher.handle,
+                # 'Handle': teacher.handle,
                 'Email ID': str(teacher.email.email),
+                'LinkedIn': str(teacher.teacher.Linkedin),
+                'Github page': str(teacher.teacher.Gitname),
             }
             if int(request.data['mobile']) == 1:
                 contact_details['Mobile number'] = teacher.teacher.Contact
