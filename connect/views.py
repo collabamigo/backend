@@ -1,5 +1,6 @@
 import json
 from rest_framework.response import Response
+
 from backend import settings
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -9,7 +10,7 @@ from rest_framework.exceptions import ParseError, NotFound
 
 from .logger import request_connection, accept_connection
 from .models import Profile, Teacher, Skill
-from rest_framework import viewsets, views, permissions
+from rest_framework import viewsets, views, permissions, status
 from .permissions import IsOwner, IsAdminOrReadOnlyIfAuthenticated
 from .serializers import (ProfileSerializer,
                           TeacherSerializer, SkillSerializer)
@@ -156,6 +157,9 @@ class ConnectionApprove(views.APIView):
             obj = accept_connection(request.data['request_id'])
             if not obj:
                 raise ParseError()
+            if obj['approvedAt']:
+                return Response("Already approved", status=status.HTTP_208_ALREADY_REPORTED)
+
             student = Profile.objects.get(id=obj['student'])
             teacher = Profile.objects.get(id=obj['teacher'])
             contact_details = {
@@ -178,6 +182,6 @@ class ConnectionApprove(views.APIView):
                       subject="CollabConnect Connection Request Approval",
                       body=email_templates.connection_approval_text.
                       format(**format_dict), )
-            return Response()
+            return Response("Success", status=status.HTTP_200_OK)
         else:
             raise ParseError()
