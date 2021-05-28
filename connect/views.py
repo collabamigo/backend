@@ -72,17 +72,8 @@ class TeacherView(viewsets.ModelViewSet):
 
     # TODO: V2 Better get_roll_number implementation needed
 
-    def get_roll_number(self):
-        output = ""
-        for i in str(self.id):
-            if i == 'B' or i == 'M':
-                output += i
-            if '0' <= i <= '9':
-                output += i
-        return output
-
     def perform_create(self, serializer):
-        iid = self.get_roll_number()
+        iid = str(self.request.user.profile.id)
         b = Profile.objects.get(id=iid)
         b.IsTeacher = True
         print(iid, flush=True)
@@ -113,7 +104,7 @@ class ConnectionRequest(views.APIView):
 
     def post(self, request):
         if 'id' in request.data and 'skills' in request.data and \
-                request.data.get('id') != str(request.user.profile.id):
+                request.data.get('id') == str(request.user.profile.id):
             teacher = None
             try:
                 teacher = Profile.objects.get(id=request.data['id'])
