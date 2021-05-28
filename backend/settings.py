@@ -53,16 +53,15 @@ DEBUG = not bool(os.getenv("PRODUCTION"))
 # TODO: Insecure ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
-# DataFlair
+# DataFlair neeche hai
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-# TODO : Change Sender Email
-EMAIL_HOST_USER = "CollabConnect <" + os.getenv("EMAIL") + ">"
+EMAIL_HOST_USER = os.getenv("EMAIL")
 EMAIL_HOST_PASSWORD = os.getenv("PASS_KEY")
 
-# Application definition
+# Application definition hai ye
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -75,11 +74,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'autocomplete',
 ]
-# 'connect ' was changed to 'connect.apps.ConnectConfig
-# To overwrite default Config construction
 
-
-# TODO: Enable CSRF + CSRF_COOKIE_SECURE
+# TODO: Enable CSRF
 MIDDLEWARE = [
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -117,8 +113,9 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
+v1 = 'django.contrib.auth.password_validation.'
 v2 = 'UserAttributeSimilarityValidator'
-v3 = 'django.contrib.auth.password_validation.' + v2
+v3 = v1 + v2
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -142,7 +139,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-# TODO low priority : fix timezone
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
