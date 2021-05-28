@@ -104,7 +104,7 @@ class ConnectionRequest(views.APIView):
 
     def post(self, request):
         if 'id' in request.data and 'skills' in request.data and \
-                request.data.get('id') == str(request.user.profile.id):
+                request.data.get('id') != str(request.user.profile.id):
             teacher = None
             try:
                 teacher = Profile.objects.get(id=request.data['id'])
