@@ -26,7 +26,7 @@ jobs:
 
       - name: Creating pipenv environment
         run: PATH=$PATH:/home/codein2/.local/bin && cd ${{ github.workspace }} &&
-              pipenv install && echo "SECRET_KEY=a">.env
+              pipenv install && echo "SECRET_KEY=a \n EMAIL_HOST_USER=a">.env
 
       - name: Setting git credentials
         run: git config --global user.email "watsonhex@gmail.com" && git config --global user.name "Github runner"
