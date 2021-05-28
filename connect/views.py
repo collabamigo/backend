@@ -127,10 +127,10 @@ class ConnectionRequest(views.APIView):
             format_dict = {
                 "buttonUrl": url,
                 "senderName": student.First_Name + " " +
-                student.Last_Name,
+                              student.Last_Name,
                 "skillsAsStr": ", ".join(skills),
                 "receiverName": teacher.First_Name + " " +
-                teacher.Last_Name
+                                teacher.Last_Name
             }
             if request.data.get("message"):
                 format_dict['message'] = "Message from " + \
@@ -146,8 +146,13 @@ class ConnectionRequest(views.APIView):
                       html=email_templates.connection_request_html.
                       format(**format_dict))
             return Response()
+        else:
+            raise ParseError()
 
-        elif 'request_id' in request.data and 'mobile' in request.data:
+
+class ConnectionApprove(views.APIView):
+    def post(self, request):
+        if 'request_id' in request.data and 'mobile' in request.data:
             obj = accept_connection(request.data['request_id'])
             if not obj:
                 raise ParseError()

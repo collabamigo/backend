@@ -16,4 +16,5 @@ router.register(r'skill', views.SkillView, 'skill')
 urlpatterns = [
     path('teachersdata/', views.teachersdata, name='teachersdata'),
     path('api/', include(router.urls)),
-    path('request/', views.ConnectionRequest.as_view(), name='request')]
+    path('request/', views.ConnectionRequest.as_view(), name='request'),
+    path('approve/', views.ConnectionApprove.as_view(), name='approve')]
