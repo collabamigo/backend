@@ -73,13 +73,9 @@ class TeacherView(viewsets.ModelViewSet):
     # TODO: V2 Better get_roll_number implementation needed
 
     def perform_create(self, serializer):
-        iid = str(self.request.user.profile.id)
-        b = Profile.objects.get(id=iid)
+        b = self.request.user.profile
         b.IsTeacher = True
-        print(iid, flush=True)
-        print(iid, "lol check", flush=True)
         print(b.IsTeacher, flush=True)
-        print(iid, "Here it is")
         print("here")
         b.save()
         serializer.save(email=self.request.user,
