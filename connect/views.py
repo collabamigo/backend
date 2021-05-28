@@ -59,7 +59,7 @@ class ProfileView(viewsets.ModelViewSet):
         person = {
             "Id": id_,
             "Name": self.request.data["First_Name"] + " " +
-                    self.request.data["Last_Name"],
+            self.request.data["Last_Name"],
             "Email": email
         }
         registration_email(person)
