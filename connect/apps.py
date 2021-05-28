@@ -7,5 +7,4 @@ class ConnectConfig(AppConfig):
     verbose_name = _('connect')
 
     def ready(self):
-        from . import signals
-        print(signals)
+        from . import signals  # noqa: F401

@@ -1,10 +1,9 @@
 import os
 from django.core import mail
-
 EMAIL_HOST_USER = "CollabConnect <" + os.getenv("EMAIL") + ">"
 
 
-def registration_email(reciever):
+def new_profile_email(reciever):
     subject = "Welcome To CollabConnect"
     message = "Hi " + reciever["Name"] + \
               ". You have been registered as " \

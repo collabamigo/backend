@@ -1,7 +1,5 @@
 import json
-
 from rest_framework.response import Response
-
 from backend import settings
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -15,17 +13,17 @@ from rest_framework import viewsets, views, permissions
 from .permissions import IsOwner, IsAdminOrReadOnlyIfAuthenticated
 from .serializers import (ProfileSerializer,
                           TeacherSerializer, SkillSerializer)
-from .emailhandler import registration_email, send_mail
+from .emailhandler import send_mail
 from . import email_templates
 
 
 def teachersdata(request):
-    called_skills = request.GET.get('id_list')
-    called_skills = json.loads(called_skills)
+    called_skills = json.loads(request.GET.get('id_list'))
     output = list()
     for k in called_skills:
         profile_object = model_to_dict(Profile.objects.get(id=str(k)))
         teacher_object = model_to_dict(Teacher.objects.get(id=str(k)))
+        # TODO : try Profile.teacher instead of id calling
         profile_object.update(teacher_object)
         output.append(profile_object)
     return JsonResponse(output, safe=False)
@@ -49,20 +47,12 @@ class ProfileView(viewsets.ModelViewSet):
         for i in em:
             if '0' <= i <= '9':
                 output += i
-        m = str(deg) + output
-        return m
+        return str(deg) + output
 
     def perform_create(self, serializer):
         email = str(self.request.user.email)
         deg = self.request.data["degree"]
         id_ = self.get_roll_number(email, deg)
-        person = {
-            "Id": id_,
-            "Name": self.request.data["First_Name"] + " " +
-            self.request.data["Last_Name"],
-            "Email": email
-        }
-        registration_email(person)
         serializer.save(email=self.request.user,
                         id=id_)
 
@@ -83,9 +73,8 @@ class TeacherView(viewsets.ModelViewSet):
     # TODO: V2 Better get_roll_number implementation needed
 
     def get_roll_number(self):
-        x = str(self.id)
         output = ""
-        for i in x:
+        for i in str(self.id):
             if i == 'B' or i == 'M':
                 output += i
             if '0' <= i <= '9':

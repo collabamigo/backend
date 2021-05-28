@@ -10,7 +10,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ['id', 'First_Name', 'Last_Name', 'gender',
                   'degree', 'course', 'email', 'handle', 'IsTeacher',
-                  'Created', ]
+                  'Created']
         read_only_fields = ['id', 'Created', 'email']
 
 
@@ -20,8 +20,8 @@ class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teacher
         fields = ['id', 'Contact', 'UpVotes', 'DownVotes', 'Gitname',
-                  'Linkedin', 'email', 'skills', ]
-        read_only_fields = ['UpVotes', 'DownVotes', 'id', 'email', ]
+                  'Linkedin', 'email', 'skills']
+        read_only_fields = ['UpVotes', 'DownVotes', 'id', 'email']
 
 
 class SkillSerializer(serializers.ModelSerializer):
@@ -32,8 +32,7 @@ class SkillSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     profile = serializers.PrimaryKeyRelatedField(
-        queryset=Profile.objects.all()
-    )
+        queryset=Profile.objects.all())
 
     class Meta:
         model = User

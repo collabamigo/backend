@@ -1,16 +1,16 @@
-# from connect.emailhandler import new_teacher_email
 from django.db import models
 from django.contrib.auth.models import User
 User._meta.get_field('email')._unique = True
 
+# TODO: Synchronization of Naming conventions
+
 
 class Profile(models.Model):
     id = models.CharField(primary_key=True, unique=True,
-                          max_length=6,
-                          auto_created=False,
+                          max_length=6, auto_created=False,
                           serialize=False, verbose_name='ID')
     First_Name = models.CharField(max_length=30)
-    Last_Name = models.CharField(max_length=30, blank=True)
+    Last_Name = models.CharField(max_length=50, blank=True)
     gender = models.CharField(max_length=1, blank=True, )
     degree = models.CharField(max_length=1, blank=True)
     course = models.CharField(max_length=10, blank=True)
@@ -45,21 +45,21 @@ class Skill(models.Model):
     Teacher_set = models.ManyToManyField(to='connect.Teacher',
                                          related_name='skills')
 
+    def __str__(self):
+        return self.Teacher_set
+
 
 class Teacher(models.Model):
-    id = models.OneToOneField(
-        to=Profile,
-        related_name='teacher',
-        to_field='id',
-        db_column='id',
-        on_delete=models.CASCADE,
-        primary_key=True)
+    id = models.OneToOneField(to=Profile, related_name='teacher',
+                              to_field='id', db_column='id',
+                              on_delete=models.CASCADE,
+                              primary_key=True)
     Contact = models.BigIntegerField(blank=True, default=0)
     UpVotes = models.BigIntegerField(blank=True, default=0)
     DownVotes = models.BigIntegerField(blank=True, default=0)
     confidence = models.FloatField(blank=True, default=0)
-    Gitname = models.CharField(max_length=100, blank=True, )
-    Linkedin = models.CharField(max_length=100, blank=True, )
+    Gitname = models.CharField(max_length=100, blank=True)
+    Linkedin = models.CharField(max_length=100, blank=True)
     email = models.OneToOneField(to='auth.User',
                                  on_delete=models.CASCADE,
                                  related_name='teacher',
@@ -70,9 +70,8 @@ class Teacher(models.Model):
         return str(self.id)
 
     def get_roll_number(self):
-        x = str(self.id)
         output = ""
-        for i in x:
+        for i in str(self.id):
             if i == 'B' or i == 'M':
                 output += i
             if '0' <= i <= '9':
