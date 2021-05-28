@@ -28,7 +28,7 @@ def send_mail(to, subject: str = "", body: list = None, html=None):
 
     if type(to) == str:
         to = [to]
-    print("Sending mail to"+", ".join(to))
+    print("Sending mail to"+" "+", ".join(to))
     mail.send_mail(subject=subject, message=body,
                    from_email=EMAIL_HOST_USER, recipient_list=to,
                    html_message=html)
