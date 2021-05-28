@@ -50,6 +50,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not bool(os.getenv("PRODUCTION"))
 
+# TODO: Insecure ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
 # DataFlair neeche hai
@@ -57,7 +58,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = os.getenv("EMAIL")
+EMAIL_HOST_USER = "CollabConnect <" + os.getenv("EMAIL") + ">"
 EMAIL_HOST_PASSWORD = os.getenv("PASS_KEY")
 
 # Application definition hai ye
@@ -74,6 +75,7 @@ INSTALLED_APPS = [
     'autocomplete',
 ]
 
+# TODO: Enable CSRF
 MIDDLEWARE = [
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.security.SecurityMiddleware',
