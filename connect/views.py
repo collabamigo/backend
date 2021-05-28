@@ -86,6 +86,7 @@ class TeacherView(viewsets.ModelViewSet):
         b = Profile.objects.get(id=iid)
         b.IsTeacher = True
         print(iid, flush=True)
+        print(iid, "lol check", flush=True)
         print(b.IsTeacher, flush=True)
         print(iid, "Here it is")
         print("here")
