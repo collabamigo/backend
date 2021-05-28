@@ -75,11 +75,15 @@ class TeacherView(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         b = self.request.user.profile
         b.IsTeacher = True
-        print(b.IsTeacher, flush=True)
-        print("here")
         b.save()
         serializer.save(email=self.request.user,
                         id=self.request.user.profile)
+
+    def perform_destroy(self, instance):
+        b = self.request.user.profile
+        b.IsTeacher = False
+        b.save()
+        return super().perform_destroy(instance)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
