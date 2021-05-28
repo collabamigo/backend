@@ -1,4 +1,3 @@
-# flake8: noqa
 connection_request_html = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
@@ -17,71 +16,71 @@ connection_request_html = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transi
   <title></title>
   
     <style type="text/css">
-      table, td { color: #000000; } a { color: #0000ee; text-decoration: underline; }
-@media only screen and (min-width: 520px) {
-  .u-row {
+      table, td {{ color: #000000; }} a {{ color: #0000ee; text-decoration: underline; }}
+@media only screen and (min-width: 520px) {{
+  .u-row {{
     width: 500px !important;
-  }
-  .u-row .u-col {
+  }}
+  .u-row .u-col {{
     vertical-align: top;
-  }
+  }}
 
-  .u-row .u-col-100 {
+  .u-row .u-col-100 {{
     width: 500px !important;
-  }
+  }}
 
-}
+}}
 
-@media (max-width: 520px) {
-  .u-row-container {
+@media (max-width: 520px) {{
+  .u-row-container {{
     max-width: 100% !important;
     padding-left: 0px !important;
     padding-right: 0px !important;
-  }
-  .u-row .u-col {
+  }}
+  .u-row .u-col {{
     min-width: 320px !important;
     max-width: 100% !important;
     display: block !important;
-  }
-  .u-row {
+  }}
+  .u-row {{
     width: calc(100% - 40px) !important;
-  }
-  .u-col {
+  }}
+  .u-col {{
     width: 100% !important;
-  }
-  .u-col > div {
+  }}
+  .u-col > div {{
     margin: 0 auto;
-  }
-}
-body {
+  }}
+}}
+body {{
   margin: 0;
   padding: 0;
-}
+}}
 
 table,
 tr,
-td {
+td {{
   vertical-align: top;
   border-collapse: collapse;
-}
+}}
 
-p {
+p {{
   margin: 0;
-}
+}}
 
 .ie-container table,
-.mso-container table {
+.mso-container table {{
   table-layout: fixed;
-}
+}}
 
-* {
+* {{
   line-height: inherit;
-}
+}}
 
-a[x-apple-data-detectors='true'] {
+a[x-apple-data-detectors='true'] {{
   color: inherit !important;
   text-decoration: none !important;
-}
+}}
 
 </style>
   
@@ -115,7 +114,7 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <div style="line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;">Greetings from CollabConnect</p>
+    <p style="font-size: 14px; line-height: 140%;">Hey {receiverName}</p>
 <p style="font-size: 14px; line-height: 140%;">&nbsp;</p>
 <p style="font-size: 14px; line-height: 140%;">You've got a connection request from <strong>{senderName}</strong> for topic(s): {skillsAsStr}.</p>
 <p style="font-size: 14px; line-height: 140%;">&nbsp;</p>

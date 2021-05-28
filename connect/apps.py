@@ -8,4 +8,4 @@ class ConnectConfig(AppConfig):
 
     def ready(self):
         from . import signals
-        signals.varia()
+        print(signals)

@@ -20,8 +20,3 @@ def profile_isteacher_true(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Teacher)
 def profile_isteacher_false(sender, instance, **kwargs):
     print(instance.id, flush=True)
-
-
-def varia():
-    pass
-    # print("leave ")

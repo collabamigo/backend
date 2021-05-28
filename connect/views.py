@@ -119,33 +119,35 @@ class SkillView(viewsets.ModelViewSet):
 class ConnectionRequest(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request):
+    def post(self, request, format=None):
         if 'id' in request.data and 'skills' in request.data and \
-                request.data.get('id') != str(request.user.profile.id):
+                request.data.get('id') == str(request.user.profile.id):
             teacher = None
             try:
-                teacher = Profile.objects.get(request.data['id'])
+                teacher = Profile.objects.get(id=request.data['id'])
             except Profile.DoesNotExist:
                 raise NotFound()
             student = request.user.profile
             skills = request.data['skills']
 
-            with teacher.teacher.skills.values_list(flat=True) as skill_store:
-                for skill in skills:
-                    if skill not in skill_store:
-                        raise ParseError()
+            skill_store = teacher.teacher.skills.values_list(flat=True)
+            for skill in skills:
+                if skill not in skill_store:
+                    raise ParseError()
 
-            request_id = request_connection(student=str(student.profile.id),
-                                            teacher=str(teacher.profile.id),
+            request_id = request_connection(student=str(student.id),
+                                            teacher=str(teacher.id),
                                             skills=skills)
             url = 'https://collabconnect-development.firebaseapp.com/' if \
                 settings.DEBUG else 'https://collabconnect.web.app/'
             url += '/connection/?request_id=' + request_id
             format_dict = {
                 "buttonUrl": url,
-                "senderName": student.profile.First_Name +
-                student.profile.Last_Name,
-                "skillsAsStr": ", ".join(skills)
+                "senderName": student.First_Name + " " +
+                student.Last_Name,
+                "skillsAsStr": ", ".join(skills),
+                "receiverName": teacher.First_Name + " " +
+                teacher.Last_Name
             }
             if request.data.get("message"):
                 format_dict['message'] = "Message from " + \
@@ -154,7 +156,7 @@ class ConnectionRequest(views.APIView):
             else:
                 format_dict['message'] = ''
 
-            send_mail(to=[str(teacher.email)],
+            send_mail(to=[str(teacher.email.email)],
                       subject="CollabConnect Connection Request",
                       body=email_templates.connection_request_text.
                       format(**format_dict),
@@ -170,15 +172,24 @@ class ConnectionRequest(views.APIView):
             teacher = Profile.objects.get(id=obj['teacher'])
             contact_details = {
                 'Handle': teacher.handle,
-                'Email ID': str(teacher.email),
+                'Email ID': str(teacher.email.email),
             }
             if int(request.data['mobile']) == 1:
                 contact_details['Mobile number'] = teacher.teacher.Contact
 
-            send_mail(to=[str(student.email)],
+            format_dict = {
+                "teacherName": teacher.First_Name + " " + teacher.Last_Name,
+                "contact": "",
+                "receiverName": student.First_Name + " " + student.Last_Name,
+            }
+            for key in contact_details:
+                format_dict['contact'] += str(key) + ": " + \
+                                          contact_details[key] + "\n"
+
+            send_mail(to=[str(student.email.email)],
                       subject="CollabConnect Connection Request Approval",
                       body=email_templates.connection_approval_text.
                       format(**format_dict), )
-
+            return Response()
         else:
             raise ParseError()
