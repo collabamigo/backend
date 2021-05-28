@@ -1,5 +1,7 @@
 import json
 
+from rest_framework.response import Response
+
 from backend import settings
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -15,6 +17,7 @@ from .serializers import (ProfileSerializer,
                           TeacherSerializer, SkillSerializer)
 from .emailhandler import registration_email, send_mail
 from . import email_templates
+
 
 def teachersdata(request):
     called_skills = request.GET.get('id_list')
@@ -77,7 +80,7 @@ class TeacherView(viewsets.ModelViewSet):
         else:
             return Teacher.objects.filter(email=user)
 
-# TODO: V2 Better get_roll_number implementation needed
+    # TODO: V2 Better get_roll_number implementation needed
 
     def get_roll_number(self):
         x = str(self.id)
@@ -125,32 +128,57 @@ class ConnectionRequest(views.APIView):
             except Profile.DoesNotExist:
                 raise NotFound()
             student = request.user.profile
-            skills = list(request.data['skills'])
+            skills = request.data['skills']
+
+            with teacher.teacher.skills.values_list(flat=True) as skill_store:
+                for skill in skills:
+                    if skill not in skill_store:
+                        raise ParseError()
+
             request_id = request_connection(student=str(student.profile.id),
                                             teacher=str(teacher.profile.id),
                                             skills=skills)
-            url = 'https://collabconnect-development.firebaseapp.com/' if settings.DEBUG else 'https://collabconnect.web.app/'
+            url = 'https://collabconnect-development.firebaseapp.com/' if \
+                settings.DEBUG else 'https://collabconnect.web.app/'
             url += '/connection/?request_id=' + request_id
             format_dict = {
                 "buttonUrl": url,
-                "senderName": student.profile.First_Name + student.profile.Last_Name,
+                "senderName": student.profile.First_Name +
+                              student.profile.Last_Name,
                 "skillsAsStr": ", ".join(skills)
             }
             if request.data.get("message"):
-                format_dict['message'] = "Message from " + format_dict['senderName']+": \n" + \
+                format_dict['message'] = "Message from " + \
+                                         format_dict['senderName'] + ": \n" + \
                                          request.data.get('message')
             else:
                 format_dict['message'] = ''
 
-            send_mail(to=[str(teacher.email)], subject="CollabConnect Connection Request",
-                      body=email_templates.connection_request_text.format(**format_dict),
-                      html=email_templates.connection_request_html.format(**format_dict))
+            send_mail(to=[str(teacher.email)],
+                      subject="CollabConnect Connection Request",
+                      body=email_templates.connection_request_text.
+                      format(**format_dict),
+                      html=email_templates.connection_request_html.
+                      format(**format_dict))
+            return Response()
 
         elif 'request_id' in request.data and 'mobile' in request.data:
             obj = accept_connection(request.data['request_id'])
             if not obj:
                 raise ParseError()
-            # student = profile pf student
+            student = Profile.objects.get(id=obj['student'])
+            teacher = Profile.objects.get(id=obj['teacher'])
+            contact_details = {
+                'Handle': teacher.handle,
+                'Email ID': str(teacher.email),
+            }
+            if int(request.data['mobile']) == 1:
+                contact_details['Mobile number'] = teacher.teacher.Contact
+
+            send_mail(to=[str(student.email)],
+                      subject="CollabConnect Connection Request Approval",
+                      body=email_templates.connection_approval_text.
+                      format(**format_dict), )
 
         else:
             raise ParseError()

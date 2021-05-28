@@ -1,3 +1,4 @@
+# flake8: noqa
 connection_request_html = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
@@ -179,7 +180,7 @@ You've got a connection request from {senderName} for topic(s): {skillsAsStr}.
 {buttonUrl} 
 """
 
-connect_approval_text = """Greetings from CollabConnect
+connection_approval_text = """Greetings from CollabConnect
 Your connection request was approved by {teacherName}. 
 Here are the relevant contact details: 
 {contact}"""

@@ -23,4 +23,5 @@ def profile_isteacher_false(sender, instance, **kwargs):
 
 
 def varia():
-    print("leave ")
+    pass
+    # print("leave ")
