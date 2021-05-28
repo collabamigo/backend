@@ -144,7 +144,7 @@ class ConnectionRequest(views.APIView):
             format_dict = {
                 "buttonUrl": url,
                 "senderName": student.profile.First_Name +
-                              student.profile.Last_Name,
+                student.profile.Last_Name,
                 "skillsAsStr": ", ".join(skills)
             }
             if request.data.get("message"):
