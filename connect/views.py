@@ -87,6 +87,8 @@ class TeacherView(viewsets.ModelViewSet):
         b.IsTeacher = True
         print(iid, flush=True)
         print(b.IsTeacher, flush=True)
+        print(iid, "Here it is")
+        print("here")
         b.save()
         serializer.save(email=self.request.user,
                         id=self.request.user.profile)
