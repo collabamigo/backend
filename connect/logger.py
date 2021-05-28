@@ -5,7 +5,7 @@ from bson import ObjectId
 
 DATABASE_NAME = 'connect'
 COLLECTION_NAME = 'connection_logs'
-db = pymongo.MongoClient(os.environ['MONGODB_URI'])[DATABASE_NAME]
+db = pymongo.MongoClient(os.getenv('MONGODB_URI'))[DATABASE_NAME]
 collection = db[COLLECTION_NAME]
 
 
