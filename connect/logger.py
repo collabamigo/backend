@@ -8,7 +8,7 @@ COLLECTION_NAME = 'connection_logs'
 db = pymongo.MongoClient(os.getenv('MONGODB_URI'))[DATABASE_NAME]
 collection = db[COLLECTION_NAME]
 
-MAX_REQUESTS_PER_DAY = os.getenv("MAX_REQUESTS_PER_DAY") if \
+MAX_REQUESTS_PER_DAY = int(os.getenv("MAX_REQUESTS_PER_DAY")) if \
     os.getenv("MAX_REQUESTS_PER_DAY") else 4
 
 
