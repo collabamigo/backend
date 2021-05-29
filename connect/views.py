@@ -19,14 +19,17 @@ from . import email_templates
 
 
 def teachersdata(request):
-    called_skills = json.loads(request.GET.get('id_list'))
-    output = list()
-    for k in called_skills:
-        profile_object = model_to_dict(Profile.objects.get(id=str(k)))
-        teacher_object = model_to_dict(Teacher.objects.get(id=str(k)))
-        # TODO : try Profile.teacher instead of id calling
-        profile_object.update(teacher_object)
-        output.append(profile_object)
+    teachers = json.loads(request.GET.get('id_list'))
+    output = []
+    for k in teachers:
+        profile = Profile.objects.get(id=str(k))
+        profile_dict = model_to_dict(profile)
+        teacher_dict = model_to_dict(profile.teacher)
+        profile_dict.update(teacher_dict)
+        allowed_fields = ['id', 'First_Name', 'Last_Name', 'degree', 'course',
+                          'UpVotes', 'DownVotes', 'Gitname', ]
+        result_dict = {key: profile_dict[key] for key in allowed_fields}
+        output.append(result_dict)
     return JsonResponse(output, safe=False)
 
 
