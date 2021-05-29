@@ -1,6 +1,5 @@
 import json
-import random
-
+from Cryptodome.Random import random
 from rest_framework.response import Response
 
 from backend import settings
