@@ -60,4 +60,4 @@ class Teacher(models.Model):
                                  db_column='email')
 
     def __str__(self):
-        return str(self.id)
+        return self.id
