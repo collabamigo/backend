@@ -52,6 +52,8 @@ class ProfileView(viewsets.ModelViewSet):
         for i in em:
             if '0' <= i <= '9':
                 output += i
+            if i == "@":
+                break
         return str(deg) + output
 
     def perform_create(self, serializer):

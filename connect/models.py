@@ -61,3 +61,9 @@ class Teacher(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+    class Meta:
+        ordering = [
+            '-confidence',
+            '-UpVotes',
+            'DownVotes', ]
