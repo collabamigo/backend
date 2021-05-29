@@ -29,4 +29,3 @@ class IsAdminOrReadOnlyIfAuthenticated(permissions.BasePermission):
             return True
         else:
             return request.method in permissions.SAFE_METHODS
-
