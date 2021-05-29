@@ -131,9 +131,11 @@ class ConnectionRequest(views.APIView):
                                                 skills=skills)
             except ValueError as e:
                 if e == "THROTTLED":
-                    return Response("THROTTLED", status=status.HTTP_429_TOO_MANY_REQUESTS)
+                    return Response("THROTTLED",
+                                    status=status.HTTP_429_TOO_MANY_REQUESTS)
                 elif e == "BLOCKED":
-                    return Response("BLOCKED", status=status.HTTP_403_FORBIDDEN)
+                    return Response("BLOCKED",
+                                    status=status.HTTP_403_FORBIDDEN)
                 else:
                     raise ValueError(e)
             url = 'https://collabconnect-development.firebaseapp.com/' if \

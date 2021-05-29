@@ -19,7 +19,9 @@ def request_connection(student: str, teacher: str, skills: list):
     # Throttles requests
     if collection.count_documents({
         "student": student,
-        "createdAt": {"$gt": datetime.datetime.utcnow() - datetime.timedelta(days=1)},
+        "createdAt": {"$gt":
+                      datetime.datetime.utcnow() -
+                      datetime.timedelta(days=1)},
         # "approvedAt": None
     }) >= MAX_REQUESTS_PER_DAY:
         print("Connection request from " + student + " to " + teacher +
@@ -33,7 +35,7 @@ def request_connection(student: str, teacher: str, skills: list):
         "skills": skills,
         "approvedAt": None
     }, {"_id": 1}):
-        print("Connection request from "+student+" to "+teacher +
+        print("Connection request from " + student + " to " + teacher +
               " blocked", flush=True)
         raise ValueError("BLOCKED")
 
