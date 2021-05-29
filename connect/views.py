@@ -28,7 +28,7 @@ def teachersdata(request):
         teacher_dict = model_to_dict(profile.teacher)
         profile_dict.update(teacher_dict)
         allowed_fields = ['id', 'First_Name', 'Last_Name', 'degree', 'course',
-                          'UpVotes', 'DownVotes', 'Gitname', ]
+                          'UpVotes', 'DownVotes', 'Gitname', 'Linkedin']
         result_dict = {key: profile_dict[key] for key in allowed_fields}
         output.append(result_dict)
     return JsonResponse(output, safe=False)
