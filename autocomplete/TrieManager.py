@@ -153,7 +153,7 @@ class _Node:
 
 def worker_generate_trie():
     from connect.models import Skill
-    generate_trie(list(Skill.objects.values_list('id', flat=True)))
+    generate_trie(list(Skill.objects.values_list('name', flat=True)))
 
 
 def main():
