@@ -26,9 +26,10 @@ def request_connection(student: str, teacher: str, skills: list):
 
 def accept_connection(oid: str) -> dict:
     oid = ObjectId(oid)
+    entry = collection.find_one({'_id': oid})
     collection.update_one({'_id': oid},
                           {"$set":
                               {
                                   "approvedAt": datetime.datetime.utcnow()
                               }})
-    return collection.find_one({'_id': oid})
+    return entry
