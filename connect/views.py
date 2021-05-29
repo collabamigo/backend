@@ -45,6 +45,7 @@ class ProfileView(viewsets.ModelViewSet):
             return Profile.objects.all()
         else:
             return Profile.objects.filter(email=user)
+    # TODO: Better id extraction
 
     def get_roll_number(self, em, deg):
         output = ""
@@ -182,7 +183,7 @@ class ConnectionApprove(views.APIView):
             }
             for key in contact_details:
                 format_dict['contact'] += str(key) + ": " + \
-                                          contact_details[key] + "\n"
+                    contact_details[key] + "\n"
 
             send_mail(to=[str(student.email.email)],
                       subject="CollabConnect Connection Request Approval",
