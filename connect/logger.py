@@ -26,7 +26,7 @@ def request_connection(student: str, teacher: str, skills: list):
     }) >= MAX_REQUESTS_PER_DAY:
         print("Connection request from " + student + " to " + teacher +
               " throttled", flush=True)
-        raise ValueError("THROTTLED")
+        return "THROTTLED"
 
     # Checks if a similar previous request is pending
     if collection.find_one({
@@ -37,7 +37,7 @@ def request_connection(student: str, teacher: str, skills: list):
     }, {"_id": 1}):
         print("Connection request from " + student + " to " + teacher +
               " blocked", flush=True)
-        raise ValueError("BLOCKED")
+        return "BLOCKED"
 
     record = {
         "student": student,

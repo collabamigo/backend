@@ -125,19 +125,16 @@ class ConnectionRequest(views.APIView):
             for skill in skills:
                 if skill not in skill_store:
                     raise ParseError()
-            try:
-                request_id = request_connection(student=str(student.id),
-                                                teacher=str(teacher.id),
-                                                skills=skills)
-            except ValueError as e:
-                if e == "THROTTLED":
-                    return Response("THROTTLED",
-                                    status=status.HTTP_429_TOO_MANY_REQUESTS)
-                elif e == "BLOCKED":
-                    return Response("BLOCKED",
-                                    status=status.HTTP_403_FORBIDDEN)
-                else:
-                    raise ValueError(e)
+            request_id = request_connection(student=str(student.id),
+                                            teacher=str(teacher.id),
+                                            skills=skills)
+            if request_id == "THROTTLED":
+                return Response("THROTTLED",
+                                status=status.HTTP_429_TOO_MANY_REQUESTS)
+            elif request_id == "BLOCKED":
+                return Response("BLOCKED",
+                                status=status.HTTP_403_FORBIDDEN)
+
             url = 'https://collabconnect-development.firebaseapp.com/' if \
                 settings.DEBUG else 'https://collabconnect.web.app/'
             url += '/connection/?request_id=' + request_id
