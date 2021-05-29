@@ -36,7 +36,7 @@ class Skill(models.Model):
                                          related_name='skills')
 
     def __str__(self):
-        return self.Teacher_set
+        return self.name
 
 
 class Teacher(models.Model):
