@@ -8,10 +8,34 @@ COLLECTION_NAME = 'connection_logs'
 db = pymongo.MongoClient(os.getenv('MONGODB_URI'))[DATABASE_NAME]
 collection = db[COLLECTION_NAME]
 
+MAX_REQUESTS_PER_DAY = os.getenv("MAX_REQUESTS_PER_DAY") if \
+    os.getenv("MAX_REQUESTS_PER_DAY") else 4
+
 
 def request_connection(student: str, teacher: str, skills: list):
     if type(skills) == str:
         skills = [skills]
+
+    # Throttles requests
+    if collection.count_documents({
+        "student": student,
+        "createdAt": {"$gt": datetime.datetime.utcnow() - datetime.timedelta(days=1)},
+        # "approvedAt": None
+    }) >= MAX_REQUESTS_PER_DAY:
+        print("Connection request from " + student + " to " + teacher +
+              " throttled", flush=True)
+        raise ValueError("THROTTLED")
+
+    # Checks if a similar previous request is pending
+    if collection.find_one({
+        "student": student,
+        "teacher": teacher,
+        "skills": skills,
+        "approvedAt": None
+    }, {"_id": 1}):
+        print("Connection request from "+student+" to "+teacher +
+              " blocked", flush=True)
+        raise ValueError("BLOCKED")
 
     record = {
         "student": student,
