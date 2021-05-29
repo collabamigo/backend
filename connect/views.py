@@ -1,4 +1,6 @@
 import json
+import random
+
 from rest_framework.response import Response
 
 from backend import settings
@@ -159,6 +161,8 @@ class ConnectionRequest(views.APIView):
 
 class ConnectionApprove(views.APIView):
     def post(self, request):
+        identifier = str(random.randint(0, 70)) + ": "
+        print(identifier + "post called on ConnectionApprove", flush=True)
         if 'request_id' in request.data and 'mobile' in request.data:
             obj = accept_connection(request.data['request_id'])
             if not obj:
@@ -166,7 +170,7 @@ class ConnectionApprove(views.APIView):
             if obj['approvedAt']:
                 return Response("Already approved",
                                 status=status.HTTP_208_ALREADY_REPORTED)
-
+            print(identifier + "valid request")
             student = Profile.objects.get(id=obj['student'])
             teacher = Profile.objects.get(id=obj['teacher'])
             contact_details = {
@@ -186,7 +190,7 @@ class ConnectionApprove(views.APIView):
             for key in contact_details:
                 format_dict['contact'] += str(key) + ": " + \
                     contact_details[key] + "\n"
-
+            print(identifier+"Calling sendmail")
             send_mail(to=[str(student.email.email)],
                       subject="CollabConnect Connection Request Approval",
                       body=email_templates.connection_approval_text.
