@@ -50,8 +50,12 @@ jobs:
 
   Create-issues-using-TODO:
     runs-on: self-hosted
-    needs: Deploy-main-to-Heroku
     steps:
+      - uses: actions/checkout@v2
+
+      - name: Checking out testing branch
+        run: git checkout testing
+
       - name: Github login
         run: echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
 
