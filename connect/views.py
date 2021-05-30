@@ -165,6 +165,9 @@ class ConnectionRequest(views.APIView):
 
 
 class ConnectionApprove(views.APIView):
+    authentication_classes = []
+    permission_classes = []
+
     def post(self, request):
         identifier = str(random.randint(0, 70)) + ": "
         print(identifier + "post called on ConnectionApprove", flush=True)
