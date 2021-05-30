@@ -8,9 +8,13 @@ class CustomAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
         if 'aeskey' in request.headers and "iv" in request.headers and \
                 "token" in request.headers:
-            auth = AuthHandler.authenticate(request.headers['token'],
-                                            request.headers['aeskey'],
-                                            request.headers['iv'])
+            try:
+                auth = AuthHandler.authenticate(request.headers['token'],
+                                                request.headers['aeskey'],
+                                                request.headers['iv'])
+            except ValueError:
+                print("Internal error encountered in AuthHandler authentication", flush=True)
+                auth = ""
             if auth:
                 username = auth.split("@")[0]
                 try:
