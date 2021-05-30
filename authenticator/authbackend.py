@@ -29,5 +29,4 @@ class CustomAuthentication(authentication.BaseAuthentication):
                 return user, None
             else:
                 print("Credential verification failed", flush=True)
-                exceptions.AuthenticationFailed('Invalid credentials')
         return None
