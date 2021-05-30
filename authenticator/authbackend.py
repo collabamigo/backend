@@ -13,7 +13,9 @@ class CustomAuthentication(authentication.BaseAuthentication):
                                                 request.headers['aeskey'],
                                                 request.headers['iv'])
             except ValueError:
-                print("Internal error encountered in AuthHandler authentication", flush=True)
+                print("Internal error encountered in "
+                      "AuthHandler authentication",
+                      flush=True)
                 auth = ""
             if auth:
                 username = auth.split("@")[0]

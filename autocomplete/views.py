@@ -16,6 +16,7 @@ class Recommendations(views.APIView):
             # TODO: Remove worker function
             TrieManager.worker_generate_trie()
             return Response(
-                "This is a bad request. DO NOT ATTEMPT TO CALL THE API DIRECTLY."
+                "This is a bad request."
+                "DO NOT ATTEMPT TO CALL THE API DIRECTLY."
                 "ALSO, stop putting worker functions like that. It's lazy af",
                 status=status.HTTP_400_BAD_REQUEST)
