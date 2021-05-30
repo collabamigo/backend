@@ -188,7 +188,7 @@ class ConnectionApprove(views.APIView):
                 'Github page': str(teacher.teacher.Gitname),
             }
             if int(request.data['mobile']) == 1:
-                contact_details['Mobile number'] = teacher.teacher.Contact
+                contact_details['Mobile number'] = str(teacher.teacher.Contact)
 
             format_dict = {
                 "teacherName": teacher.First_Name + " " + teacher.Last_Name,
