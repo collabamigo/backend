@@ -41,31 +41,10 @@ jobs:
       - name: Set global git config
         run: git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
 
-      - name: Pushing to Heroku-dev
+      - name: Pushing to Heroku-main
         run:  cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-1 &&
-                git remote add heroku-1 https://git.heroku.com/mysterious-savannah-09391.git && git push heroku-1
+                (git remote add heroku https://git.heroku.com/mysterious-savannah-09391.git ||
+          echo "Remote heroku-dev already exists" ) && git push heroku
 
       - name: Pushing to Github
         run: git pull && git push
-
-  Create-issues-using-TODO:
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v2
-        with:
-            fetch-depth: 2
-
-      - name: Checking out testing branch
-        run: git checkout testing
-
-      - name: Github login
-        run: echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
-
-      - name: Creating issues
-        run: readarray -t array <<< $(git diff HEAD^ --name-only -G "TODO" -- ':!:*.yml' | xargs --no-run-if-empty git
-                grep -n "TODO" --) && for command in "${array[@]}"; do
-                    gh issue create --title "${command##*#}" --body "${command}" --label "todo" || echo "ERROR $(command)";
-                      done
-
-      - name: Github logout
-        run: gh auth logout --hostname github.com
