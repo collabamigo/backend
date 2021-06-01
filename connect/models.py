@@ -33,7 +33,8 @@ class Skill(models.Model):
                             max_length=30, auto_created=False,
                             serialize=False, verbose_name='ID')
     Teacher_set = models.ManyToManyField(to='connect.Teacher',
-                                         related_name='skills')
+                                         related_name='skills',
+                                         blank=True, )
 
     def __str__(self):
         return self.name
