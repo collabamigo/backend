@@ -9,18 +9,36 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-import django_heroku
 import os
+from corsheaders.defaults import default_headers
 
+import dj_database_url
+import django_heroku
+from dotenv import load_dotenv
+
+load_dotenv()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-REST_FRAMEWORK = { 'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny']}
-CORS_ORIGIN_ALLOW_ALL = True
+REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
+    'rest_framework.permissions.AllowAny'],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'authenticator.authbackend.CustomAuthentication']}
 
 CORS_ORIGIN_WHITELIST = [
-     'http://localhost:3000'
+    'http://localhost:3000',
+    'https://collabconnect-development.firebaseapp.com',
+    'https://collabconnect.web.app',
+    'https://collabconnect.firebaseapp.com',
+    'https://collabconnect-development.web.app'
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'aeskey',
+    'token',
+    'iv'
 ]
 
 # Quick-start development settings - unsuitable for production
@@ -32,10 +50,18 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not bool(os.getenv("PRODUCTION"))
 
-ALLOWED_HOSTS = []
+# TODO: Insecure ALLOWED_HOSTS
+ALLOWED_HOSTS = ['*']
 
+# DataFlair neeche hai
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv("EMAIL")
+EMAIL_HOST_PASSWORD = os.getenv("PASS_KEY")
 
-# Application definition
+# Application definition hai ye
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,23 +70,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'connect',
+    'connect.apps.ConnectConfig',
     'corsheaders',
-    'django_mongoengine',
-    'django_mongoengine.mongo_auth',
-    'django_mongoengine.mongo_admin',
+    'autocomplete',
 ]
 
+# TODO: Enable CSRF
 MIDDLEWARE = [
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
+
+APPEND_SLASH = True
+
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -82,42 +110,30 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-
-MONGODB_DATABASES = {
-"default": {
-    "name": 'core',
-    "host": os.environ['MONGODB_URI'],
-    "password": os.environ['MONGODB_PASS'],
-    "username": os.environ['MONGODB_USER'],
-    "tz_aware": True, # if you using timezones in django (USE_TZ = True)
-},
-} 
-DATABASES = {
-    'default': {'ENGINE': 'django.db.backends.dummy'}
-}
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
+v1 = 'django.contrib.auth.password_validation.'
+v2 = 'UserAttributeSimilarityValidator'
+v3 = v1 + v2
+
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': v3,
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -127,30 +143,19 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
 
-CSRF_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
-
+# CSRF_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 SECURE_SSL_REDIRECT = bool(os.getenv("PRODUCTION"))
-
 SESSION_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
- 	
-AUTH_USER_MODEL = 'mongo_auth.MongoUser'
-	
-AUTHENTICATION_BACKENDS = (
-    'django_mongoengine.mongo_auth.backends.MongoEngineBackend',
-)
-	
-SESSION_ENGINE = 'django_mongoengine.sessions'
-	
 
-django_heroku.settings(locals())
+DATABASES = dict()
+DATABASES['default'] = dj_database_url.config(
+    conn_max_age=600, ssl_require=False)
+django_heroku.settings(locals(), databases=False)

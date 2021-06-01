@@ -1,11 +1,17 @@
 from django.contrib import admin
+from .models import Profile, Teacher
 
-from django.contrib import admin
-from .models import React
 
-class connectAdmin(admin.ModelAdmin):
-    list_display = ('_id', 'first_name', 'last_name','Age','Gender','Email','Contact','handle','isvendor')
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('id', 'First_Name', 'Last_Name', 'gender',
+                    'degree', 'course', 'email', 'handle',
+                    'IsTeacher', 'Created')
 
-# Register your models here.
 
-admin.site.register(React, connectAdmin)
+class TeacherAdmin(admin.ModelAdmin):
+    list_display = ('id', 'Contact', 'UpVotes', 'DownVotes', 'Gitname',
+                    'Linkedin')
+
+
+admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Teacher, TeacherAdmin)
