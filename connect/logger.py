@@ -59,3 +59,13 @@ def accept_connection(oid: str) -> dict:
                                   "approvedAt": datetime.datetime.utcnow()
                               }})
     return entry
+
+
+def list_approvals(student: str) -> set:
+    entries = collection.find({"student": student},
+                              {"teacher": 1, "_id": 0, "approvedAt": 1})
+    teachers = set()
+    for entry in entries:
+        if entry['approvedAt'] is not None:
+            teachers.add(entry['teacher'])
+    return teachers

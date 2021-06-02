@@ -1,5 +1,6 @@
 import json
 from Cryptodome.Random import random
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 from backend import settings
@@ -9,14 +10,13 @@ from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from rest_framework.exceptions import ParseError, NotFound
 
-from .logger import request_connection, accept_connection
 from .models import Profile, Teacher, Skill
 from rest_framework import viewsets, views, permissions, status
 from .permissions import IsOwner, IsAdminOrReadOnlyIfAuthenticated
 from .serializers import (ProfileSerializer,
                           TeacherSerializer, SkillSerializer)
 from .emailhandler import send_mail
-from . import email_templates
+from . import email_templates, logger
 
 
 def teachersdata(request):
@@ -46,6 +46,7 @@ class ProfileView(viewsets.ModelViewSet):
             return Profile.objects.all()
         else:
             return Profile.objects.filter(email=user)
+
     # TODO: Better id extraction
 
     def get_roll_number(self, em, deg):
@@ -125,9 +126,9 @@ class ConnectionRequest(views.APIView):
             for skill in skills:
                 if skill not in skill_store:
                     raise ParseError()
-            request_id = request_connection(student=str(student.id),
-                                            teacher=str(teacher.id),
-                                            skills=skills)
+            request_id = logger.request_connection(student=str(student.id),
+                                                   teacher=str(teacher.id),
+                                                   skills=skills)
             if request_id == "THROTTLED":
                 return Response("THROTTLED",
                                 status=status.HTTP_429_TOO_MANY_REQUESTS)
@@ -172,7 +173,7 @@ class ConnectionApprove(views.APIView):
         identifier = str(random.randint(0, 70)) + ": "
         print(identifier + "post called on ConnectionApprove", flush=True)
         if 'request_id' in request.data and 'mobile' in request.data:
-            obj = accept_connection(request.data['request_id'])
+            obj = logger.accept_connection(request.data['request_id'])
             if not obj:
                 raise ParseError()
             if obj['approvedAt']:
@@ -197,8 +198,8 @@ class ConnectionApprove(views.APIView):
             }
             for key in contact_details:
                 format_dict['contact'] += str(key) + ": " + \
-                    contact_details[key] + "\n"
-            print(identifier+"Calling sendmail", flush=True)
+                                          contact_details[key] + "\n"
+            print(identifier + "Calling sendmail", flush=True)
             send_mail(to=[str(student.email.email)],
                       subject="CollabConnect Connection Request Approval",
                       body=email_templates.connection_approval_text.
@@ -206,3 +207,15 @@ class ConnectionApprove(views.APIView):
             return Response("Success", status=status.HTTP_200_OK)
         else:
             raise ParseError()
+
+
+class ApprovalsView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request: Request):
+        if request.user.is_staff:
+            student_id = str(request.query_params['id'])
+        else:
+            student_id = str(request.user.profile.id)
+        approved_teachers = logger.list_approvals(student_id)
+        return JsonResponse(approved_teachers, safe=False)
