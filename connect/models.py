@@ -70,6 +70,7 @@ class Skill(models.Model):
 
 
 class SkillSet(models.Model):
+    id = models.AutoField(primary_key=True)
     teacher = models.ForeignKey(Teacher,
                                 on_delete=models.CASCADE)
     skill = models.ForeignKey(Skill,
