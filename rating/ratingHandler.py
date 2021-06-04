@@ -8,10 +8,10 @@ DATABASE_NAME = 'rating'
 COLLECTION_NAME = 'logs'
 
 
-def return_ratings(student_email, users) -> dict:
+def return_ratings(student_id, users) -> dict:
     db = pymongo.MongoClient(os.environ['MONGODB_URI'])[DATABASE_NAME]
     collection = db[COLLECTION_NAME]
-    entry = collection.find_one({"_id": student_email})
+    entry = collection.find_one({"_id": student_id})
     final_entry = dict()
     if users:
         for i in users:
@@ -21,27 +21,27 @@ def return_ratings(student_email, users) -> dict:
     return final_entry
 
 
-def set_ratings(student_email: str, teacher_email: str, vote: int) -> None:
+def set_ratings(student_id: str, teacher_id: str, vote: int) -> None:
     """
 
     Args:
-        student_email:
-        teacher_email:
+        student_id:
+        teacher_id:
         vote: +1 if upvote; -1 if downvote; 0 to reset
     """
     db = pymongo.MongoClient(os.environ['MONGODB_URI'])[DATABASE_NAME]
     collection = db[COLLECTION_NAME]
-    entry = collection.find_one({"_id": student_email})
+    entry = collection.find_one({"_id": student_id})
     prev_vote = 0
     if not entry:
         entry = dict()
     else:
-        collection.delete_one({"_id": student_email})
-    if entry.get(teacher_email):
-        prev_vote = entry.get(teacher_email)
-    entry[teacher_email] = vote
+        collection.delete_one({"_id": student_id})
+    if entry.get(teacher_id):
+        prev_vote = entry.get(teacher_id)
+    entry[teacher_id] = vote
     collection.insert_one(entry)
-    profile = Profile.objects.get(email=teacher_email)
+    profile = Profile.objects.get(email=teacher_id)
     teacher = Teacher.objects.get(id=profile)
     if vote == +1:
         teacher.UpVotes += 1
@@ -75,13 +75,6 @@ class Worker:
             return element_confidence
         else:
             return element_confidence, element.UpVotes, 1 / element.DownVotes
-
-    # Disabled for now as I don't know how to sort a ManyToMany Field
-    # def sort(self):
-    #     cache = Worker
-    #     for skill in Skill.objects.all():
-    #         skill.Teacher_set.sort(key=cache.return_confidence)
-    #         skill.save()
 
     def set_confidence(self):
         worker = Worker()
