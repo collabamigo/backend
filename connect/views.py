@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from rest_framework.exceptions import ParseError, NotFound
 
-from .models import Profile, Teacher, Skill
+from .models import Profile, Teacher, Skill, SkillSet
 from rest_framework import viewsets, views, permissions, status
 from .permissions import IsOwner, IsAdminOrReadOnlyIfAuthenticated
 from .serializers import (ProfileSerializer,
@@ -190,6 +190,13 @@ class ConnectionApprove(views.APIView):
             for key in contact_details:
                 format_dict['contact'] += str(key) + ": " + \
                                           contact_details[key] + "\n"
+            for skill in obj['skills']:
+                skill_set = SkillSet.objects.get(teacher=teacher.teacher,
+                                                 skill=Skill.objects.get(
+                                                     name=skill))
+                skill_set.approvals += 1
+                skill_set.save()
+
             print(identifier + "Calling sendmail", flush=True)
             send_mail(to=[str(student.email.email)],
                       subject="CollabConnect Connection Request Approval",
