@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from rest_framework.relations import PrimaryKeyRelatedField
+
 from .models import Profile, Teacher, Skill
 
 
@@ -16,6 +18,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class TeacherSerializer(serializers.ModelSerializer):
     email = serializers.ReadOnlyField(source='email.email')
+    skills = PrimaryKeyRelatedField(many=True,
+                                    queryset=Skill.objects.all())
 
     class Meta:
         model = Teacher
@@ -25,6 +29,9 @@ class TeacherSerializer(serializers.ModelSerializer):
 
 
 class SkillSerializer(serializers.ModelSerializer):
+    Teacher_set = PrimaryKeyRelatedField(many=True,
+                                         queryset=Teacher.objects.all())
+
     class Meta:
         model = Skill
         fields = ('name', 'Teacher_set')
