@@ -5,7 +5,7 @@ from .models import Profile, Teacher
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('id', 'First_Name', 'Last_Name', 'gender',
                     'degree', 'course', 'email', 'handle',
-                    'IsTeacher', 'Created')
+                    'Created', )
 
 
 class TeacherAdmin(admin.ModelAdmin):

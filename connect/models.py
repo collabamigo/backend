@@ -16,7 +16,6 @@ class Profile(models.Model):
     degree = models.CharField(max_length=1, blank=True)
     course = models.CharField(max_length=10, blank=True)
     handle = models.CharField(max_length=50, blank=True)
-    IsTeacher = models.BooleanField(default=False)
     Created = models.DateTimeField(auto_now_add=True)
     email = models.OneToOneField(to='auth.User',
                                  on_delete=models.CASCADE,
