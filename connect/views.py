@@ -224,5 +224,5 @@ class PopularSkills(views.APIView):
 
     def get(self, request: Request):
         return Response(list(map(str, sorted(Skill.objects.all(),
-                               key=lambda x: len(x.Teacher_set.values_list(
-                                   flat=True)), reverse=True))))
+                                 key=lambda x: len(x.Teacher_set.values_list(
+                                  flat=True)), reverse=True))))
