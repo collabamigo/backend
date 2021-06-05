@@ -1,4 +1,4 @@
-
+import json
 from Cryptodome.Random import random
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -20,7 +20,7 @@ from . import email_templates, logger
 
 
 def teachersdata(request):
-    teachers = request.GET.get('id_list')
+    teachers = json.loads(request.GET.get('id_list'))
     output = []
     for k in teachers:
         profile = Profile.objects.get(id=str(k))
