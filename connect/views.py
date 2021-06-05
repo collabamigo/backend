@@ -217,3 +217,12 @@ class ApprovalsView(views.APIView):
             student_id = str(request.user.profile.id)
         approved_teachers = logger.list_approvals(student_id)
         return JsonResponse(approved_teachers, safe=False)
+
+
+class PopularSkills(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request: Request):
+        return Response(list(map(str, sorted(Skill.objects.all(),
+                               key=lambda x: len(x.Teacher_set.values_list(
+                                   flat=True)), reverse=True))))

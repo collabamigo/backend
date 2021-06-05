@@ -17,6 +17,7 @@ urlpatterns = [
     path('teachersdata/', views.teachersdata, name='teachersdata'),
     path('request/', views.ConnectionRequest.as_view(), name='request'),
     path('approve/', views.ConnectionApprove.as_view(), name='approve'),
-    path('approvals/', views.ApprovalsView.as_view(), name='approvals'), ]
+    path('approvals/', views.ApprovalsView.as_view(), name='approvals'),
+    path('statistics/skills', views.PopularSkills.as_view(), name='skill_stats')]
 
 urlpatterns += router.urls
