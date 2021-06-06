@@ -1,4 +1,4 @@
-import json
+
 from Cryptodome.Random import random
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -33,8 +33,8 @@ class TeachersData(views.APIView):
             except Profile.teacher.RelatedObjectDoesNotExist:
                 continue
             profile_dict.update(teacher_dict)
-            allowed_fields = ['id', 'First_Name', 'Last_Name', 'degree', 'course',
-                              'Gitname', 'Linkedin']
+            allowed_fields = ['id', 'First_Name', 'Last_Name', 'degree',
+                              'course', 'Gitname', 'Linkedin']
             result_dict = {key: profile_dict[key] for key in allowed_fields}
             output.append(result_dict)
         return Response(output)
