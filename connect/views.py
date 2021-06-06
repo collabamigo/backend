@@ -25,7 +25,10 @@ def teachersdata(request):
     for k in teachers:
         profile = Profile.objects.get(id=str(k))
         profile_dict = model_to_dict(profile)
-        teacher_dict = model_to_dict(profile.teacher)
+        try:
+            teacher_dict = model_to_dict(profile.teacher)
+        except Profile.teacher.RelatedObjectDoesNotExist:
+            continue
         profile_dict.update(teacher_dict)
         allowed_fields = ['id', 'First_Name', 'Last_Name', 'degree', 'course',
                           'UpVotes', 'DownVotes', 'Gitname', 'Linkedin']
