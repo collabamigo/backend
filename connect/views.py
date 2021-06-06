@@ -19,22 +19,25 @@ from .emailhandler import send_mail
 from . import email_templates, logger
 
 
-def teachersdata(request):
-    teachers = json.loads(request.GET.get('id_list'))
-    output = []
-    for k in teachers:
-        profile = Profile.objects.get(id=str(k))
-        profile_dict = model_to_dict(profile)
-        try:
-            teacher_dict = model_to_dict(profile.teacher)
-        except Profile.teacher.RelatedObjectDoesNotExist:
-            continue
-        profile_dict.update(teacher_dict)
-        allowed_fields = ['id', 'First_Name', 'Last_Name', 'degree', 'course',
-                          'Gitname', 'Linkedin']
-        result_dict = {key: profile_dict[key] for key in allowed_fields}
-        output.append(result_dict)
-    return JsonResponse(output, safe=False)
+class TeachersData(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request: Request):
+        teachers = request.query_params.getlist('id_list[]')
+        output = []
+        for k in teachers:
+            profile = Profile.objects.get(id=str(k))
+            profile_dict = model_to_dict(profile)
+            try:
+                teacher_dict = model_to_dict(profile.teacher)
+            except Profile.teacher.RelatedObjectDoesNotExist:
+                continue
+            profile_dict.update(teacher_dict)
+            allowed_fields = ['id', 'First_Name', 'Last_Name', 'degree', 'course',
+                              'Gitname', 'Linkedin']
+            result_dict = {key: profile_dict[key] for key in allowed_fields}
+            output.append(result_dict)
+        return Response(output)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
