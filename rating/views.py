@@ -15,9 +15,7 @@ class Rating(APIView):
         connect_perm.IsOwner,)
 
     def get(self, request):
-        users = request.GET
-        if users:
-            users = json.loads(users)
+        users = request.query_params.getlist('users[]')
         return Response(ratingHandler.return_ratings(request.user.email,
                                                      users))
 
