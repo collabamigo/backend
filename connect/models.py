@@ -45,7 +45,7 @@ class Teacher(models.Model):
                                  related_name='teacher',
                                  to_field='email',
                                  db_column='email')
-    Created = models.DateTimeField(auto_now_add=True, default=None)
+    Created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.id)
