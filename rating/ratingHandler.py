@@ -34,14 +34,14 @@ def set_ratings(student_id: str, teacher_id: str, vote: int) -> None:
     entry = collection.find_one({"_id": student_id})
     prev_vote = 0
     if not entry:
-        entry = dict()
+        entry = {"_id": student_id}
     else:
         collection.delete_one({"_id": student_id})
     if entry.get(teacher_id):
         prev_vote = entry.get(teacher_id)
     entry[teacher_id] = vote
     collection.insert_one(entry)
-    profile = Profile.objects.get(email=teacher_id)
+    profile = Profile.objects.get(id=teacher_id)
     teacher = Teacher.objects.get(id=profile)
     if vote == +1:
         teacher.UpVotes += 1

@@ -15,8 +15,12 @@ class Rating(APIView):
         connect_perm.IsOwner,)
 
     def get(self, request):
+        if request.user.is_staff:
+            student_id = str(request.query_params['id'])
+        else:
+            student_id = str(request.user.profile.id)
         users = request.query_params.getlist('users[]')
-        return Response(ratingHandler.return_ratings(request.user.email,
+        return Response(ratingHandler.return_ratings(student_id,
                                                      users))
 
     def post(self, request):
@@ -31,7 +35,7 @@ class Rating(APIView):
                 student_id = str(request.user.profile.id)
             if request.data['teacher'] in logger.list_approvals(
                     student_id) or request.user.is_staff:
-                ratingHandler.set_ratings(request.user.email,
+                ratingHandler.set_ratings(request.user.profile.id,
                                           request.data['teacher'],
                                           int(request.data['vote']))
 
