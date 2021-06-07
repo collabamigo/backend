@@ -16,7 +16,6 @@ class Profile(models.Model):
     degree = models.CharField(max_length=1, blank=True)
     course = models.CharField(max_length=10, blank=True)
     handle = models.CharField(max_length=50, blank=True)
-    Created = models.DateTimeField(auto_now_add=True)
     email = models.OneToOneField(to='auth.User',
                                  on_delete=models.CASCADE,
                                  related_name='profile',
@@ -46,6 +45,7 @@ class Teacher(models.Model):
                                  related_name='teacher',
                                  to_field='email',
                                  db_column='email')
+    Created = models.DateTimeField(auto_now_add=True, blank=True)
 
     def __str__(self):
         return str(self.id)
