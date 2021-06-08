@@ -109,14 +109,22 @@ class ConnectionRequest(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
-        if 'id' in request.data and 'skills' in request.data and \
-                request.data.get('id') != str(request.user.profile.id):
+        if 'id' in request.data and 'skills' in request.data:
             teacher = None
             try:
-                teacher = Profile.objects.get(id=request.data['id'])
+                teacher = Profile.objects.get(id=request.data['teacher_id'])
             except Profile.DoesNotExist:
                 raise NotFound()
-            student = request.user.profile
+
+            if request.user.is_staff:
+                student_id = str(request.query_params['id'])
+            else:
+                student_id = str(request.user.profile.id)
+
+            if student_id == request.data['teacher_id']:
+                return Response(status=status.HTTP_403_FORBIDDEN)
+
+            student = Profile.objects.get(id=student_id)
             skills = request.data['skills']
 
             skill_store = teacher.teacher.skills.values_list(flat=True)
