@@ -109,7 +109,7 @@ class ConnectionRequest(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
-        if 'id' in request.data and 'skills' in request.data:
+        if 'teacher_id' in request.data and 'skills' in request.data:
             teacher = None
             try:
                 teacher = Profile.objects.get(id=request.data['teacher_id'])
@@ -122,7 +122,8 @@ class ConnectionRequest(views.APIView):
                 student_id = str(request.user.profile.id)
 
             if student_id == request.data['teacher_id']:
-                return Response(status=status.HTTP_403_FORBIDDEN)
+                return Response("SELF-CONNECTION NOT ALLOWED",
+                                status=status.HTTP_403_FORBIDDEN)
 
             student = Profile.objects.get(id=student_id)
             skills = request.data['skills']
