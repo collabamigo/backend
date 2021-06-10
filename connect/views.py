@@ -146,11 +146,11 @@ class ConnectionRequest(views.APIView):
             url += '/connection/?request_id=' + request_id
             format_dict = {
                 "buttonUrl": url,
-                "senderName": student.First_Name + " " +
-                              student.Last_Name,
+                "senderName":
+                    student.First_Name + " " + student.Last_Name,
                 "skillsAsStr": ", ".join(skills),
-                "receiverName": teacher.First_Name + " " +
-                                teacher.Last_Name
+                "receiverName":
+                    teacher.First_Name + " " + teacher.Last_Name
             }
             if request.data.get("message"):
                 format_dict['message'] = "Message from " + \
