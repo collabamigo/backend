@@ -1,4 +1,3 @@
-
 from Cryptodome.Random import random
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -148,10 +147,10 @@ class ConnectionRequest(views.APIView):
             format_dict = {
                 "buttonUrl": url,
                 "senderName": student.First_Name + " " +
-                student.Last_Name,
+                              student.Last_Name,
                 "skillsAsStr": ", ".join(skills),
                 "receiverName": teacher.First_Name + " " +
-                teacher.Last_Name
+                                teacher.Last_Name
             }
             if request.data.get("message"):
                 format_dict['message'] = "Message from " + \
@@ -238,6 +237,11 @@ class PopularSkills(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request: Request):
-        return Response(list(map(str, sorted(Skill.objects.all(),
-                                 key=lambda x: len(x.Teacher_set.values_list(
-                                  flat=True)), reverse=True)))[:5])
+        return Response(list(map(lambda x: {"name": x.name,
+                                            "count": len(
+                                                x.Teacher_set.values_list(
+                                                    flat=True))},
+                                 sorted(Skill.objects.all(),
+                                        key=lambda x:
+                                        len(x.Teacher_set.values_list(
+                                            flat=True)), reverse=True)))[:5])
