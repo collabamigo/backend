@@ -309,7 +309,7 @@ a[x-apple-data-detectors='true'] {{
       <td style="overflow-wrap:break-word;word-break:break-word;padding:28px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <div>
-    <img align="center" border="0" src="https://collabconnect-development.firebaseapp.com/img/svg/logo.svg" alt="logo" title="logo" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 225px;height:39px;max-width: 100%;" height="39px" width="225px"/>
+    <img align="center" border="0" src="https://collabconnect-development.firebaseapp.com/img/svg/logo.png" alt="logo" title="logo" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 225px;height:39px;max-width: 100%;" height="39px" width="225px"/>
   </div>
 
       </td>
