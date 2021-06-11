@@ -32,7 +32,8 @@ class Rating(APIView):
                 student_id = str(request.query_params['id'])
             else:
                 student_id = str(request.user.profile.id)
-            if request.data['teacher'] in connection_manager.list_approvals_received(
+            if request.data['teacher'] in connection_manager.\
+                    list_approvals_received(
                     student_id) or request.user.is_staff:
                 ratingHandler.set_ratings(request.user.profile.id,
                                           request.data['teacher'],
