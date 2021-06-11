@@ -9,7 +9,7 @@ from google.oauth2 import id_token
 
 # TODO: See if pyca/cryptography can be used
 
-def authenticate(encrypted_token: str, aes_key: str, iv: str) -> str:
+def authenticate(encrypted_token: str, aes_key: str, iv: str) -> tuple:
     """
 
         :parameter iv: Initialization Vector for AES
@@ -38,7 +38,7 @@ def _aes_decrypt(ciphertext: str, aes_key: str, iv: str) -> str:
     return unpad(plaintext, 16).decode()
 
 
-def _verify_token(token: str) -> str:
+def _verify_token(token: str) -> tuple:
     try:
         # Specify the CLIENT_ID of the app that accesses the backend:
         idinfo = id_token.verify_oauth2_token(
@@ -54,10 +54,10 @@ def _verify_token(token: str) -> str:
             raise ValueError('Wrong hosted domain.')
 
         # Get the user's Google Account ID from the decoded token.
-        return idinfo['email']
+        return idinfo['email'], idinfo['picture']
     except ValueError:
         # Invalid token
-        return ""
+        return "", None
 
 
 def main():
