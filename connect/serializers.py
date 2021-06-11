@@ -25,9 +25,9 @@ class TeacherSerializer(serializers.ModelSerializer):
         model = Teacher
         fields = ['id', 'Contact', 'UpVotes', 'DownVotes', 'Gitname',
                   'Linkedin', 'email', 'skills',
-                  'Created']
+                  'Created', 'help_history', ]
         read_only_fields = ['UpVotes', 'DownVotes', 'id', 'email',
-                            'Created', ]
+                            'Created', 'help_history', ]
 
     def get_help_history(self, obj: Teacher):
         return connection_manager.list_approvals_sent(str(obj.id))

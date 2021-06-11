@@ -131,9 +131,10 @@ class ConnectionRequest(views.APIView):
             for skill in skills:
                 if skill not in skill_store:
                     raise ParseError()
-            request_id = connection_manager.request_connection(student=str(student.id),
-                                                               teacher=str(teacher.id),
-                                                               skills=skills)
+            request_id = connection_manager.request_connection(
+                student=str(student.id),
+                teacher=str(teacher.id),
+                skills=skills)
             if request_id == "THROTTLED":
                 return Response("THROTTLED",
                                 status=status.HTTP_429_TOO_MANY_REQUESTS)
@@ -178,7 +179,8 @@ class ConnectionApprove(views.APIView):
         identifier = str(random.randint(0, 70)) + ": "
         print(identifier + "post called on ConnectionApprove", flush=True)
         if 'request_id' in request.data and 'mobile' in request.data:
-            obj = connection_manager.accept_connection(request.data['request_id'])
+            obj = connection_manager.accept_connection(
+                request.data['request_id'])
             if not obj:
                 raise ParseError()
             if obj['approvedAt']:

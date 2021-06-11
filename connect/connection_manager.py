@@ -72,4 +72,20 @@ def list_approvals_received(student: str) -> list:
 
 
 def list_approvals_sent(teacher: str) -> list:
-    pass
+    entries = collection.find({"teacher": teacher},
+                              {"skills": 1, "_id": 0, "approvedAt": 1})
+    pre_result = {}
+    for entry in entries:
+        if entry['approvedAt'] is not None:
+            for skill in entry['skills']:
+                if skill in pre_result:
+                    pre_result[skill] += 1
+                else:
+                    pre_result[skill] = 1
+    result = []
+    for skill in pre_result:
+        result.append({
+            "name": skill,
+            "count": pre_result[skill],
+        })
+    return result
