@@ -196,7 +196,7 @@ class ConnectionApprove(views.APIView):
                 "teacherTelegram": teacher.handle,
                 "receiverName": student.First_Name + " " + student.Last_Name,
                 "optionalMobile": "",
-                "optionMobileHtml": "",
+                "optionalMobileHtml": "",
             }
 
             if int(request.data['mobile']) == 1:
