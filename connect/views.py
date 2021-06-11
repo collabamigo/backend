@@ -189,23 +189,24 @@ class ConnectionApprove(views.APIView):
             print(identifier + "valid request", flush=True)
             student = Profile.objects.get(id=obj['student'])
             teacher = Profile.objects.get(id=obj['teacher'])
-            contact_details = {
-                # 'Handle': teacher.handle,
-                'Email ID': str(teacher.email.email),
-                'LinkedIn': str(teacher.teacher.Linkedin),
-                'Github page': str(teacher.teacher.Gitname),
-            }
-            if int(request.data['mobile']) == 1:
-                contact_details['Mobile number'] = str(teacher.teacher.Contact)
 
             format_dict = {
                 "teacherName": teacher.First_Name + " " + teacher.Last_Name,
-                "contact": "",
+                "teacherEmailId": teacher.email.email,
+                "teacherTelegram": teacher.handle,
                 "receiverName": student.First_Name + " " + student.Last_Name,
+                "optionalMobile": "",
+                "optionMobileHtml": "",
             }
-            for key in contact_details:
-                format_dict['contact'] += str(key) + ": " + \
-                                          contact_details[key] + "\n"
+
+            if int(request.data['mobile']) == 1:
+                format_dict['optionalMobile'] = str(teacher.teacher.Contact)
+                format_dict['optionalMobileHtml'] = \
+                    """<tr>
+                    <td>Mobile number</td>
+                    <td>""" + str(teacher.teacher.Contact) + \
+                    """</td>
+                    </tr>"""
             for skill in obj['skills']:
                 skill_set = SkillSet.objects.get(teacher=teacher.teacher,
                                                  skill=Skill.objects.get(
@@ -217,7 +218,9 @@ class ConnectionApprove(views.APIView):
             send_mail(to=[str(student.email.email)],
                       subject="CollabConnect Connection Request Approval",
                       body=email_templates.connection_approval_text.
-                      format(**format_dict), )
+                      format(**format_dict),
+                      html=email_templates.connection_approval_html.
+                      format(**format_dict))
             return Response("Success", status=status.HTTP_200_OK)
         else:
             raise ParseError()
