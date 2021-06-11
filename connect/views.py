@@ -231,7 +231,7 @@ class ApprovalsView(views.APIView):
             student_id = str(request.query_params['id'])
         else:
             student_id = str(request.user.profile.id)
-        approved_teachers = connection_manager.list_approvals(student_id)
+        approved_teachers = connection_manager.list_approvals_received(student_id)
         return JsonResponse(approved_teachers, safe=False)
 
 
