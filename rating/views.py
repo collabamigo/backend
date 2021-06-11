@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 
 from . import ratingHandler
 
-from connect import logger, permissions as connect_perm
+from connect import connection_manager, permissions as connect_perm
 
 
 class Rating(APIView):
@@ -32,7 +32,7 @@ class Rating(APIView):
                 student_id = str(request.query_params['id'])
             else:
                 student_id = str(request.user.profile.id)
-            if request.data['teacher'] in logger.list_approvals(
+            if request.data['teacher'] in connection_manager.list_approvals(
                     student_id) or request.user.is_staff:
                 ratingHandler.set_ratings(request.user.profile.id,
                                           request.data['teacher'],

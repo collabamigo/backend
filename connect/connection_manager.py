@@ -61,7 +61,7 @@ def accept_connection(oid: str) -> dict:
     return entry
 
 
-def list_approvals(student: str) -> list:
+def list_approvals_received(student: str) -> list:
     entries = collection.find({"student": student},
                               {"teacher": 1, "_id": 0, "approvedAt": 1})
     teachers = set()
@@ -69,3 +69,7 @@ def list_approvals(student: str) -> list:
         if entry['approvedAt'] is not None:
             teachers.add(entry['teacher'])
     return list(teachers)
+
+
+def list_approvals_sent(teacher: str) -> list:
+    pass

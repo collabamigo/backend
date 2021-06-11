@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.relations import PrimaryKeyRelatedField
-
+from . import connection_manager
 from .models import Profile, Teacher, Skill
 
 
@@ -19,6 +19,7 @@ class TeacherSerializer(serializers.ModelSerializer):
     email = serializers.ReadOnlyField(source='email.email')
     skills = PrimaryKeyRelatedField(many=True,
                                     queryset=Skill.objects.all())
+    help_history = serializers.SerializerMethodField()
 
     class Meta:
         model = Teacher
@@ -26,7 +27,10 @@ class TeacherSerializer(serializers.ModelSerializer):
                   'Linkedin', 'email', 'skills',
                   'Created']
         read_only_fields = ['UpVotes', 'DownVotes', 'id', 'email',
-                            'Created']
+                            'Created', ]
+
+    def get_help_history(self, obj: Teacher):
+        return connection_manager.list_approvals_sent(str(obj.id))
 
 
 class SkillSerializer(serializers.ModelSerializer):
