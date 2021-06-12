@@ -59,3 +59,33 @@ def accept_connection(oid: str) -> dict:
                                   "approvedAt": datetime.datetime.utcnow()
                               }})
     return entry
+
+
+def list_approvals_received(student: str) -> list:
+    entries = collection.find({"student": student},
+                              {"teacher": 1, "_id": 0, "approvedAt": 1})
+    teachers = set()
+    for entry in entries:
+        if entry['approvedAt'] is not None:
+            teachers.add(entry['teacher'])
+    return list(teachers)
+
+
+def list_approvals_sent(teacher: str) -> list:
+    entries = collection.find({"teacher": teacher},
+                              {"skills": 1, "_id": 0, "approvedAt": 1})
+    pre_result = {}
+    for entry in entries:
+        if entry['approvedAt'] is not None:
+            for skill in entry['skills']:
+                if skill in pre_result:
+                    pre_result[skill] += 1
+                else:
+                    pre_result[skill] = 1
+    result = []
+    for skill in pre_result:
+        result.append({
+            "name": skill,
+            "count": pre_result[skill],
+        })
+    return result

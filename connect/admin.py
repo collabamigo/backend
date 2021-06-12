@@ -4,13 +4,12 @@ from .models import Profile, Teacher
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('id', 'First_Name', 'Last_Name', 'gender',
-                    'degree', 'course', 'email', 'handle',
-                    'IsTeacher', 'Created')
+                    'degree', 'course', 'email', 'handle', )
 
 
 class TeacherAdmin(admin.ModelAdmin):
     list_display = ('id', 'Contact', 'UpVotes', 'DownVotes', 'Gitname',
-                    'Linkedin')
+                    'Linkedin', 'Created', )
 
 
 admin.site.register(Profile, ProfileAdmin)

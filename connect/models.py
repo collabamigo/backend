@@ -16,8 +16,6 @@ class Profile(models.Model):
     degree = models.CharField(max_length=1, blank=True)
     course = models.CharField(max_length=10, blank=True)
     handle = models.CharField(max_length=50, blank=True)
-    IsTeacher = models.BooleanField(default=False)
-    Created = models.DateTimeField(auto_now_add=True)
     email = models.OneToOneField(to='auth.User',
                                  on_delete=models.CASCADE,
                                  related_name='profile',
@@ -26,18 +24,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.id
-
-
-class Skill(models.Model):
-    name = models.CharField(primary_key=True, unique=True,
-                            max_length=30, auto_created=False,
-                            serialize=False, verbose_name='ID')
-    Teacher_set = models.ManyToManyField(to='connect.Teacher',
-                                         related_name='skills',
-                                         blank=True, )
-
-    def __str__(self):
-        return self.name
 
 
 class Teacher(models.Model):
@@ -59,6 +45,7 @@ class Teacher(models.Model):
                                  related_name='teacher',
                                  to_field='email',
                                  db_column='email')
+    Created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.id)
@@ -68,3 +55,24 @@ class Teacher(models.Model):
             '-confidence',
             '-UpVotes',
             'DownVotes', ]
+
+
+class Skill(models.Model):
+    name = models.CharField(primary_key=True, unique=True,
+                            max_length=30, auto_created=False,
+                            serialize=False, verbose_name='ID')
+    Teacher_set = models.ManyToManyField(to='connect.Teacher',
+                                         related_name='skills',
+                                         blank=True, through='SkillSet')
+
+    def __str__(self):
+        return self.name
+
+
+class SkillSet(models.Model):
+    id = models.AutoField(primary_key=True)
+    teacher = models.ForeignKey(Teacher,
+                                on_delete=models.CASCADE)
+    skill = models.ForeignKey(Skill,
+                              on_delete=models.CASCADE)
+    approvals = models.IntegerField(blank=False, default=0)

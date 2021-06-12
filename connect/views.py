@@ -1,5 +1,5 @@
-import json
 from Cryptodome.Random import random
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 from backend import settings
@@ -9,29 +9,34 @@ from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from rest_framework.exceptions import ParseError, NotFound
 
-from .logger import request_connection, accept_connection
-from .models import Profile, Teacher, Skill
+from .models import Profile, Teacher, Skill, SkillSet
 from rest_framework import viewsets, views, permissions, status
 from .permissions import IsOwner, IsAdminOrReadOnlyIfAuthenticated
 from .serializers import (ProfileSerializer,
                           TeacherSerializer, SkillSerializer)
 from .emailhandler import send_mail
-from . import email_templates
+from . import email_templates, connection_manager
 
 
-def teachersdata(request):
-    teachers = json.loads(request.GET.get('id_list'))
-    output = []
-    for k in teachers:
-        profile = Profile.objects.get(id=str(k))
-        profile_dict = model_to_dict(profile)
-        teacher_dict = model_to_dict(profile.teacher)
-        profile_dict.update(teacher_dict)
-        allowed_fields = ['id', 'First_Name', 'Last_Name', 'degree', 'course',
-                          'UpVotes', 'DownVotes', 'Gitname', 'Linkedin']
-        result_dict = {key: profile_dict[key] for key in allowed_fields}
-        output.append(result_dict)
-    return JsonResponse(output, safe=False)
+class TeachersData(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request: Request):
+        teachers = request.query_params.getlist('id_list[]')
+        output = []
+        for k in teachers:
+            profile = Profile.objects.get(id=str(k))
+            profile_dict = model_to_dict(profile)
+            try:
+                teacher_dict = model_to_dict(profile.teacher)
+            except Profile.teacher.RelatedObjectDoesNotExist:
+                continue
+            profile_dict.update(teacher_dict)
+            allowed_fields = ['id', 'First_Name', 'Last_Name', 'degree',
+                              'course', 'Gitname', 'Linkedin']
+            result_dict = {key: profile_dict[key] for key in allowed_fields}
+            output.append(result_dict)
+        return Response(output)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -46,6 +51,7 @@ class ProfileView(viewsets.ModelViewSet):
             return Profile.objects.all()
         else:
             return Profile.objects.filter(email=user)
+
     # TODO: Better id extraction
 
     def get_roll_number(self, em, deg):
@@ -81,17 +87,8 @@ class TeacherView(viewsets.ModelViewSet):
     # TODO: V2 Better get_roll_number implementation needed
 
     def perform_create(self, serializer):
-        b = self.request.user.profile
-        b.IsTeacher = True
-        b.save()
         serializer.save(email=self.request.user,
                         id=self.request.user.profile)
-
-    def perform_destroy(self, instance):
-        b = self.request.user.profile
-        b.IsTeacher = False
-        b.save()
-        return super().perform_destroy(instance)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -111,23 +108,33 @@ class ConnectionRequest(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
-        if 'id' in request.data and 'skills' in request.data and \
-                request.data.get('id') != str(request.user.profile.id):
+        if 'teacher_id' in request.data and 'skills' in request.data:
             teacher = None
             try:
-                teacher = Profile.objects.get(id=request.data['id'])
+                teacher = Profile.objects.get(id=request.data['teacher_id'])
             except Profile.DoesNotExist:
                 raise NotFound()
-            student = request.user.profile
+
+            if request.user.is_staff:
+                student_id = str(request.query_params['id'])
+            else:
+                student_id = str(request.user.profile.id)
+
+            if student_id == request.data['teacher_id']:
+                return Response("SELF-CONNECTION NOT ALLOWED",
+                                status=status.HTTP_403_FORBIDDEN)
+
+            student = Profile.objects.get(id=student_id)
             skills = request.data['skills']
 
             skill_store = teacher.teacher.skills.values_list(flat=True)
             for skill in skills:
                 if skill not in skill_store:
                     raise ParseError()
-            request_id = request_connection(student=str(student.id),
-                                            teacher=str(teacher.id),
-                                            skills=skills)
+            request_id = connection_manager.request_connection(
+                student=str(student.id),
+                teacher=str(teacher.id),
+                skills=skills)
             if request_id == "THROTTLED":
                 return Response("THROTTLED",
                                 status=status.HTTP_429_TOO_MANY_REQUESTS)
@@ -140,11 +147,11 @@ class ConnectionRequest(views.APIView):
             url += '/connection/?request_id=' + request_id
             format_dict = {
                 "buttonUrl": url,
-                "senderName": student.First_Name + " " +
-                student.Last_Name,
+                "senderName":
+                    student.First_Name + " " + student.Last_Name,
                 "skillsAsStr": ", ".join(skills),
-                "receiverName": teacher.First_Name + " " +
-                teacher.Last_Name
+                "receiverName":
+                    teacher.First_Name + " " + teacher.Last_Name
             }
             if request.data.get("message"):
                 format_dict['message'] = "Message from " + \
@@ -172,7 +179,8 @@ class ConnectionApprove(views.APIView):
         identifier = str(random.randint(0, 70)) + ": "
         print(identifier + "post called on ConnectionApprove", flush=True)
         if 'request_id' in request.data and 'mobile' in request.data:
-            obj = accept_connection(request.data['request_id'])
+            obj = connection_manager.accept_connection(
+                request.data['request_id'])
             if not obj:
                 raise ParseError()
             if obj['approvedAt']:
@@ -181,28 +189,65 @@ class ConnectionApprove(views.APIView):
             print(identifier + "valid request", flush=True)
             student = Profile.objects.get(id=obj['student'])
             teacher = Profile.objects.get(id=obj['teacher'])
-            contact_details = {
-                # 'Handle': teacher.handle,
-                'Email ID': str(teacher.email.email),
-                'LinkedIn': str(teacher.teacher.Linkedin),
-                'Github page': str(teacher.teacher.Gitname),
-            }
-            if int(request.data['mobile']) == 1:
-                contact_details['Mobile number'] = str(teacher.teacher.Contact)
 
             format_dict = {
                 "teacherName": teacher.First_Name + " " + teacher.Last_Name,
-                "contact": "",
+                "teacherEmailId": teacher.email.email,
+                "teacherTelegram": teacher.handle,
                 "receiverName": student.First_Name + " " + student.Last_Name,
+                "optionalMobile": "",
+                "optionalMobileHtml": "",
             }
-            for key in contact_details:
-                format_dict['contact'] += str(key) + ": " + \
-                    contact_details[key] + "\n"
-            print(identifier+"Calling sendmail", flush=True)
+
+            if int(request.data['mobile']) == 1:
+                format_dict['optionalMobile'] = str(teacher.teacher.Contact)
+                format_dict['optionalMobileHtml'] = \
+                    """<tr>
+                    <td>Mobile number</td>
+                    <td>""" + str(teacher.teacher.Contact) + \
+                    """</td>
+                    </tr>"""
+            for skill in obj['skills']:
+                skill_set = SkillSet.objects.get(teacher=teacher.teacher,
+                                                 skill=Skill.objects.get(
+                                                     name=skill))
+                skill_set.approvals += 1
+                skill_set.save()
+
+            print(identifier + "Calling sendmail", flush=True)
             send_mail(to=[str(student.email.email)],
                       subject="CollabConnect Connection Request Approval",
                       body=email_templates.connection_approval_text.
-                      format(**format_dict), )
+                      format(**format_dict),
+                      html=email_templates.connection_approval_html.
+                      format(**format_dict))
             return Response("Success", status=status.HTTP_200_OK)
         else:
             raise ParseError()
+
+
+class ApprovalsView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request: Request):
+        if request.user.is_staff:
+            student_id = str(request.query_params['id'])
+        else:
+            student_id = str(request.user.profile.id)
+        approved_teachers = connection_manager.list_approvals_received(
+            student_id)
+        return JsonResponse(approved_teachers, safe=False)
+
+
+class PopularSkills(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request: Request):
+        return Response(list(map(lambda x: {"name": x.name,
+                                            "count": len(
+                                                x.Teacher_set.values_list(
+                                                    flat=True))},
+                                 sorted(Skill.objects.all(),
+                                        key=lambda x:
+                                        len(x.Teacher_set.values_list(
+                                            flat=True)), reverse=True)))[:5])

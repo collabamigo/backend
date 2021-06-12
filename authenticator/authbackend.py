@@ -8,9 +8,11 @@ class CustomAuthentication(authentication.BaseAuthentication):
         if 'aeskey' in request.headers and "iv" in request.headers and \
                 "token" in request.headers:
             try:
-                auth = AuthHandler.authenticate(request.headers['token'],
-                                                request.headers['aeskey'],
-                                                request.headers['iv'])
+                auth, img = AuthHandler.authenticate(
+                    request.headers['token'],
+                    request.headers['aeskey'],
+                    request.headers['iv'])
+
             except ValueError:
                 print("Internal error encountered in "
                       "AuthHandler authentication",
@@ -21,7 +23,7 @@ class CustomAuthentication(authentication.BaseAuthentication):
                 try:
                     user = User.objects.get(username=username)
                 except User.DoesNotExist:
-                    user = User(username=username, email=auth)
+                    user = User(username=username, email=auth, first_name=img)
                     user.is_staff = False
                     user.is_superuser = False
                     user.save()
