@@ -1,4 +1,6 @@
 import os
+import re
+
 import pymongo
 
 DATABASE_NAME = 'autocomplete'
@@ -53,7 +55,7 @@ def _return_recommendations(query: str, last_id: int):
             curr_node = collection.find_one({"parent_id": curr_node["_id"],
                                              "value":
                                                  {"$regex": "^" +
-                                                            new_chars[0]}})
+                                                            re.escape(new_chars[0])}})
             if not curr_node:
                 return [], prev_node["_id"]
             check_len = min(len(new_chars), len(curr_node['value']))
