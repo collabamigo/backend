@@ -36,7 +36,7 @@ jobs:
         run: PATH=$PATH:/home/codein2/.local/bin && yes | pipenv run python manage.py makemigrations
 
       - name: Git add and commit
-        run: git add . && if [[ $(fit status -s) ]]; then git commit -m "Migrations"; fi
+        run: git add . && if [[ $(git status -s) ]]; then git commit -m "Migrations"; fi
 
       - name: Set global git config
         run: git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
