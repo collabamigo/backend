@@ -1,6 +1,12 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from rest_framework import authentication
 from authenticator import AuthHandler
+
+
+ALLOWED_IN_DEBUG = ['adityapratapsingh51@gmail.com',
+                    'aditya20016@iiitd.ac.in', 'shikhar20121@iiitd.ac.in',
+                    'heemank20064@iiitd.ac.in', 'heemankv@gmail.com']
 
 
 class CustomAuthentication(authentication.BaseAuthentication):
@@ -18,7 +24,7 @@ class CustomAuthentication(authentication.BaseAuthentication):
                       "AuthHandler authentication",
                       flush=True)
                 auth = ""
-            if auth:
+            if auth and (not settings.DEBUG or auth in ALLOWED_IN_DEBUG):
                 username = auth.split("@")[0]
                 try:
                     user = User.objects.get(username=username)
