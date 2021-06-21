@@ -113,7 +113,7 @@ a[x-apple-data-detectors='true'] {{
     <tr>
       <td style="overflow-wrap:break-word;word-break:break-word;padding:28px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
         
-  <div>
+  <div style="min-width: 270px;">
     <p style="font-size: 14px; line-height: 140%;"><span style="color: #18216d; font-size: 14px; line-height: 19.6px; font-family: 'Motiva Sans Bold', sans-serif;"><strong><span style="font-size: 36px; line-height: 50.4px;">CollabConnect</span></strong></span></p>
   </div>
 
@@ -350,7 +350,7 @@ a[x-apple-data-detectors='true'] {{
     <tr>
       <td style="overflow-wrap:break-word;word-break:break-word;padding:28px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
         
-  <div>
+  <div style="min-width: 270px;">
     <p style="font-size: 14px; line-height: 140%;"><span style="color: #18216d; font-size: 14px; line-height: 19.6px; font-family: 'Motiva Sans Bold', sans-serif;"><strong><span style="font-size: 36px; line-height: 50.4px;">CollabConnect</span></strong></span></p>
   </div>
 
@@ -467,3 +467,6 @@ tfoot {{
 </body>
 
 </html>"""
+
+if __name__ == "__main__":
+    print(connection_approval_html)
