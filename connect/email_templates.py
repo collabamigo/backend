@@ -217,7 +217,7 @@ You've got a connection request from {senderName} for topic(s): {skillsAsStr}.
 
 {message}
 
-<a href="{buttonUrl}">Click here</a> to accept the request or copy this link into your browser:
+To accept the request either copy the below link into your browser or click on it:
 
 {buttonUrl} 
 """
@@ -467,6 +467,28 @@ tfoot {{
 </body>
 
 </html>"""
+
+welcome_email_text = """
+Dear {receiverName},
+
+Welcome to our Team!
+You have been successfully registered.
+Now you can get your doubts cleared up by your peers
+and experienced friends who are willing to sit 
+and brainstorm with you for that missing semicolon.
+
+        To login next time, use Google Sign in and you'll be good to go.
+        
+Feel free to explore the world of collaborators and help 
+out people with the best of your skills by registering 
+on the Contributors section,
+It's going to be fun. 
+
+
+Thank you for registering!
+Team CollabConnect
+~ WatsonHex
+"""
 
 welcome_email_html = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
