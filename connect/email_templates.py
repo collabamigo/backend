@@ -773,10 +773,8 @@ Dear {receiverName},
 
 You have successfully become a contributor on CollabConnect !
 
-Every time someone asks for your help we'll be sharing your basic details :
-{personName},
-{personEmail},
-{personContact1},
+Every time someone asks for your help we'll be sharing your 
+basic details like your email address and Telegram handle.
 
 Also, check out the Dashboard section for more information.
 
