@@ -3,22 +3,12 @@ from django.core import mail
 EMAIL_HOST_USER = "CollabConnect <" + os.getenv("EMAIL") + ">"
 
 
-def new_profile_email(reciever):
+def new_teacher_email(receiver):
     subject = "Welcome To CollabConnect"
-    message = "Hi " + reciever["Name"] + \
-              ". You have been registered as " \
-              + reciever["Id"] + "."
-    email = reciever["Email"]
-    send_mail(subject=subject, body=message, to=[email])
-    return True
-
-
-def new_teacher_email(reciever):
-    subject = "Welcome To CollabConnect"
-    message = "Hi " + reciever["Name"] + \
+    message = "Hi " + receiver["Name"] + \
               ". You have been registered as teacher " \
-              + reciever["Id"] + "."
-    email = reciever["Email"]
+              + receiver["Id"] + "."
+    email = receiver["Email"]
     send_mail(subject=subject, body=message, to=[email])
     return True
 

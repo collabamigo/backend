@@ -47,7 +47,6 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['SECRET_KEY']
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not bool(os.getenv("PRODUCTION"))
 
 # TODO: Insecure ALLOWED_HOSTS
@@ -141,6 +140,9 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
+
+FRONTEND_URL = "https://collabconnect-development.firebaseapp.com" if DEBUG \
+    else "https://collabconnect.web.app"
 
 USE_I18N = True
 USE_L10N = True

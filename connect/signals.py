@@ -1,18 +1,25 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from backend import settings
+from connect import email_templates
 from connect.models import Profile, Teacher
-from connect.emailhandler import new_teacher_email, new_profile_email
+from connect.emailhandler import new_teacher_email, send_mail
 
 
 @receiver(post_save, sender=Profile)
-def profile_creation(sender, instance, created, **kwargs):
+def profile_creation(sender, instance: Profile, created, **kwargs):
     if created:
-        person = {
-            "Id": instance.id,
-            "Name": instance.First_Name + " " + instance.Last_Name,
-            "Email": str((instance.email).email)
-            }
-        new_profile_email(person)
+        format_dict = {
+            'receiverName': instance.First_Name,
+            'frontend': settings.FRONTEND_URL,
+        }
+        send_mail(to=[instance.email.email],
+                  subject="Welcome to CollabConnect",
+                  body=email_templates.welcome_email_text.
+                  format(**format_dict),
+                  html=email_templates.welcome_email_html.
+                  format(**format_dict))
 
 
 @receiver(post_save, sender=Teacher)
