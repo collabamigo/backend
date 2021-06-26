@@ -113,9 +113,9 @@ a[x-apple-data-detectors='true'] {{
     <tr>
       <td style="overflow-wrap:break-word;word-break:break-word;padding:28px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
         
-  <div style="min-width: 270px;">
+  <a style="min-width: 270px;" href="{frontend}">
     <p style="font-size: 14px; line-height: 140%;"><span style="color: #18216d; font-size: 14px; line-height: 19.6px; font-family: 'Motiva Sans Bold', sans-serif;"><strong><span style="font-size: 36px; line-height: 50.4px;">CollabConnect</span></strong></span></p>
-  </div>
+  </a>
 
       </td>
     </tr>
@@ -350,9 +350,9 @@ a[x-apple-data-detectors='true'] {{
     <tr>
       <td style="overflow-wrap:break-word;word-break:break-word;padding:28px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
         
-  <div style="min-width: 270px;">
+  <a style="min-width: 270px;" href="{frontend}">
     <p style="font-size: 14px; line-height: 140%;"><span style="color: #18216d; font-size: 14px; line-height: 19.6px; font-family: 'Motiva Sans Bold', sans-serif;"><strong><span style="font-size: 36px; line-height: 50.4px;">CollabConnect</span></strong></span></p>
-  </div>
+  </a>
 
       </td>
     </tr>
@@ -605,9 +605,9 @@ a[x-apple-data-detectors='true'] {{
     <tr>
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
         
-  <div style="min-width: 270px;">
+  <a style="min-width: 270px;" href="{frontend}">
     <p style="font-size: 14px; line-height: 140%;"><span style="color: #18216d; font-size: 14px; line-height: 19.6px; font-family: 'Motiva Sans Bold', sans-serif;"><strong><span style="font-size: 36px; line-height: 50.4px;">CollabConnect</span></strong></span></p>
-  </div>
+  </a>
 
       </td>
     </tr>

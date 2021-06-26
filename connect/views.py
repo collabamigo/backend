@@ -151,8 +151,10 @@ class ConnectionRequest(views.APIView):
                     student.First_Name + " " + student.Last_Name,
                 "skillsAsStr": ", ".join(skills),
                 "receiverName":
-                    teacher.First_Name + " " + teacher.Last_Name
+                    teacher.First_Name + " " + teacher.Last_Name,
+                "frontend": settings.FRONTEND_URL
             }
+
             if request.data.get("message"):
                 format_dict['message'] = "Message from " + \
                                          format_dict['senderName'] + ": \n" + \
@@ -197,6 +199,7 @@ class ConnectionApprove(views.APIView):
                 "receiverName": student.First_Name + " " + student.Last_Name,
                 "optionalMobile": "",
                 "optionalMobileHtml": "",
+                "frontend": settings.FRONTEND_URL
             }
 
             if int(request.data['mobile']) == 1:
