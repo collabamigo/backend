@@ -767,5 +767,24 @@ a[x-apple-data-detectors='true'] {{
 </body>
 
 </html>"""
+
+receiver_html = """
+Dear {receiverName},
+
+You have successfully become a contributor on CollabConnect !
+
+Every time someone asks for your help we'll be sharing your basic details :
+{|{personName}|},
+{|{personEmail}|},
+{|{personContact1}|},
+
+Also, check out the Dashboard section for more information.
+
+We are glad to have you
+Team CollabConnect
+~ WatsonHex
+"""
+
+
 if __name__ == "__main__":
     print(connection_approval_html)
