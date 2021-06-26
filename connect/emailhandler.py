@@ -3,16 +3,6 @@ from django.core import mail
 EMAIL_HOST_USER = "CollabConnect <" + os.getenv("EMAIL") + ">"
 
 
-def new_teacher_email(receiver):
-    subject = "Welcome To CollabConnect"
-    message = "Hi " + receiver["Name"] + \
-              ". You have been registered as teacher " \
-              + receiver["Id"] + "."
-    email = receiver["Email"]
-    send_mail(subject=subject, body=message, to=[email])
-    return True
-
-
 def send_mail(to, subject: str = "", body: list = None, html=None):
 
     if type(to) == str:
