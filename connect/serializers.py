@@ -5,8 +5,20 @@ from . import connection_manager
 from .models import Profile, Teacher, Skill
 
 
+def strip_username(data: str):
+    if data.endswith("/"):
+        data = data[:-1]
+    if "/" in data:
+        data = data.split("/")[-1]
+    print("Returning " + data, flush=True)
+    return data
+
+
 class ProfileSerializer(serializers.ModelSerializer):
     email = serializers.ReadOnlyField(source='email.email')
+
+    def validate_handle(self, value):
+        return strip_username(value)
 
     class Meta:
         model = Profile
@@ -21,6 +33,12 @@ class TeacherSerializer(serializers.ModelSerializer):
                                     queryset=Skill.objects.all())
     help_history = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
+
+    def validate_Gitname(self, value):
+        return strip_username(value)
+
+    def validate_Linkedin(self, value):
+        return strip_username(value)
 
     class Meta:
         model = Teacher
