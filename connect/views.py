@@ -39,6 +39,24 @@ class TeachersData(views.APIView):
         return Response(output)
 
 
+def get_roll_number(email, degree):
+    output = ""
+    for i in email:
+        if '0' <= i <= '9':
+            output += i
+        if i == "@":
+            break
+    if not output:
+        try:
+            prev_suffix = int(list(Profile.objects.
+                                   filter(degree=degree).order_by("id").
+                                   values_list(flat=True))[-1][2:])
+        except IndexError:
+            prev_suffix = 999
+        output = "0" + str(prev_suffix+1)
+    return str(degree) + output
+
+
 @method_decorator(csrf_exempt, name='dispatch')
 class ProfileView(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
@@ -54,19 +72,10 @@ class ProfileView(viewsets.ModelViewSet):
 
     # TODO: Better id extraction
 
-    def get_roll_number(self, em, deg):
-        output = ""
-        for i in em:
-            if '0' <= i <= '9':
-                output += i
-            if i == "@":
-                break
-        return str(deg) + output
-
     def perform_create(self, serializer):
         email = str(self.request.user.email)
         deg = self.request.data["degree"]
-        id_ = self.get_roll_number(email, deg)
+        id_ = get_roll_number(email, deg)
         serializer.save(email=self.request.user,
                         id=id_)
 
