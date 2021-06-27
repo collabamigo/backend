@@ -10,6 +10,8 @@ def strip_username(data: str):
         data = data[:-1]
     if "/" in data:
         data = data.split("/")[-1]
+    if data.startswith("@"):
+        data = data.split[1:]
     print("Returning " + data, flush=True)
     return data
 
