@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.relations import PrimaryKeyRelatedField
 from . import connection_manager
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 from .models import Profile, Teacher, Skill
 
 
@@ -41,6 +43,15 @@ class TeacherSerializer(serializers.ModelSerializer):
 
     def validate_Linkedin(self, value):
         return strip_username(value)
+
+    def validate_Contact(self, value):
+        value = int(value)
+        if not((value >= 1000000 and value <= 100000000000000) or value == 0):
+            raise ValidationError(
+                _('%(value)s is imporper'),
+                params={'value': value},
+            )
+        return value
 
     class Meta:
         model = Teacher
