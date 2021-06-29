@@ -90,7 +90,6 @@ MIDDLEWARE = [
 
 APPEND_SLASH = True
 
-
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
@@ -159,8 +158,8 @@ STATIC_URL = '/static/'
 SECURE_SSL_REDIRECT = bool(os.getenv("PRODUCTION"))
 SESSION_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 
-
-MongoClient = pymongo.MongoClient(os.environ['MONGODB_URI'])
+if os.environ['EMAIL'] != "a":
+    MongoClient = pymongo.MongoClient(os.environ['MONGODB_URI'])
 
 DATABASES = dict()
 DATABASES['default'] = dj_database_url.config(
