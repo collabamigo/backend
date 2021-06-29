@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from rest_framework.relations import PrimaryKeyRelatedField
 from . import connection_manager
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
 from .models import Profile, Teacher, Skill
 
 
@@ -14,7 +13,6 @@ def strip_username(data: str):
         data = data.split("/")[-1]
     if data.startswith("@"):
         data = data.split[1:]
-    print("Returning " + data, flush=True)
     return data
 
 
@@ -45,12 +43,8 @@ class TeacherSerializer(serializers.ModelSerializer):
         return strip_username(value)
 
     def validate_Contact(self, value):
-        value = int(value)
-        if not((value >= 1000000 and value <= 100000000000000) or value == 0):
-            raise ValidationError(
-                _('%(value)s is imporper'),
-                params={'value': value},
-            )
+        if not(1000000 <= value <= 100000000000000 or value == 0):
+            raise ValidationError("Invalid mobile number received")
         return value
 
     class Meta:
