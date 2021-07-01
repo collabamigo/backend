@@ -211,7 +211,8 @@ class ConnectionApprove(views.APIView):
                 "frontend": settings.FRONTEND_URL
             }
 
-            if int(request.data['mobile']) == 1 and str(teacher.teacher.Contact) != "0":
+            if int(request.data['mobile']) == 1 and \
+                    str(teacher.teacher.Contact) != "0":
                 format_dict['optionalMobile'] = str(teacher.teacher.Contact)
                 format_dict['optionalMobileHtml'] = \
                     """<tr>
