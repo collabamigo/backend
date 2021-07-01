@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.http import HttpRequest
 from rest_framework import authentication
 from authenticator import AuthHandler
 
@@ -10,7 +11,7 @@ ALLOWED_IN_DEBUG = ['adityapratapsingh51@gmail.com',
 
 
 class CustomAuthentication(authentication.BaseAuthentication):
-    def authenticate(self, request):
+    def authenticate(self, request: HttpRequest):
         if 'aeskey' in request.headers and "iv" in request.headers and \
                 "token" in request.headers:
             try:
@@ -25,6 +26,8 @@ class CustomAuthentication(authentication.BaseAuthentication):
                       flush=True)
                 auth = ""
             if auth and (not settings.DEBUG or auth in ALLOWED_IN_DEBUG):
+                print(request.method+" request received on " +
+                      request.path+" by "+auth, flush=True)
                 username = auth.split("@")[0]
                 try:
                     user = User.objects.get(username=username)
