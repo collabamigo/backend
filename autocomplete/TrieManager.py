@@ -10,7 +10,6 @@ COLLECTION_NAME = 'trie'
 def get_recommendations(query: str, last_id: int = 0):
     if not last_id:
         last_id = 0
-    print("Got query=", query, "and id=", last_id, flush=True)
     recommendations, cache_id = _return_recommendations(query, last_id)
     return dict(recommendations=recommendations, cache_id=cache_id)
 
