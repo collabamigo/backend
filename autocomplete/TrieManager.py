@@ -1,7 +1,7 @@
-import os
 import re
 
-import pymongo
+
+from backend import settings
 
 DATABASE_NAME = 'autocomplete'
 COLLECTION_NAME = 'trie'
@@ -10,7 +10,6 @@ COLLECTION_NAME = 'trie'
 def get_recommendations(query: str, last_id: int = 0):
     if not last_id:
         last_id = 0
-    print("Got query=", query, "and id=", last_id, flush=True)
     recommendations, cache_id = _return_recommendations(query, last_id)
     return dict(recommendations=recommendations, cache_id=cache_id)
 
@@ -24,7 +23,7 @@ def generate_trie(tags: list, save_to_mongo: bool = True) -> list:
         :return: Returns a list of dicts, each depicting a trie node
     """
 
-    db = pymongo.MongoClient(os.environ['MONGODB_URI'])[DATABASE_NAME]
+    db = settings.MongoClient[DATABASE_NAME]
     collection = db[COLLECTION_NAME]
     trie = _create_trie(tags)
     if save_to_mongo:
@@ -38,7 +37,7 @@ def _return_recommendations(query: str, last_id: int):
         return [], 0
     last_id = int(last_id)
     query = query.lower()
-    db = pymongo.MongoClient(os.environ['MONGODB_URI'])[DATABASE_NAME]
+    db = settings.MongoClient[DATABASE_NAME]
     collection = db[COLLECTION_NAME]
     prev_node = collection.find_one({"_id": last_id})
 

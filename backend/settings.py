@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 import os
+
+import pymongo
 from corsheaders.defaults import default_headers
 
 import dj_database_url
@@ -88,7 +90,6 @@ MIDDLEWARE = [
 
 APPEND_SLASH = True
 
-
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
@@ -156,6 +157,9 @@ STATIC_URL = '/static/'
 # CSRF_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 SECURE_SSL_REDIRECT = bool(os.getenv("PRODUCTION"))
 SESSION_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
+
+if os.environ['EMAIL'] != "a":
+    MongoClient = pymongo.MongoClient(os.environ['MONGODB_URI'])
 
 DATABASES = dict()
 DATABASES['default'] = dj_database_url.config(

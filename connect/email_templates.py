@@ -423,7 +423,7 @@ a[x-apple-data-detectors='true'] {{
       {optionalMobileHtml}
         <tr>
             <td>Telegram Username</td>
-          <td><a href="https://t.me/{teacherTelegram}/">{teacherTelegram}</a> </td>
+          <td><a href="https://telegram.me/{teacherTelegram}/">{teacherTelegram}</a> </td>
         </tr>   
     </tbody>
 </table>
