@@ -20,8 +20,11 @@ requests = "*"
 pycryptodomex = "*"
 python-dotenv = "*"
 urllib3 = ">=1.26.5"
+django-debug-toolbar = "*"
 
 [dev-packages]
+flake8 = "*"
+autopep8 = "*"
 
 [requires]
 python_version = "3.7"
