@@ -53,7 +53,7 @@ def get_roll_number(email, degree):
                                    values_list(flat=True))[-1][2:])
         except IndexError:
             prev_suffix = 999
-        output = "0" + str(prev_suffix+1)
+        output = "0" + str(prev_suffix + 1)
     return str(degree) + output
 
 
@@ -102,6 +102,7 @@ class TeacherView(viewsets.ModelViewSet):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class SkillView(viewsets.ModelViewSet):
+    lookup_value_regex = '[^/]+'
     permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
     serializer_class = SkillSerializer
     queryset = Skill.objects.all()
