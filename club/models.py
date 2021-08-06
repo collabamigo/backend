@@ -30,7 +30,7 @@ class Entries(models.Model):
 
 class Choices(models.Model):
     id = models.AutoField(primary_key=True)
-    choice = models.CharField(max_length=5000)
+    choice = models.CharField(max_length=5000, default='null')
     is_answer = models.BooleanField(default=False)
 
 
@@ -57,7 +57,8 @@ class Question(models.Model):
     required = models.BooleanField(default=False)
     answer_key = models.TextField(blank=True)
     score = models.IntegerField(blank=True, default=0)
-    choices = models.ManyToManyField(Choices, related_name="question")
+    choices = models.ForeignKey(Choices, related_name="question",
+                                on_delete=models.CASCADE, default="null")
 
 
 class Answer(models.Model):
@@ -72,4 +73,5 @@ class Response(models.Model):
     form = models.ForeignKey(Form, on_delete=models.CASCADE,
                              related_name="response")
     responder_email = models.EmailField(blank=True)
-    response = models.ManyToManyField(Answer, related_name="response")
+    response = models.ForeignKey(Answer, related_name="response",
+                                 on_delete=models.CASCADE, default="null")
