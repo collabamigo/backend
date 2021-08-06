@@ -21,22 +21,22 @@ class ChoicesAdmin(admin.ModelAdmin):
 
 
 class FormAdmin(admin.ModelAdmin):
-    list_display = ("id","entries","edit_after_submit","confirmation_message",
-                    "is_quiz", "allow_view_score","createdAt", "updatedAt",
-                    "collect_email",)
+    list_display = ("id", "entries", "edit_after_submit",
+                    "confirmation_message", "is_quiz", "allow_view_score",
+                    "createdAt", "updatedAt", "collect_email",)
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ("id","form_id","question","question_type","required",
-                    "answer_key","score","choices",)
+    list_display = ("id", "form_id", "question", "question_type", "required",
+                    "answer_key", "score", "choices",)
 
 
 class AnswerAdmin(admin.ModelAdmin):
-    list_display = ("id","answer","question",)
+    list_display = ("id", "answer", "question",)
 
 
 class ResponseAdmin(admin.ModelAdmin):
-    list_display = ("id","form","responder_email","response")
+    list_display = ("id", "form", "responder_email", "response")
 
 
 admin.site.register(Club, ClubAdmin)
@@ -47,4 +47,3 @@ admin.site.register(Form, FormAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(Response, ResponseAdmin)
-
