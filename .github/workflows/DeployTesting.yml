@@ -81,11 +81,11 @@ jobs:
         run: cd djan* && ls -a
 
       - name: Checking out testing branch
-        run: ls -a && git checkout testing
+        run: cd django-collabconnect && git checkout testing
 
       - name: Adding remote
-        run: git remote add production dokku@192.168.1.229:django-collabconnect || echo "Remote already exists"
+        run: cd django-collabconnect && git remote add production dokku@192.168.1.229:django-collabconnect || echo "Remote already exists"
 
       - name: Pushing
-        run: git push production -f testing:main
+        run: cd django-collabconnect && git push production -f testing:main
 
