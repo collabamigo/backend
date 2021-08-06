@@ -73,6 +73,7 @@ jobs:
 
   Internal-deploy:
     runs-on: iiit-vm
+    needs: Deploy-testing-to-Heroku
     steps:
       - name: Clone
         run: rm django-collabconnect -rf && git clone git@github.com:watson-hex/django-collabconnect.git
