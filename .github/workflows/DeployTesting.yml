@@ -75,7 +75,10 @@ jobs:
     runs-on: iiit-vm
     steps:
       - name: Clone
-        run: rm django-collabconnect -rf && git clone git@github.com:watson-hex/django-collabconnect.git && cd django-collabconnect
+        run: rm django-collabconnect -rf && git clone git@github.com:watson-hex/django-collabconnect.git
+
+      - name: cd django-collabconnect
+        run: cd djan* && ls -a
 
       - name: Checking out testing branch
         run: ls -a && git checkout testing
