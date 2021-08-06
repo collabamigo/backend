@@ -6,10 +6,10 @@ from connect.models import Profile
 class Club(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
-    link = models.CharField(max_length=100)  # url
+    link = models.CharField(max_length=100)     # url
     picture = models.CharField(max_length=100)  # url
     college = models.CharField(max_length=100, default="IIIT-D")
-    join_date = models.DateField()
+    join_date = models.DateField(auto_now_add=True)
 
 
 class Competition(models.Model):
