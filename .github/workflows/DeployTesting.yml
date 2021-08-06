@@ -74,8 +74,12 @@ jobs:
   Internal-deploy:
     runs-on: iiit-vm
     steps:
+      - uses: actions/checkout@v2
+        with:
+            fetch-depth: 0
+
       - name: Clone
-        run: git clone git@github.com:watson-hex/django-collabconnect.git && cd django-collabconnect
+        run: cd django-collabconnect
 
       - name: Checking out testing branch
         run: git checkout testing
