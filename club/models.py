@@ -40,7 +40,7 @@ class Form(models.Model):
     edit_after_submit = models.BooleanField(default=False)
     confirmation_message = models.TextField(max_length=50,
                                             default="Your response has been "
-                                                    "recorded.")
+                                            "recorded.")
     is_quiz = models.BooleanField(default=False)
     allow_view_score = models.BooleanField(default=True)
     createdAt = models.DateTimeField(auto_now_add=True)
