@@ -31,3 +31,6 @@ class Form(models.Model):
     id = models.IntegerField(primary_key=True, unique=True,
                              max_length=6, auto_created=False,
                              serialize=False, verbose_name='ID')
+    entries = models.ForeignKey(Entries.entries_id, on_delete=models.CASCADE)
+
+
