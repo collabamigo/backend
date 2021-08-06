@@ -79,7 +79,7 @@ jobs:
             fetch-depth: 0
 
       - name: Clone
-        run: cd django-collabconnect
+        run: ls -a && cd django-collabconnect
 
       - name: Checking out testing branch
         run: git checkout testing
