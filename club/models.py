@@ -15,7 +15,8 @@ class Club(models.Model):
 class Competition(models.Model):
     id = models.AutoField(primary_key=True)
     on_going = models.BooleanField()
-    # competitions = models.ManyToManyField(related_name='Club', on_delete=models.CASCADE)
+    # competitions = models.ManyToManyField(related_name='Club',
+    #                                       on_delete=models.CASCADE)
 
 
 class Entries(models.Model):
@@ -23,7 +24,7 @@ class Entries(models.Model):
     participant = models.ForeignKey(Profile, on_delete=models.CASCADE)
     competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
 
-############################################################################################
+##########################################################################
 # have to add null=True
 
 
@@ -37,7 +38,8 @@ class Form(models.Model):
     id = models.AutoField(primary_key=True)
     entries = models.ForeignKey(Entries, on_delete=models.CASCADE)
     edit_after_submit = models.BooleanField(default=False)
-    confirmation_message = models.TextField(max_length=50, default="Your response has been recorded.")
+    confirmation_message = models.TextField(max_length=50,
+                default="Your response has been recorded.")
     is_quiz = models.BooleanField(default=False)
     allow_view_score = models.BooleanField(default=True)
     createdAt = models.DateTimeField(auto_now_add=True)
@@ -60,11 +62,13 @@ class Question(models.Model):
 class Answer(models.Model):
     id = models.AutoField(primary_key=True)
     answer = models.CharField(max_length=5000)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="answer")
+    question = models.ForeignKey(Question, on_delete=models.CASCADE,
+                                 related_name="answer")
 
 
 class Response(models.Model):
     id = models.AutoField(primary_key=True)
-    form = models.ForeignKey(Form, on_delete=models.CASCADE, related_name="response")
+    form = models.ForeignKey(Form, on_delete=models.CASCADE,
+                             related_name="response")
     responder_email = models.EmailField(blank=True)
     response = models.ManyToManyField(Answer, related_name="response")
