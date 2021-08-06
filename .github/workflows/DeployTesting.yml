@@ -84,5 +84,5 @@ jobs:
         run: git remote add production dokku@192.168.1.229:django-collabconnect || echo "Remote already exists"
 
       - name: Pushing
-        run: git push production
+        run: git push production -f testing:main
 
