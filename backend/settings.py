@@ -49,7 +49,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['SECRET_KEY']
 
-DEBUG = not bool(os.getenv("PRODUCTION"))
+DEBUG = True
 
 # TODO: Insecure ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
@@ -74,10 +74,13 @@ INSTALLED_APPS = [
     'connect.apps.ConnectConfig',
     'corsheaders',
     'autocomplete',
+    'debug_toolbar',
+    'club',
 ]
 
 # TODO: Enable CSRF
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -153,6 +156,30 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
+
+DEBUG_TOOLBAR_PANELS = [
+    'debug_toolbar.panels.history.HistoryPanel',
+    'debug_toolbar.panels.versions.VersionsPanel',
+    'debug_toolbar.panels.timer.TimerPanel',
+    'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    'debug_toolbar.panels.templates.TemplatesPanel',
+    'debug_toolbar.panels.cache.CachePanel',
+    'debug_toolbar.panels.signals.SignalsPanel',
+    'debug_toolbar.panels.logging.LoggingPanel',
+    'debug_toolbar.panels.redirects.RedirectsPanel',
+    'debug_toolbar.panels.profiling.ProfilingPanel',
+]
+
 
 # CSRF_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 SECURE_SSL_REDIRECT = bool(os.getenv("PRODUCTION"))

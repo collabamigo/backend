@@ -4,43 +4,40 @@ from connect.models import Profile
 
 # Create your models here.
 class Club(models.Model):
-    id = models.CharField(primary_key=True, unique=True,
-                          max_length=6, auto_created=False,
-                          serialize=False, verbose_name='ID')
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     link = models.CharField(max_length=100)  # url
     picture = models.CharField(max_length=100)  # url
-    college = models.CharField(default="IIIT-D")
+    college = models.CharField(max_length=100, default="IIIT-D")
     join_date = models.DateField()
 
 
 class Competition(models.Model):
-    competition_id = models.IntegerField(primary_key=True, unique=True,
-                                         max_length=6, auto_created=False,
-                                         serialize=False, verbose_name='ID')
+    id = models.AutoField(primary_key=True)
     on_going = models.BooleanField()
     # competitions = models.ManyToManyField(related_name='Club', on_delete=models.CASCADE)
 
 
 class Entries(models.Model):
-    entries_id = models.ForeignKey(Competition.competition_id, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
     participant = models.ForeignKey(Profile, on_delete=models.CASCADE)
-
+    competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
 
 ############################################################################################
+# have to add null=True
+
 
 class Choices(models.Model):
+    id = models.AutoField(primary_key=True)
     choice = models.CharField(max_length=5000)
     is_answer = models.BooleanField(default=False)
 
 
 class Form(models.Model):
-    id = models.IntegerField(primary_key=True, unique=True,
-                             max_length=6, auto_created=False,
-                             serialize=False, verbose_name='ID')
-    entries = models.ForeignKey(Entries.entries_id, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
+    entries = models.ForeignKey(Entries, on_delete=models.CASCADE)
     edit_after_submit = models.BooleanField(default=False)
-    confirmation_message = models.CharField(max_length=10000, default="Your response has been recorded.")
+    confirmation_message = models.TextField(max_length=50, default="Your response has been recorded.")
     is_quiz = models.BooleanField(default=False)
     allow_view_score = models.BooleanField(default=True)
     createdAt = models.DateTimeField(auto_now_add=True)
@@ -49,25 +46,25 @@ class Form(models.Model):
     # questions = models.ManyToManyField(Questions, related_name="questions")
 
 
-class Questions(models.Model):
-    form_id = models.ForeignKey(Form.id)
-    question_id = models.IntegerField(primary_key=True, unique=True,
-                                      max_length=6, auto_created=False,
-                                      serialize=False, verbose_name='ID')
-    question = models.CharField(max_length=10000)
+class Question(models.Model):
+    id = models.AutoField(primary_key=True)
+    form_id = models.ForeignKey(Form, on_delete=models.CASCADE)
+    question = models.TextField()
     question_type = models.CharField(max_length=20)
     required = models.BooleanField(default=False)
-    answer_key = models.CharField(max_length=5000, blank=True)
+    answer_key = models.TextField(blank=True)
     score = models.IntegerField(blank=True, default=0)
-    choices = models.ManyToManyField(Choices, related_name="choices")
+    choices = models.ManyToManyField(Choices, related_name="question")
 
 
 class Answer(models.Model):
+    id = models.AutoField(primary_key=True)
     answer = models.CharField(max_length=5000)
-    answer_to = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name="answer_to")
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="answer")
 
 
-class Responses(models.Model):
-    response_to = models.ForeignKey(Form, on_delete=models.CASCADE, related_name="response_to")
+class Response(models.Model):
+    id = models.AutoField(primary_key=True)
+    form = models.ForeignKey(Form, on_delete=models.CASCADE, related_name="response")
     responder_email = models.EmailField(blank=True)
     response = models.ManyToManyField(Answer, related_name="response")
