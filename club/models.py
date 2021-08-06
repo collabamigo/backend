@@ -32,6 +32,7 @@ class Choices(models.Model):
     id = models.AutoField(primary_key=True)
     choice = models.CharField(max_length=5000, default='null')
     is_answer = models.BooleanField(default=False)
+    # question type and make a new model for type of choices
 
 
 class Form(models.Model):
