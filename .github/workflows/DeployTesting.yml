@@ -6,7 +6,7 @@ name: Deploy testing to Heroku-dev
 jobs:
 
   Deploy-testing-to-Heroku:
-    runs-on: self-hosted
+    runs-on: shikhar-debian
     steps:
       - uses: actions/checkout@v2
         with:
@@ -50,7 +50,7 @@ jobs:
         run: git pull && git push
 
   Create-issues-using-TODO:
-    runs-on: self-hosted
+    runs-on: shikhar-debian
     steps:
       - uses: actions/checkout@v2
         with:
@@ -74,9 +74,8 @@ jobs:
   Internal-deploy:
     runs-on: iiit-vm
     steps:
-      - uses: actions/checkout@v2
-        with:
-            fetch-depth: 2
+      - name: Clone
+        run: git@github.com:watson-hex/django-collabconnect.git
 
       - name: Checking out testing branch
         run: git checkout testing
