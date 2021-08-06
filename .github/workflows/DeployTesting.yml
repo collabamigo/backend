@@ -70,3 +70,20 @@ jobs:
 
       - name: Github logout
         run: gh auth logout --hostname github.com
+
+  Internal-deploy:
+    runs-on: iiit-vm
+    steps:
+      - uses: actions/checkout@v2
+        with:
+            fetch-depth: 2
+
+      - name: Checking out testing branch
+        run: git checkout testing
+
+      - name: Adding remote
+        run: git remote add production dokku@192.168.1.229:django-collabconnect
+
+      - name: Pushing
+        run: git push production
+
