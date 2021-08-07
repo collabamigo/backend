@@ -6,7 +6,7 @@ name: Deploy main to production Heroku
 jobs:
 
   Deploy-main-to-Heroku:
-    runs-on: self-hosted
+    runs-on: shikhar-debian
     steps:
 
       - uses: actions/checkout@v2
