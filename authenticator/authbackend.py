@@ -6,10 +6,6 @@ from rest_framework.request import Request
 from authenticator import AuthHandler
 
 
-ALLOWED_IN_DEBUG = ['adityapratapsingh51@gmail.com',
-                    'aditya20016@iiitd.ac.in', 'shikhar20121@iiitd.ac.in',
-                    'heemank20064@iiitd.ac.in', 'heemankv@gmail.com']
-
 
 class CustomAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request: Request):
@@ -26,7 +22,7 @@ class CustomAuthentication(authentication.BaseAuthentication):
                       "AuthHandler authentication",
                       flush=True)
                 auth = ""
-            if auth and (not settings.DEBUG or auth in ALLOWED_IN_DEBUG):
+            if auth and (not settings.DEBUG or auth in settings.ALLOWED_IN_DEBUG):
                 print(request.method+" request received on " +
                       request.path+" by "+auth +
                       " with data "+str(request.query_params),

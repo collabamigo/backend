@@ -169,6 +169,11 @@ SESSION_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 if os.environ['EMAIL'] != "a":
     MongoClient = pymongo.MongoClient(os.environ['MONGODB_URI'])
 
+
+ALLOWED_IN_DEBUG = ['adityapratapsingh51@gmail.com',
+                    'aditya20016@iiitd.ac.in', 'shikhar20121@iiitd.ac.in',
+                    'heemank20064@iiitd.ac.in', 'heemankv@gmail.com', ]
+
 DATABASES = dict()
 DATABASES['default'] = dj_database_url.config(
     conn_max_age=600, ssl_require=False)
