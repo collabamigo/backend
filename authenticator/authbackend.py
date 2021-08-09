@@ -6,7 +6,6 @@ from rest_framework.request import Request
 from authenticator import AuthHandler
 
 
-
 class CustomAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request: Request):
         if 'aeskey' in request.headers and "iv" in request.headers and \
