@@ -34,7 +34,9 @@ CORS_ORIGIN_WHITELIST = [
     'https://collabconnect-development.firebaseapp.com',
     'https://collabconnect.web.app',
     'https://collabconnect.firebaseapp.com',
-    'https://collabconnect-development.web.app'
+    'https://collabconnect-development.web.app',
+    'https://collabamigo.com',
+    'https://www.collabamigo.com'
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
