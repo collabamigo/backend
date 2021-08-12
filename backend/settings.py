@@ -32,9 +32,7 @@ REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'https://collabconnect-development.firebaseapp.com',
-    'https://collabconnect.web.app',
-    'https://collabconnect.firebaseapp.com',
-    'https://collabconnect-development.web.app',
+    'https://collabamigo-dev.web.app',
     'https://collabamigo.com',
     'https://www.collabamigo.com'
 ]
