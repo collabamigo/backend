@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'autocomplete',
     'club',
+    'ecell',
 ]
 
 # TODO: Enable CSRF
