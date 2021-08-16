@@ -172,7 +172,8 @@ if os.environ['EMAIL'] != "a":
 ALLOWED_IN_DEBUG = ['adityapratapsingh51@gmail.com',
                     'aditya20016@iiitd.ac.in', 'shikhar20121@iiitd.ac.in',
                     'heemank20064@iiitd.ac.in', 'heemankv@gmail.com',
-                    'anis20026@iiitd.ac.in', 'vishwesh20156@iiitd.ac.in', ]
+                    'anis20026@iiitd.ac.in', 'vishwesh20156@iiitd.ac.in',
+                    'pragyan20226@iiitd.ac.in']
 
 DATABASES = dict()
 DATABASES['default'] = dj_database_url.config(
