@@ -10,7 +10,7 @@ djangorestframework = "*"
 django-cors-headers = "*"
 dnspython = "*"
 django = "*"
-psycopg2 = "*"
+psycopg2-binary = "*"
 bandit = "*"
 dj-database-url = "*"
 pymongo = "*"
@@ -24,4 +24,4 @@ urllib3 = ">=1.26.5"
 [dev-packages]
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
