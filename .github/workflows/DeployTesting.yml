@@ -6,7 +6,7 @@ name: Deploy testing to Heroku-dev
 jobs:
 
   Deploy-testing-to-Heroku:
-    runs-on: shikhar-debian
+    runs-on: iiit-vm
     steps:
       - uses: actions/checkout@v2
         with:
@@ -19,13 +19,13 @@ jobs:
         run: pip3 install bandit pipenv flake8
 
       - name: Running bandit tests
-        run:  PATH=$PATH:/home/codein2/.local/bin && bandit -r ${{ github.workspace }}
+        run:  PATH=$PATH:/home/$USER/.local/bin && bandit -r ${{ github.workspace }}
 
       - name: Running flake8 tests
-        run: PATH=$PATH:/home/codein2/.local/bin && flake8 ${{ github.workspace }} --exclude=migrations
+        run: PATH=$PATH:/home/$USER/.local/bin && flake8 ${{ github.workspace }} --exclude=migrations
 
       - name: Creating pipenv environment
-        run: PATH=$PATH:/home/codein2/.local/bin && cd ${{ github.workspace }} &&
+        run: PATH=$PATH:/home/$USER/.local/bin && cd ${{ github.workspace }} &&
               pipenv install && echo "SECRET_KEY=a">.env && echo "EMAIL=a">>.env
 
       - name: Setting git credentials
