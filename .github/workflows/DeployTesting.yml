@@ -37,12 +37,16 @@ jobs:
       - name: Git add and commit
         run: git add . && if [[ $(git status -s) ]]; then git commit -m "Migrations"; fi
 
-      - name: Set global git config
-        run: git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
+#      - name: Set global git config
+#        run: git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
+
+      - name: Heroku action
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku login
 
       - name: Pushing to Heroku-dev
-        run:  cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-dev &&
-                (git remote add heroku-dev https://git.heroku.com/blooming-peak-53825.git ||
+        run:  (git remote add heroku-dev https://git.heroku.com/blooming-peak-53825.git ||
                   echo "Remote heroku-dev already exists" ) &&
                     git push heroku-dev -f testing:main
 
