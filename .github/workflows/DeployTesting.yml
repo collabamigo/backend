@@ -16,29 +16,28 @@ jobs:
         run: git checkout testing
 
       - name: Installing pip packages
-        run: pip3 install bandit pipenv flake8
+        run: poetry install
 
       - name: Running bandit tests
-        run:  PATH=$PATH:/home/$USER/.local/bin && bandit -r ${{ github.workspace }}
+        run: poetry run bandit -r ${{ github.workspace }}
 
       - name: Running flake8 tests
-        run: PATH=$PATH:/home/$USER/.local/bin && flake8 ${{ github.workspace }} --exclude=migrations
+        run: poetry run flake8 ${{ github.workspace }} --exclude=migrations
 
-      - name: Creating pipenv environment
-        run: PATH=$PATH:/home/$USER/.local/bin && cd ${{ github.workspace }} &&
-              pipenv install && echo "SECRET_KEY=a">.env && echo "EMAIL=a">>.env
+      - name: Creating environment variables
+        run: echo "SECRET_KEY=a">.env && echo "EMAIL=a">>.env
 
       - name: Setting git credentials
         run: git config --global user.email "watsonhex@gmail.com" && git config --global user.name "Github runner"
 
       - name: Run makemigrations
-        run: PATH=$PATH:/home/codein2/.local/bin && yes | pipenv run python manage.py makemigrations
+        run: yes | poetry run python manage.py makemigrations
+
+      - name: Creating requirements.txt
+        run: poetry export -f requirements.txt --output requirements.txt
 
       - name: Git add and commit
         run: git add . && if [[ $(git status -s) ]]; then git commit -m "Migrations"; fi
-
-#      - name: Set global git config
-#        run: git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
 
       - name: Heroku action
         env:
