@@ -8,6 +8,9 @@ jobs:
   Deploy-testing-to-Heroku:
     runs-on: iiit-vm
     steps:
+      - name: Adding local bin to PATH
+        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
+
       - uses: actions/checkout@v2
         with:
             fetch-depth: 0
