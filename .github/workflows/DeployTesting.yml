@@ -1,7 +1,4 @@
 name: Deploy testing to Heroku-dev
-defaults:
-  run:
-    shell: bash -ieo pipefail {0}
 'on':
   push:
     branches:
@@ -10,6 +7,7 @@ jobs:
 
   Deploy-testing-to-Heroku:
     runs-on: iiit-vm
+    environment: testing
     steps:
       - name: Adding local bin to PATH
         run: echo "$HOME/.local/bin" >> $GITHUB_PATH
@@ -40,7 +38,7 @@ jobs:
         run: git config --global user.email "watsonhex@gmail.com" && git config --global user.name "Github runner"
 
       - name: Run makemigrations
-        run: (yes | poetry run python manage.py makemigrations || echo 1)
+        run: yes | poetry run python manage.py makemigrations
 
       - name: Creating requirements.txt
         run: poetry export -f requirements.txt --output requirements.txt
@@ -53,6 +51,7 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_APP_TESTING: ${{ secrets.HEROKU_APP_TESTING }}
         run: dpl --provider=heroku --app=$HEROKU_APP_TESTING --api-key=$HEROKU_API_KEY
+        shell: bash -ieo pipefail {0}
 
       - name: Pushing to Github
         run: git pull && git push
