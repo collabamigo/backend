@@ -40,7 +40,6 @@ jobs:
         run: git config --global user.email "watsonhex@gmail.com" && git config --global user.name "Github runner"
 
       - name: Run makemigrations
-        shell: bash --noprofile --norc -eo pipefail {0}
         run: (yes | poetry run python manage.py makemigrations || echo 1)
 
       - name: Creating requirements.txt
@@ -59,7 +58,7 @@ jobs:
         run: git pull && git push
 
   Create-issues-using-TODO:
-    runs-on: shikhar-debian
+    runs-on: iiit-vm
     steps:
       - uses: actions/checkout@v2
         with:
@@ -84,18 +83,17 @@ jobs:
     runs-on: iiit-vm
     needs: Deploy-testing-to-Heroku
     steps:
-      - name: Clone
-        run: rm django-collabconnect -rf && git clone git@github.com:watson-hex/django-collabconnect.git
 
-      - name: cd django-collabconnect
-        run: cd djan* && ls -a
+      - uses: actions/checkout@v2
+        with:
+            fetch-depth: 0
 
       - name: Checking out testing branch
-        run: cd django-collabconnect && git checkout testing
+        run: git checkout testing
 
       - name: Adding remote
-        run: cd django-collabconnect && git remote add production dokku@192.168.1.229:django-collabconnect || echo "Remote already exists"
+        run: git remote add production dokku@192.168.1.229:django-collabconnect || echo "Remote already exists"
 
       - name: Pushing
-        run: cd django-collabconnect && git push production -f testing:main
+        run: git push production -f testing:main
 
