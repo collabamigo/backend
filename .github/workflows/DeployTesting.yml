@@ -1,4 +1,7 @@
 name: Deploy testing to Heroku-dev
+defaults:
+  run:
+    shell: bash -ieo pipefail {0}
 'on':
   push:
     branches:
@@ -37,7 +40,8 @@ jobs:
         run: git config --global user.email "watsonhex@gmail.com" && git config --global user.name "Github runner"
 
       - name: Run makemigrations
-        run: yes | poetry run python manage.py makemigrations
+        shell: bash --noprofile --norc -eo pipefail {0}
+        run: (yes | poetry run python manage.py makemigrations || echo 1)
 
       - name: Creating requirements.txt
         run: poetry export -f requirements.txt --output requirements.txt
