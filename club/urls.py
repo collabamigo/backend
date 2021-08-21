@@ -8,7 +8,7 @@ if settings.DEBUG:
 else:
     router = routers.SimpleRouter()
 
-router.register(r'club', views.ClubView, 'club')
+router.register(r'clubdata', views.ClubView, 'club')
 
 urlpatterns = [
     path('clubdata/', views.ClubView, name='ClubData'),
