@@ -10,6 +10,5 @@ from .serilaizers import ClubSerializer
 
 class ClubView(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
-
     queryset = Club.objects.all()
     serializer_class = ClubSerializer
