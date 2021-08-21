@@ -23,15 +23,17 @@ load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+DEBUG = bool(os.getenv("DEVELOPMENT"))
+
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
     'rest_framework.permissions.AllowAny'],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'authenticator.authbackend.CustomAuthentication']}
 
+CORS_ORIGIN_ALLOW_ALL = DEBUG
+
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-    'https://collabamigo-testing.web.app',
     'https://collabamigo.com',
 ]
 
@@ -47,7 +49,6 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['SECRET_KEY']
 
-DEBUG = True
 
 # TODO: Insecure ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
