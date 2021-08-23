@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Club, Competition, Entries, Choices, Form, Question,\
+from .models import Club, Competition, Entry, Choice, Form, Question,\
     Answer, Response
 
 
@@ -41,8 +41,8 @@ class ResponseAdmin(admin.ModelAdmin):
 
 admin.site.register(Club, ClubAdmin)
 admin.site.register(Competition, CompetitionAdmin)
-admin.site.register(Entries, EntriesAdmin)
-admin.site.register(Choices, ChoicesAdmin)
+admin.site.register(Entry, EntriesAdmin)
+admin.site.register(Choice, ChoicesAdmin)
 admin.site.register(Form, FormAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
