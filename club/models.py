@@ -19,7 +19,7 @@ class Competition(models.Model):
     #                                       on_delete=models.CASCADE)
 
 
-class Entries(models.Model):
+class Entry(models.Model):
     id = models.AutoField(primary_key=True)
     participant = models.ForeignKey(Profile, on_delete=models.CASCADE)
     competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
@@ -28,7 +28,7 @@ class Entries(models.Model):
 # have to add null=True
 
 
-class Choices(models.Model):
+class Choice(models.Model):
     id = models.AutoField(primary_key=True)
     choice = models.CharField(max_length=5000, default='null')
     is_answer = models.BooleanField(default=False)
@@ -37,7 +37,7 @@ class Choices(models.Model):
 
 class Form(models.Model):
     id = models.AutoField(primary_key=True)
-    entries = models.ForeignKey(Entries, on_delete=models.CASCADE)
+    entries = models.ForeignKey(Entry, on_delete=models.CASCADE)
     edit_after_submit = models.BooleanField(default=False)
     confirmation_message = models.TextField(max_length=50,
                                             default="Your response has been "
@@ -58,7 +58,7 @@ class Question(models.Model):
     required = models.BooleanField(default=False)
     answer_key = models.TextField(blank=True)
     score = models.IntegerField(blank=True, default=0)
-    choices = models.ForeignKey(Choices, related_name="question",
+    choices = models.ForeignKey(Choice, related_name="question",
                                 on_delete=models.CASCADE, default="null")
 
 
