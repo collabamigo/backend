@@ -3,8 +3,6 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from backend import settings
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from rest_framework.exceptions import ParseError, NotFound
@@ -57,7 +55,6 @@ def get_roll_number(email, degree):
     return str(degree) + output
 
 
-@method_decorator(csrf_exempt, name='dispatch')
 class ProfileView(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
@@ -80,7 +77,6 @@ class ProfileView(viewsets.ModelViewSet):
                         id=id_)
 
 
-@method_decorator(csrf_exempt, name='dispatch')
 class TeacherView(viewsets.ModelViewSet):
     permission_classes = [IsOwner]
     serializer_class = TeacherSerializer
@@ -100,7 +96,6 @@ class TeacherView(viewsets.ModelViewSet):
                         id=self.request.user.profile)
 
 
-@method_decorator(csrf_exempt, name='dispatch')
 class SkillView(viewsets.ModelViewSet):
     lookup_value_regex = '[^/]+'
     permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
