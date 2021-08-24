@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from .models import Club, Competition
+from .models import Club, Competition, Social
 
 
 class ClubSerializer(serializers.ModelSerializer):
@@ -15,3 +15,10 @@ class CompetitionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Competition
         fields = ('id', 'on_going',)
+
+
+class SocialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Social
+        fields = ("id", "club", "instagram", "linkedin", "facebook", "discord"
+                  ,"other")

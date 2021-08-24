@@ -6,10 +6,20 @@ from connect.models import Profile
 class Club(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
-    link = models.CharField(max_length=100)     # url
+    link = models.CharField(max_length=100)  # url
     picture = models.CharField(max_length=100)  # url
     college = models.CharField(max_length=100, default="IIIT-D")
     join_date = models.DateField(auto_now_add=True)
+
+
+class Social(models.Model):
+    id = models.AutoField(primary_key=True)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    instagram = models.URLField(max_length=100, null=True)
+    linkedin = models.URLField(max_length=100, null=True)
+    facebook = models.URLField(max_length=100, null=True)
+    discord = models.URLField(max_length=100, null=True)
+    other = models.URLField(max_length=100)
 
 
 class Competition(models.Model):
@@ -23,6 +33,7 @@ class Entry(models.Model):
     id = models.AutoField(primary_key=True)
     participant = models.ForeignKey(Profile, on_delete=models.CASCADE)
     competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
+
 
 ##########################################################################
 # have to add null=True
@@ -41,7 +52,7 @@ class Form(models.Model):
     edit_after_submit = models.BooleanField(default=False)
     confirmation_message = models.TextField(max_length=50,
                                             default="Your response has been "
-                                            "recorded.")
+                                                    "recorded.")
     is_quiz = models.BooleanField(default=False)
     allow_view_score = models.BooleanField(default=True)
     createdAt = models.DateTimeField(auto_now_add=True)
