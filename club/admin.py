@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Club, Competition, Entry, Choice, Form, Question,\
+from .models import Club, Social, Competition, Entry, Choice, Form, Question,\
     Answer, Response
 
 
@@ -10,6 +10,11 @@ class ClubAdmin(admin.ModelAdmin):
 
 class CompetitionAdmin(admin.ModelAdmin):
     list_display = ("id", "on_going",)
+
+
+class SocialAdmin(admin.ModelAdmin):
+    list_display = ("id", "club", "instagram", "linkedin", "facebook",
+                    "discord", "other")
 
 
 class EntriesAdmin(admin.ModelAdmin):
@@ -40,6 +45,7 @@ class ResponseAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Club, ClubAdmin)
+admin.site.register(Social, SocialAdmin)
 admin.site.register(Competition, CompetitionAdmin)
 admin.site.register(Entry, EntriesAdmin)
 admin.site.register(Choice, ChoicesAdmin)

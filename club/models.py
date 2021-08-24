@@ -19,7 +19,7 @@ class Social(models.Model):
     linkedin = models.URLField(max_length=100, null=True)
     facebook = models.URLField(max_length=100, null=True)
     discord = models.URLField(max_length=100, null=True)
-    other = models.URLField(max_length=100)
+    other = models.URLField(max_length=100, null=True)
 
 
 class Competition(models.Model):
