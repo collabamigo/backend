@@ -20,5 +20,5 @@ class CompetitionSerializer(serializers.ModelSerializer):
 class SocialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Social
-        fields = ("id", "club", "instagram", "linkedin", "facebook", "discord"
-                  ,"other")
+        fields = ("id", "club", "instagram", "linkedin", "facebook",
+                  "discord", "other")
