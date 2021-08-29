@@ -6,18 +6,21 @@ name: Deploy main to production Heroku
 jobs:
 
   Deploy-main-to-Heroku:
-    runs-on: shikhar-debian
+    runs-on: iiit-vm
+    environment: production
     steps:
 
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
 
-      - name: Checking out main branch
-        run: git checkout main
+      #      Needed when running on a new machine for the first time
+      #      - name: Install system dependencies
+      #        run: yes | sudo apt-get install libpq-dev python3-wheel gcc
+
+      - name: Installing poetry
+        run: which poetry || curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
 
       - name: Installing pip packages
-        run: pip3 install bandit pipenv flake8
+        run: poetry install
 
       - name: Running bandit tests
         run:  PATH=$PATH:/home/codein2/.local/bin && bandit -r ${{ github.workspace }}
