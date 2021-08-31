@@ -1,7 +1,7 @@
 import os
 
-from Cryptodome.Cipher import PKCS1_OAEP, AES
-from Cryptodome.PublicKey import RSA
+from Cryptodome.Cipher import AES
+# from Cryptodome.PublicKey import RSA
 from Cryptodome.Util.Padding import unpad
 from google.auth.transport import requests
 from google.oauth2 import id_token
@@ -23,11 +23,12 @@ def authenticate(encrypted_token: str, aes_key: str, iv: str) -> tuple:
 
 
 def _rsa_decrypt(ciphertext: str) -> str:
-    ciphertext = bytes.fromhex(ciphertext)
-    private_key = RSA.importKey(os.environ['TOKEN_PVT_KEY'])
-    private_key_object = PKCS1_OAEP.new(private_key)
-    plaintext = private_key_object.decrypt(ciphertext)
-    return plaintext.decode()
+    return ciphertext
+    # ciphertext = bytes.fromhex(ciphertext)
+    # private_key = RSA.importKey(os.environ['TOKEN_PVT_KEY'])
+    # private_key_object = PKCS1_OAEP.new(private_key)
+    # plaintext = private_key_object.decrypt(ciphertext)
+    # return plaintext.decode()
 
 
 def _aes_decrypt(ciphertext: str, aes_key: str, iv: str) -> str:
