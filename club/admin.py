@@ -9,7 +9,7 @@ class ClubAdmin(admin.ModelAdmin):
 
 
 class CompetitionAdmin(admin.ModelAdmin):
-    list_display = ("id", "on_going",)
+    list_display = ("id", "club", "on_going",)
 
 
 class SocialAdmin(admin.ModelAdmin):

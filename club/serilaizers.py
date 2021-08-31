@@ -14,7 +14,7 @@ class ClubSerializer(serializers.ModelSerializer):
 class CompetitionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Competition
-        fields = ('id', 'on_going',)
+        fields = ('id', 'club', 'on_going',)
 
 
 class SocialSerializer(serializers.ModelSerializer):
