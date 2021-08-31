@@ -24,7 +24,7 @@ class Social(models.Model):
 
 class Competition(models.Model):
     id = models.AutoField(primary_key=True)
-    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True)
     on_going = models.BooleanField()
     # competitions = models.ManyToManyField(related_name='Club',
     #                                       on_delete=models.CASCADE)
