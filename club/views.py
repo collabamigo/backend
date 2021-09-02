@@ -1,10 +1,10 @@
 # from django.shortcuts import render
-from rest_framework import viewsets, views
+from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from connect.permissions import IsAdminOrReadOnlyIfAuthenticated
-from .models import Club, Competition
-from .serilaizers import ClubSerializer, CompetitionSerializer
+from .models import Club, Competition, Entry
+from .serilaizers import ClubSerializer, CompetitionSerializer, EntrySerializer
 
 
 # Create your views here.
@@ -33,3 +33,9 @@ class CompetitionView(viewsets.ModelViewSet):
             return Response("Already Present",
                             status=status.HTTP_208_ALREADY_REPORTED)
         serializer.save()
+
+
+class EntryView(viewsets.ModelViewSet):
+    permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
+    queryset = Entry.objects.all()
+    serializer_class = EntrySerializer
