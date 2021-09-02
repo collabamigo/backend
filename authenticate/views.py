@@ -17,7 +17,7 @@ from Cryptodome.Hash import SHA512
 class OAuthCallback(APIView):
 
     def post(self, request: Request):
-        email, picture = verify_token(request.POST)
+        email, picture = verify_token(request.POST.get("jwt"))
         if email:
             username = email.split("@")[0]
             user = User.objects.get_or_create(email=email, username=username,
