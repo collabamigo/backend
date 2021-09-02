@@ -87,7 +87,7 @@ jobs:
             fetch-depth: 0
 
       - name: Checking out testing branch
-        run: git checkout testing
+        run: git checkout testing && git pull
 
       - name: Adding remote
         run: git remote add production dokku@192.168.1.229:django-collabconnect || echo "Remote already exists"
