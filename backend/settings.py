@@ -75,7 +75,8 @@ INSTALLED_APPS = [
     'autocomplete',
     'club',
     'ecell',
-    'authenticate'
+    'authenticate',
+    'rest_framework.authtoken'
 ]
 
 # TODO: Enable CSRF
