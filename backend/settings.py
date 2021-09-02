@@ -29,7 +29,7 @@ REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
     'rest_framework.permissions.AllowAny'],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
-        'authenticator.authbackend.CustomAuthentication']}
+        'authenticate.authbackend.CustomAuthentication']}
 
 CORS_ORIGIN_ALLOW_ALL = DEBUG
 
@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'autocomplete',
     'club',
     'ecell',
+    'authenticate'
 ]
 
 # TODO: Enable CSRF
@@ -175,6 +176,10 @@ ALLOWED_IN_DEBUG = ['adityapratapsingh51@gmail.com',
                     'heemank20064@iiitd.ac.in', 'heemankv@gmail.com',
                     'anis20026@iiitd.ac.in', 'vishwesh20156@iiitd.ac.in',
                     'pragyan20226@iiitd.ac.in']
+
+JWT_VALIDITY_IN_DAYS = 1
+TOKEN_VALIDITY_IN_DAYS = 3
+JWT_SECRET = "TESTSEcret" if DEBUG else os.environ["JWT_SECRET"]
 
 DATABASES = dict()
 DATABASES['default'] = dj_database_url.config(
