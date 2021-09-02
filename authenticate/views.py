@@ -30,10 +30,10 @@ class OAuthCallback(APIView):
             jwt_payload = {"email": email, "hash": hasher.hexdigest(),
                            "exp": datetime.now() + timedelta(
                                days=settings.JWT_VALIDITY_IN_DAYS)}
-            return JsonResponse({"access_token":
-                                     jwt.encode(payload=jwt_payload,
-                                                key=settings.JWT_SECRET),
-                                 "refresh_token": refresh_token.token.key})
+            return JsonResponse(
+                {"access_token": jwt.encode(payload=jwt_payload,
+                                            key=settings.JWT_SECRET),
+                 "refresh_token": refresh_token.token.key})
 
         else:
             return JsonResponse(data={}, status=status.HTTP_401_UNAUTHORIZED)
