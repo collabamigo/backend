@@ -20,15 +20,19 @@ class OAuthCallback(APIView):
         email, picture = verify_token(request.POST)
         if email:
             username = email.split("@")[0]
-            user = User.objects.get_or_create(email=email, username=username, first_name=picture)
+            user = User.objects.get_or_create(email=email, username=username,
+                                              first_name=picture)
             Token.objects.filter(user=user).delete()
             token = Token.objects.create(user=user)
             refresh_token = models.RefreshToken.objects.create(token=token)
             hasher = SHA512.new(truncate="256")
             hasher.update(refresh_token.token.key.encode('utf-8'))
-            jwt_payload = {"email": email, "hash": hasher.hexdigest(), "exp": datetime.now() + timedelta(
-                days=settings.JWT_VALIDITY_IN_DAYS)}
-            return JsonResponse({"access_token": jwt.encode(payload=jwt_payload, key=settings.JWT_SECRET),
+            jwt_payload = {"email": email, "hash": hasher.hexdigest(),
+                           "exp": datetime.now() + timedelta(
+                               days=settings.JWT_VALIDITY_IN_DAYS)}
+            return JsonResponse({"access_token":
+                                     jwt.encode(payload=jwt_payload,
+                                                key=settings.JWT_SECRET),
                                  "refresh_token": refresh_token.token.key})
 
         else:
@@ -48,11 +52,15 @@ class RefreshJWT(APIView):
             hasher.update(token.token.key.encode('utf-8'))
 
             if jwt_payload.get(
-                    "hash") == hasher.hexdigest() and token.token.key == refresh_token_by_user and datetime.now() < token.expiry:
-                jwt_payload = {"email": jwt_payload.get("email"), "hash": hasher.hexdigest(),
+                    "hash") == hasher.hexdigest() and \
+                    token.token.key == refresh_token_by_user \
+                    and datetime.now() < token.expiry:
+                jwt_payload = {"email": jwt_payload.get("email"),
+                               "hash": hasher.hexdigest(),
                                "exp": datetime.now() + timedelta(
                                    days=settings.JWT_VALIDITY_IN_DAYS)}
-                return JsonResponse({"access_token": jwt.encode(payload=jwt_payload, key=settings.JWT_SECRET)})
+                return JsonResponse({"access_token": jwt.encode(
+                    payload=jwt_payload, key=settings.JWT_SECRET)})
             else:
                 return JsonResponse({}, status=status.HTTP_401_UNAUTHORIZED)
         else:

@@ -9,7 +9,7 @@ else:
     router = routers.SimpleRouter()
 
 router.register(r'club', views.ClubView, 'club')
-router.register(r'competition', views.CompetitionView, 'club')
+router.register(r'competition', views.CompetitionView, 'Competition')
 
 urlpatterns = [
     path('clubdata/', views.ClubView, name='ClubData'),
