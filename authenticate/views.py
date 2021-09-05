@@ -38,7 +38,7 @@ class OAuthCallback(APIView):
                  "refresh_token": refresh_token.token.key})
 
         else:
-            return JsonResponse(data=request.data, status=status.HTTP_401_UNAUTHORIZED)
+            return JsonResponse(data={}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class RefreshJWT(APIView):
