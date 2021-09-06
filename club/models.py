@@ -25,6 +25,8 @@ class Social(models.Model):
 class Competition(models.Model):
     id = models.AutoField(primary_key=True)
     club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=100, null=True)
+    description = models.CharField(max_length=280, null=True)
     on_going = models.BooleanField()
     # competitions = models.ManyToManyField(related_name='Club',
     #                                       on_delete=models.CASCADE)

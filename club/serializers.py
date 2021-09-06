@@ -13,8 +13,8 @@ class ClubSerializer(serializers.ModelSerializer):
 class CompetitionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Competition
-        fields = ('id', 'club', 'on_going',)
-        read_only_fields = ('id', 'club', 'on_going',)
+        fields = ('id', 'club', 'name', 'description', 'on_going',)
+        read_only_fields = ('id', 'name', 'description', 'club', 'on_going',)
 
 
 class SocialSerializer(serializers.ModelSerializer):

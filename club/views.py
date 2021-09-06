@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from connect.permissions import IsAdminOrReadOnlyIfAuthenticated
 from .models import Club, Competition, Entry
-from .serilaizers import ClubSerializer, CompetitionSerializer, EntrySerializer
+from .serializers import ClubSerializer, CompetitionSerializer, EntrySerializer
 
 
 # Create your views here.
