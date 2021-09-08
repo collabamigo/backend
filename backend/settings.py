@@ -38,12 +38,6 @@ CORS_ORIGIN_WHITELIST = [
     'https://collabamigo.com',
 ]
 
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    'aeskey',
-    'token',
-    'iv'
-]
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
