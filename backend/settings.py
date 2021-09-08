@@ -23,7 +23,7 @@ load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEBUG = bool(os.getenv("DEVELOPMENT"))
+DEVELOPMENT = bool(os.getenv("DEVELOPMENT"))
 
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
     'rest_framework.permissions.AllowAny'],
@@ -32,7 +32,7 @@ REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
         'authenticate.authbackend.DummyAuthentication',
         'authenticate.authbackend.CustomAuthentication']}
 
-CORS_ORIGIN_ALLOW_ALL = DEBUG
+CORS_ORIGIN_ALLOW_ALL = DEVELOPMENT
 
 CORS_ORIGIN_WHITELIST = [
     'https://collabamigo.com',
@@ -140,8 +140,8 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-FRONTEND_URL = "https://collabconnect-development.firebaseapp.com" if DEBUG \
-    else "https://collabconnect.web.app"
+FRONTEND_URL = "https://collabamigo-testing.web.app" if DEVELOPMENT \
+    else "https://collabamigo.com"
 
 USE_I18N = True
 USE_L10N = True
@@ -163,7 +163,7 @@ INTERNAL_IPS = [
 SECURE_SSL_REDIRECT = bool(os.getenv("PRODUCTION"))
 SESSION_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 
-if os.environ['EMAIL'] != "a":
+if not DEVELOPMENT:
     MongoClient = pymongo.MongoClient(os.environ['MONGODB_URI'])
 
 
@@ -175,7 +175,7 @@ ALLOWED_IN_DEBUG = ['adityapratapsingh51@gmail.com',
 
 JWT_VALIDITY_IN_DAYS = 1
 TOKEN_VALIDITY_IN_DAYS = 3
-JWT_SECRET = "TESTSEcret" if DEBUG else os.environ["JWT_SECRET"]
+JWT_SECRET = "TESTSEcret" if DEVELOPMENT else os.environ["JWT_SECRET"]
 
 DATABASES = dict()
 DATABASES['default'] = dj_database_url.config(

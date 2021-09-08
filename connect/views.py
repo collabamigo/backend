@@ -148,7 +148,7 @@ class ConnectionRequest(views.APIView):
                                 status=status.HTTP_403_FORBIDDEN)
 
             url = 'https://collabconnect-development.firebaseapp.com/' if \
-                settings.DEBUG else 'https://collabconnect.web.app/'
+                settings.DEVELOPMENT else 'https://collabconnect.web.app/'
             url += '/connection/?request_id=' + request_id
             format_dict = {
                 "buttonUrl": url,
