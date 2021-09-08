@@ -29,6 +29,7 @@ REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
     'rest_framework.permissions.AllowAny'],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
+        'authenticate.authbackend.DummyAuthentication',
         'authenticate.authbackend.CustomAuthentication']}
 
 CORS_ORIGIN_ALLOW_ALL = DEBUG

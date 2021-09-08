@@ -2,7 +2,8 @@ from datetime import datetime
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from rest_framework import authentication
+from rest_framework import authentication, permissions
+from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.request import Request
 import jwt
 from Cryptodome.Hash import SHA512
@@ -30,4 +31,19 @@ class CustomAuthentication(authentication.BaseAuthentication):
                 return user, None
             else:
                 print("Credential verification failed", flush=True)
+                raise AuthenticationFailed()
         return None
+
+
+class DummyAuthentication(authentication.BaseAuthentication):
+    def authenticate(self, request: Request):
+        if 'Authorization' in request.headers and request.headers['Authorization'] == "Token 00000.dummy.00000":
+            if request.method in permissions.SAFE_METHODS:
+                return User.objects.get_or_create(email="dummy.user@collabamigo.com"), None
+            else:
+                raise AuthenticationFailed()
+        else:
+            return None
+
+    def authenticate_header(self, request):
+        return "Unsafe method called by dummy user"
