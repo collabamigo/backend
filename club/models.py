@@ -36,8 +36,6 @@ class Competition(models.Model):
     # form_closing_time = DateTimeField
     # form_opening_time = DateTimeField
     # competition_time = DateTimeField
-    # competitions = models.ManyToManyField(related_name='Club',
-    #                                       on_delete=models.CASCADE)
 
 
 class Entry(models.Model):
