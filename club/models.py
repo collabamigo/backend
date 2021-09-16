@@ -32,7 +32,10 @@ class Competition(models.Model):
                                   related_name="competitions")
     name = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=280, blank=True)
-    on_going = models.BooleanField()
+    disabled = models.BooleanField(default=False)
+    # form_closing_time = DateTimeField
+    # form_opening_time = DateTimeField
+    # competition_time = DateTimeField
     # competitions = models.ManyToManyField(related_name='Club',
     #                                       on_delete=models.CASCADE)
 
