@@ -22,7 +22,7 @@ load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEVELOPMENT = bool(os.getenv("DEVELOPMENT")) and bool(os.getenv("CICD"))
+DEVELOPMENT = bool(os.getenv("DEVELOPMENT")) or bool(os.getenv("CICD"))
 DEBUG = DEVELOPMENT
 
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
