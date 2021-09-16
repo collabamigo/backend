@@ -38,9 +38,7 @@ class Competition(models.Model):
     # competition_time = DateTimeField
 
 
-class Entry(models.Model):
-    id = models.AutoField(primary_key=True)
-    participant = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
 
 
 ##########################################################################
@@ -56,7 +54,6 @@ class Choice(models.Model):
 
 class Form(models.Model):
     id = models.AutoField(primary_key=True)
-    entries = models.ForeignKey(Entry, on_delete=models.CASCADE)
     edit_after_submit = models.BooleanField(default=False)
     confirmation_message = models.TextField(max_length=50,
                                             default="Your response has been "
@@ -70,6 +67,12 @@ class Form(models.Model):
                                        related_name="competition",
                                        on_delete=models.CASCADE)
     # questions = models.ManyToManyField(Questions, related_name="questions")
+
+
+class Entry(models.Model):
+    id = models.AutoField(primary_key=True)
+    form = models.ForeignKey(Form, on_delete=models.CASCADE)
+    participant = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
 
 class Question(models.Model):
