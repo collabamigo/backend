@@ -8,6 +8,8 @@ jobs:
   Deploy-main-to-Heroku:
     runs-on: self-hosted
     steps:
+      - name: Adding local bin to PATH
+        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - uses: actions/checkout@v2
         with:
