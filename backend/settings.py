@@ -163,8 +163,7 @@ INTERNAL_IPS = [
 SECURE_SSL_REDIRECT = bool(os.getenv("PRODUCTION"))
 SESSION_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 
-if not DEVELOPMENT:
-    MongoClient = pymongo.MongoClient(os.environ['MONGODB_URI'])
+MongoClient = pymongo.MongoClient(os.environ['MONGODB_URI'])
 
 
 ALLOWED_IN_DEBUG = ['adityapratapsingh51@gmail.com',
