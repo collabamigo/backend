@@ -41,7 +41,6 @@ class Competition(models.Model):
 class Entry(models.Model):
     id = models.AutoField(primary_key=True)
     participant = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
 
 
 ##########################################################################
@@ -67,6 +66,9 @@ class Form(models.Model):
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
     collect_email = models.BooleanField(default=False)
+    competition = models.OneToOneField(Competition,
+                                       related_name="competition",
+                                       on_delete=models.CASCADE)
     # questions = models.ManyToManyField(Questions, related_name="questions")
 
 
