@@ -31,7 +31,7 @@ jobs:
         run: poetry run flake8 ${{ github.workspace }} --exclude=migrations
 
       - name: Creating environment variables
-        run: echo "SECRET_KEY=a">.env && echo "EMAIL=a">>.env && echo "DEVELOPMENT=True">>.env
+        run: echo "SECRET_KEY=a">.env && echo "EMAIL=a">>.env && echo "CICD=True">>.env
 
       - name: Setting git credentials
         run: git config --global user.email "watsonhex@gmail.com" && git config --global user.name "Github runner"
