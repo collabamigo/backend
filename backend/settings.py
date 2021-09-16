@@ -42,7 +42,7 @@ CORS_ORIGIN_WHITELIST = [
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = "TESTSEcret" if DEVELOPMENT else os.environ['SECRET_KEY']
 
 
 # TODO: Insecure ALLOWED_HOSTS
