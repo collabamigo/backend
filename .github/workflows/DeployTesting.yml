@@ -6,51 +6,57 @@ name: Deploy testing to Heroku-dev
 jobs:
 
   Deploy-testing-to-Heroku:
-    runs-on: self-hosted
+    runs-on: iiit-vm
+    environment: testing
     steps:
-      - uses: actions/checkout@v2
-        with:
-            fetch-depth: 0
+      - name: Adding local bin to PATH
+        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Checking out testing branch
-        run: git checkout testing
+      - uses: actions/checkout@v2
+
+#      Needed when running on a new machine for the first time
+#      - name: Install system dependencies
+#        run: yes | sudo apt-get install libpq-dev python3-wheel gcc
+
+      - name: Installing poetry
+        run: which poetry || curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
 
       - name: Installing pip packages
-        run: pip3 install bandit pipenv flake8
+        run: poetry install
 
       - name: Running bandit tests
-        run:  PATH=$PATH:/home/codein2/.local/bin && bandit -r ${{ github.workspace }}
+        run: poetry run bandit -r ${{ github.workspace }}
 
       - name: Running flake8 tests
-        run: PATH=$PATH:/home/codein2/.local/bin && flake8 ${{ github.workspace }} --exclude=migrations
+        run: poetry run flake8 ${{ github.workspace }} --exclude=migrations
 
-      - name: Creating pipenv environment
-        run: PATH=$PATH:/home/codein2/.local/bin && cd ${{ github.workspace }} &&
-              pipenv install && echo "SECRET_KEY=a">.env && echo "EMAIL=a">>.env
+      - name: Creating environment variables
+        run: echo "SECRET_KEY=a">.env && echo "EMAIL=a">>.env && echo "DEVELOPMENT=True">>.env
 
       - name: Setting git credentials
         run: git config --global user.email "watsonhex@gmail.com" && git config --global user.name "Github runner"
 
       - name: Run makemigrations
-        run: PATH=$PATH:/home/codein2/.local/bin && yes | pipenv run python manage.py makemigrations
+        run: yes | poetry run python manage.py makemigrations
+
+      - name: Creating requirements.txt
+        run: poetry export -f requirements.txt --output requirements.txt --without-hashes
 
       - name: Git add and commit
         run: git add . && if [[ $(git status -s) ]]; then git commit -m "Migrations"; fi
 
-      - name: Set global git config
-        run: git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/
-
-      - name: Pushing to Heroku-dev
-        run:  cd ${{ github.workspace }} && eval `ssh-agent -s` && ssh-add ~/.ssh/heroku-dev &&
-                (git remote add heroku-dev https://git.heroku.com/blooming-peak-53825.git ||
-                  echo "Remote heroku-dev already exists" ) &&
-                    git push heroku-dev -f testing:main
+      - name: Heroku deploy
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP: ${{ secrets.HEROKU_APP_TESTING }}
+        run: dpl --provider=heroku --app=$HEROKU_APP --api-key=$HEROKU_API_KEY
+        shell: bash -ieo pipefail {0}
 
       - name: Pushing to Github
         run: git pull && git push
 
   Create-issues-using-TODO:
-    runs-on: self-hosted
+    runs-on: iiit-vm
     steps:
       - uses: actions/checkout@v2
         with:
@@ -70,3 +76,22 @@ jobs:
 
       - name: Github logout
         run: gh auth logout --hostname github.com
+
+  Internal-deploy:
+    runs-on: iiit-vm
+    needs: Deploy-testing-to-Heroku
+    steps:
+
+      - uses: actions/checkout@v2
+        with:
+            fetch-depth: 0
+
+      - name: Checking out testing branch
+        run: git checkout testing && git pull
+
+      - name: Adding remote
+        run: git remote add production dokku@192.168.1.229:django-collabconnect || echo "Remote already exists"
+
+      - name: Pushing
+        run: git push production -f testing:main
+
