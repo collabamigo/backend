@@ -48,8 +48,8 @@ jobs:
       - name: Heroku deploy
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          HEROKU_APP_TESTING: ${{ secrets.HEROKU_APP_TESTING }}
-        run: dpl --provider=heroku --app=$HEROKU_APP_TESTING --api-key=$HEROKU_API_KEY
+          HEROKU_APP: ${{ secrets.HEROKU_APP_TESTING }}
+        run: dpl --provider=heroku --app=$HEROKU_APP --api-key=$HEROKU_API_KEY
         shell: bash -ieo pipefail {0}
 
       - name: Pushing to Github
