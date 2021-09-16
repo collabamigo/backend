@@ -16,7 +16,9 @@ class Club(models.Model):
 
 class Social(models.Model):
     id = models.AutoField(primary_key=True)
-    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    club = models.OneToOneField(Club,
+                                on_delete=models.CASCADE,
+                                related_name="social")
     instagram = models.URLField(max_length=100, null=True)
     linkedin = models.URLField(max_length=100, null=True)
     facebook = models.URLField(max_length=100, null=True)
@@ -26,7 +28,8 @@ class Social(models.Model):
 
 class Competition(models.Model):
     id = models.AutoField(primary_key=True)
-    club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True)
+    club = models.ManyToManyField(Club,
+                                  related_name="competitions")
     name = models.CharField(max_length=100, null=True)
     description = models.CharField(max_length=280, null=True)
     on_going = models.BooleanField()
