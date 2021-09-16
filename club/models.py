@@ -38,9 +38,6 @@ class Competition(models.Model):
     # competition_time = DateTimeField
 
 
-
-
-
 ##########################################################################
 # have to add blank=True
 
