@@ -19,19 +19,19 @@ class Social(models.Model):
     club = models.OneToOneField(Club,
                                 on_delete=models.CASCADE,
                                 related_name="social")
-    instagram = models.URLField(max_length=100, null=True)
-    linkedin = models.URLField(max_length=100, null=True)
-    facebook = models.URLField(max_length=100, null=True)
-    discord = models.URLField(max_length=100, null=True)
-    other = models.URLField(max_length=100, null=True)
+    instagram = models.URLField(max_length=100, blank=True)
+    linkedin = models.URLField(max_length=100, blank=True)
+    facebook = models.URLField(max_length=100, blank=True)
+    discord = models.URLField(max_length=100, blank=True)
+    other = models.URLField(max_length=100, blank=True)
 
 
 class Competition(models.Model):
     id = models.AutoField(primary_key=True)
     club = models.ManyToManyField(Club,
                                   related_name="competitions")
-    name = models.CharField(max_length=100, null=True)
-    description = models.CharField(max_length=280, null=True)
+    name = models.CharField(max_length=100, blank=True)
+    description = models.CharField(max_length=280, blank=True)
     on_going = models.BooleanField()
     # competitions = models.ManyToManyField(related_name='Club',
     #                                       on_delete=models.CASCADE)
@@ -44,7 +44,7 @@ class Entry(models.Model):
 
 
 ##########################################################################
-# have to add null=True
+# have to add blank=True
 
 
 class Choice(models.Model):
