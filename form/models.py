@@ -30,11 +30,12 @@ class Form(models.Model):
 class Response(models.Model):
     form = models.ForeignKey(Form, on_delete=models.CASCADE,
                              related_name="responses")
+    responders = models.ManyToManyField(to="auth.User")
 
 
 class TextResponse(models.Model):
     # To be used for: Text, Email, Number, MCQ
-    parent = models.ForeignKey(Form, related_name="TextResponses", on_delete=models.CASCADE)
+    parent = models.ForeignKey(Response, related_name="TextResponses", on_delete=models.CASCADE)
     question_id = models.CharField()
     value = models.TextField(blank=True)
 

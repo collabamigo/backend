@@ -36,10 +36,10 @@ class TeacherSerializer(serializers.ModelSerializer):
     help_history = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
 
-    def validate_Gitname(self, value):
+    def validate_gitname(self, value):
         return strip_username(value)
 
-    def validate_Linkedin(self, value):
+    def validate_linkedin(self, value):
         return strip_username(value)
 
     class Meta:
