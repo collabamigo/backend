@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'autocomplete',
     'club',
+    'form',
     'ecell',
     'authenticate',
     'rest_framework.authtoken'
