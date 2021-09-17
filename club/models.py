@@ -26,6 +26,3 @@ class Competition(models.Model):
     # form_closing_time = DateTimeField
     # form_opening_time = DateTimeField
     # competition_time = DateTimeField
-
-##########################################################################
-# have to add blank=True
