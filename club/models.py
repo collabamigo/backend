@@ -7,7 +7,7 @@ class Club(models.Model):
     picture = models.CharField(max_length=100)  # url
     college = models.CharField(max_length=100, default="IIIT-D")
     join_date = models.DateField(auto_now_add=True)
-    admins = models.ManyToManyField(to="auth.User", reated_name="clubs")
+    admins = models.ManyToManyField(to="auth.User", related_name="clubs")
     instagram = models.URLField(max_length=100, blank=True)
     linkedin = models.URLField(max_length=100, blank=True)
     facebook = models.URLField(max_length=100, blank=True)
