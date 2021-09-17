@@ -1,5 +1,4 @@
 from django.db import models
-from connect.models import Profile
 
 
 class Club(models.Model):
