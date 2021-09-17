@@ -10,8 +10,6 @@ else:
 
 router.register(r'club', views.ClubView, 'club')
 router.register(r'competition', views.CompetitionView, 'Competition')
-router.register(r'entry', views.EntryView, 'entry')
-router.register(r'formCreate', views.FormView, 'Form')
 
 urlpatterns = [
     path('clubdata/', views.ClubView, name='ClubData'),
