@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Club, Competition, Social, Entry
+from .models import Club, Competition, Social, Entry, Form
 
 
 class ClubSerializer(serializers.ModelSerializer):
@@ -31,3 +31,13 @@ class EntrySerializer(serializers.ModelSerializer):
         model = Entry
         fields = ('id', 'participant', 'competition')
         read_only_fields = ('id', 'participant', 'competition')
+
+
+class FormSerializer(serializers.ModelSerializer):
+    class Meta:
+        model: Form
+        fields = ('id', "entries", "edit_after_submit" "confirmation_message",
+                  "is_quiz", "allow_view_score", "createdAt",
+                  "updatedAt", "collect_email")
+        read_only_fields = ('id', 'entries', 'edit_after_submit',
+                            'allow_view_score', 'createdAt', 'updatedAt')

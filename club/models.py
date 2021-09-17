@@ -6,19 +6,10 @@ from connect.models import Profile
 class Club(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
-    link = models.CharField(max_length=100)  # url
     picture = models.CharField(max_length=100)  # url
     college = models.CharField(max_length=100, default="IIIT-D")
     join_date = models.DateField(auto_now_add=True)
-    admins = models.ManyToManyField(to="auth.User",
-                                    related_name="clubs")
-
-
-class Social(models.Model):
-    id = models.AutoField(primary_key=True)
-    club = models.OneToOneField(Club,
-                                on_delete=models.CASCADE,
-                                related_name="social")
+    admins = models.ManyToManyField(to="auth.User", reated_name="clubs")
     instagram = models.URLField(max_length=100, blank=True)
     linkedin = models.URLField(max_length=100, blank=True)
     facebook = models.URLField(max_length=100, blank=True)
@@ -36,10 +27,6 @@ class Competition(models.Model):
     # form_closing_time = DateTimeField
     # form_opening_time = DateTimeField
     # competition_time = DateTimeField
-
-
-##########################################################################
-# have to add blank=True
 
 
 class Choice(models.Model):
