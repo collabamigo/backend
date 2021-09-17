@@ -1,0 +1,10 @@
+## Fields supported
+* Text (text)
+* Number (number)
+* Single CQ (scq)
+* Multiple CQ (mcq)
+* Email (email)
+* File (file)
+* Boolean (bool)
+* Date (date)
+* DateTime (datetime)
