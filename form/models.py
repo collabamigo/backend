@@ -36,12 +36,12 @@ class Response(models.Model):
 class TextResponse(models.Model):
     # To be used for: Text, Email, Number, MCQ
     parent = models.ForeignKey(Response, related_name="TextResponses", on_delete=models.CASCADE)
-    question_id = models.CharField()
+    question_id = models.CharField(max_length=15)
     value = models.TextField(blank=True)
 
 
 class FileResponse(models.Model):
     # To be used for all forms of file uploads(restricted to 10MiB), including images
     parent = models.ForeignKey(Form, related_name="FileResponses", on_delete=models.CASCADE)
-    question_id = models.CharField()
+    question_id = models.CharField(max_length=15)
     value = models.FileField(blank=True, validators=[file_size_limit])
