@@ -24,24 +24,41 @@ class Form(models.Model):
     competition = models.OneToOneField(Competition,
                                        related_name="competition",
                                        on_delete=models.CASCADE)
-    skeleton = models.TextField()  # This will be a self-serialized JSONArray
+    skeleton = models.TextField()  # This will be a manual-serialized JSONArray
 
 
+class Question(models.Model):
+    id = models.AutoField(primary_key=True)
+    parent = models.ForeignKey(Form, on_delete=models.CASCADE)
+    question = models.TextField()
+    required = models.BooleanField(default=False)
+    # score = models.IntegerField(blank=True, default=0)
+
+
+# need to fix this tomorrow
 class Response(models.Model):
+    id = models.AutoField(primary_key=True)
     form = models.ForeignKey(Form, on_delete=models.CASCADE,
                              related_name="responses")
+    question = models.ManyToManyField(Question,  on_delete=models.CASCADE,
+                                 related_name="question")
     responders = models.ManyToManyField(to="auth.User")
 
 
 class TextResponse(models.Model):
     # To be used for: Text, Email, Number, MCQ
-    parent = models.ForeignKey(Response, related_name="TextResponses", on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
+    parent = models.ForeignKey(Response, related_name="TextResponses",
+                               on_delete=models.CASCADE)
     question_id = models.CharField(max_length=15)
     value = models.TextField(blank=True)
 
 
 class FileResponse(models.Model):
-    # To be used for all forms of file uploads(restricted to 10MiB), including images
-    parent = models.ForeignKey(Form, related_name="FileResponses", on_delete=models.CASCADE)
+    # To be used for all forms of file uploads(restricted to 10MiB),
+    # including images
+    id = models.AutoField(primary_key=True)
+    parent = models.ForeignKey(Form, related_name="FileResponses",
+                               on_delete=models.CASCADE)
     question_id = models.CharField(max_length=15)
     value = models.FileField(blank=True, validators=[file_size_limit])
