@@ -40,8 +40,8 @@ class Response(models.Model):
     id = models.AutoField(primary_key=True)
     form = models.ForeignKey(Form, on_delete=models.CASCADE,
                              related_name="responses")
-    question = models.ManyToManyField(Question,  on_delete=models.CASCADE,
-                                 related_name="question")
+    question = models.OneToOneField(Question, on_delete=models.CASCADE,
+                                      related_name="question")
     responders = models.ManyToManyField(to="auth.User")
 
 
