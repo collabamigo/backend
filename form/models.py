@@ -41,7 +41,7 @@ class Response(models.Model):
     form = models.ForeignKey(Form, on_delete=models.CASCADE,
                              related_name="responses")
     question = models.OneToOneField(Question, on_delete=models.CASCADE,
-                                      related_name="question")
+                                    related_name="question")
     responders = models.ManyToManyField(to="auth.User")
 
 
