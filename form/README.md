@@ -21,7 +21,13 @@
     { 
         id: 2
         type: "mcq" 
-        label: Choose a fruit
-        ...
+        label: "Choose a fruit"
+        choice: {1:"apple"; 2:"orange"; 3:"fruit"}
+    },
+    {
+        id: 3
+        type: "integer"
+        label: "Enter the marks"
     }
 ]
+```
