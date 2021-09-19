@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-
 from club.models import Competition
 
 
@@ -29,7 +28,6 @@ class Form(models.Model):
 
 # need to fix this tomorrow
 class Response(models.Model):
-    id = models.AutoField(primary_key=True)
     form = models.ForeignKey(Form, on_delete=models.CASCADE,
                              related_name="responses")
     responders = models.ManyToManyField(to="auth.User")
@@ -37,7 +35,6 @@ class Response(models.Model):
 
 class TextResponse(models.Model):
     # To be used for: Text, Email, Number, MCQ
-    id = models.AutoField(primary_key=True)
     parent = models.ForeignKey(Response, related_name="TextResponses",
                                on_delete=models.CASCADE)
     question_id = models.CharField(max_length=15)
@@ -47,7 +44,6 @@ class TextResponse(models.Model):
 class FileResponse(models.Model):
     # To be used for all forms of file uploads(restricted to 10MiB),
     # including images
-    id = models.AutoField(primary_key=True)
     parent = models.ForeignKey(Form, related_name="FileResponses",
                                on_delete=models.CASCADE)
     question_id = models.CharField(max_length=15)
