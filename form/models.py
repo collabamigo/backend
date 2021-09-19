@@ -27,21 +27,11 @@ class Form(models.Model):
     skeleton = models.TextField()  # This will be a manual-serialized JSONArray
 
 
-class Question(models.Model):
-    id = models.AutoField(primary_key=True)
-    parent = models.ForeignKey(Form, on_delete=models.CASCADE)
-    question = models.TextField()
-    required = models.BooleanField(default=False)
-    # score = models.IntegerField(blank=True, default=0)
-
-
 # need to fix this tomorrow
 class Response(models.Model):
     id = models.AutoField(primary_key=True)
     form = models.ForeignKey(Form, on_delete=models.CASCADE,
                              related_name="responses")
-    question = models.OneToOneField(Question, on_delete=models.CASCADE,
-                                    related_name="question")
     responders = models.ManyToManyField(to="auth.User")
 
 
