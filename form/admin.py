@@ -23,4 +23,3 @@ admin.site.register(Form, FormAdmin)
 admin.site.register(Response, ResponseAdmin)
 admin.site.register(TextResponse, TextResponseAdmin)
 admin.site.register(FileResponseAdmin, FileResponse)
-
