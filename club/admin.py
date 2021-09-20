@@ -10,7 +10,7 @@ class ClubAdmin(admin.ModelAdmin):
 
 
 class CompetitionAdmin(admin.ModelAdmin):
-    list_display = ("id", "club", "on_going", "name", "description",
+    list_display = ("id", "on_going", "name", "description",
                     "disabled")
 
 

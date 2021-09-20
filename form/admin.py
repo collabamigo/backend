@@ -8,7 +8,7 @@ class FormAdmin(admin.ModelAdmin):
 
 
 class ResponseAdmin(admin.ModelAdmin):
-    list_display = ("form", "responders")
+    list_display = ("form",)
 
 
 class TextResponseAdmin(admin.ModelAdmin):
