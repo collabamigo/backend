@@ -28,7 +28,7 @@ class CustomAuthentication(authentication.BaseAuthentication):
                       request.path+" by "+jwt_payload['email'] +
                       " with data "+str(request.query_params),
                       flush=True)
-                if user.profile:
+                if user.profile: 
                     return user, None
             else:
                 print("Credential verification failed", flush=True)
@@ -72,4 +72,3 @@ class PreSignupAuth(authentication.BaseAuthentication):
                 print("Credential verification failed", flush=True)
                 raise AuthenticationFailed()
         return None
-
