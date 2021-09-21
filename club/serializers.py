@@ -6,7 +6,7 @@ class ClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club
         fields = ('id', 'name', 'picture', 'college', 'join_date',
-                  'instagram', 'linkedin', 'facebook', 'discord', 'other')
+                  'instagram', 'linkedin', 'facebook', 'discord', 'other', 'username')
         read_only_fields = ['id', 'name', 'picture', 'college',
                             'join_date', 'instagram', 'linkedin',
                             'facebook', 'discord', 'other', 'username']
