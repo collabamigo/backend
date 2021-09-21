@@ -13,6 +13,7 @@ class ClubView(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
     queryset = Club.objects.all()
     serializer_class = ClubSerializer
+    lookup_field = 'username'
 
     def perform_create(self, serializer):
         queryset = Club.objects.all()

@@ -3,6 +3,8 @@ from django.db import models
 
 class Club(models.Model):
     id = models.AutoField(primary_key=True)
+    username = models.CharField(unique=True,
+                                max_length=50)
     name = models.CharField(max_length=50)
     picture = models.CharField(max_length=100)  # url
     college = models.CharField(max_length=100, default="IIIT-D")
