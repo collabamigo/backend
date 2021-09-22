@@ -47,7 +47,7 @@ class DummyAuthentication(authentication.BaseAuthentication):
                     email=User.objects.get_or_create(
                         email="dummy.user@collabamigo.com")[0],
                     First_Name="dummy", Last_Name="me", gender="M",
-                    degree="B", course="CSE", handle="handle.me")
+                    degree="B", course="CSE", handle="handle.me", id="dummy")
                 return User.objects.get(email="dummy.user@collabamigo.com"), None
             else:
                 raise AuthenticationFailed()

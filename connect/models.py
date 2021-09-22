@@ -9,7 +9,7 @@ User._meta.get_field('email')._unique = True
 
 class Profile(models.Model):
     id = models.CharField(primary_key=True, unique=True,
-                          max_length=6, auto_created=False,
+                          max_length=10, auto_created=False,
                           serialize=False, verbose_name='ID')
     First_Name = models.CharField(max_length=30)
     Last_Name = models.CharField(max_length=50, blank=True)
