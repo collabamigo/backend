@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.conf import settings
 from django.contrib.auth.models import User
+from connect.models import Profile
 from rest_framework import authentication, permissions
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.request import Request
@@ -42,6 +43,10 @@ class DummyAuthentication(authentication.BaseAuthentication):
         if 'Authorization' in request.headers and \
                 request.headers['Authorization'] == "Token 00000.dummy.00000":
             if request.method in permissions.SAFE_METHODS:
+                Profile.objects.get_or_create(
+                    email="dummy.user@collabamigo.com",
+                    First_Name="dummy", Last_Name="me", gender="M",
+                    degree="B", course="CSE", handle="handle.me")
                 return User.objects.get_or_create(
                     email="dummy.user@collabamigo.com")[0], None
             else:
