@@ -44,11 +44,11 @@ class DummyAuthentication(authentication.BaseAuthentication):
                 request.headers['Authorization'] == "Token 00000.dummy.00000":
             if request.method in permissions.SAFE_METHODS:
                 Profile.objects.get_or_create(
-                    email="dummy.user@collabamigo.com",
+                    email=User.objects.get_or_create(
+                        email="dummy.user@collabamigo.com")[0],
                     First_Name="dummy", Last_Name="me", gender="M",
                     degree="B", course="CSE", handle="handle.me")
-                return User.objects.get_or_create(
-                    email="dummy.user@collabamigo.com")[0], None
+                return User.objects.get(email="dummy.user@collabamigo.com"), None
             else:
                 raise AuthenticationFailed()
         else:
