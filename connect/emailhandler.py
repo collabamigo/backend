@@ -15,7 +15,7 @@ def send_mail(to, subject: str = "", body: list = None, html=None):
                        from_email=EMAIL_HOST_USER, recipient_list=to,
                        html_message=html)
     else:
-        print("Attempt to send email to"
+        print("Attempt to send email to "
               "non-whitelisted address in DEVELOPMENT mode", flush=True)
-        raise ConnectionRefusedError("Attempt to send email to"
+        raise ConnectionRefusedError("Attempt to send email to "
                                      "non-whitelisted address in DEVELOPMENT mode")
