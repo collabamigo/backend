@@ -28,6 +28,11 @@
         id: 3
         type: "integer"
         label: "Enter the marks"
+    },
+    {
+        id:4
+        type:"email"
+        ans : shikhar@gmail.com
     }
 ]
 ```
