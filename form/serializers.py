@@ -23,10 +23,21 @@ def validate_skeleton_element(element: dict):
             raise ValidationError("Oops ! An MCQ question needs to have more"
                                   " than one option")
         elif element["choice"] != "":
-            uniqueness_check(list(element.keys()), "Oops! There seems to be a duplicate in the mcq")
+            uniqueness_check(list(element.keys()), "Oops! There seems to be a"
+                                                   " duplicate in the mcq")
 
     elif element["type"] == "integer":
         pass
+
+    if element["type"] == "scq":
+        if not element.get("choice"):
+            raise ValidationError("Oops ! A question needs options")
+        elif len(element["choice"]) < 1:
+            raise ValidationError("Oops ! An SCQ question needs to have more"
+                                  " than one option")
+        elif element["choice"] != "":
+            uniqueness_check(list(element.keys()), "Oops! There seems to be a"
+                                                   " duplicate in the mcq")
 
     elif element["type"] == "file":
         pass
