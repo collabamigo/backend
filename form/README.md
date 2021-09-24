@@ -12,7 +12,7 @@
 ## Sample Form creation Request
 
 ```
-[
+{
     1: { 
         type: "text" 
         label: "What is your name?" 
@@ -30,5 +30,5 @@
         type:"email"
         label: "Whats your email"
     }
-]
+}
 ```
