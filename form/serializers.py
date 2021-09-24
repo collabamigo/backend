@@ -4,7 +4,10 @@ from django.core.validators import EmailValidator
 from .models import Form, Response, TextResponse, FileResponse
 
 
-def validate_skeleton_element(element):
+def validate_skeleton_element(element: dict):
+    if not element["label"]:
+        raise ValidationError("A question does matter,I guess")
+
     if element["type"] == "text":
         if not element["label"]:
             raise ValidationError("Oops ! A question does matter")
@@ -20,7 +23,7 @@ def validate_skeleton_element(element):
         elif element["choice"] != "":
             temp_list = element.keys()
             temp_set = set(map(str, temp_list))
-            if len(temp_set != temp_list):
+            if len(temp_set) != len(temp_list):
                 raise ValidationError("Oops! There seems to be a duplicate"
                                       " in the mcq")
 
@@ -28,9 +31,9 @@ def validate_skeleton_element(element):
         if not element["label"]:
             raise ValidationError("A question does matter,I guess")
 
-    if element["type"] == "email":
-        if not EmailValidator(element.ans):
-            raise ValidationError("Please enter a correct Email address")
+    # if element["type"] == "email":
+    #     email_validator = EmailValidator(message="Please enter a correct Email address")
+    #     email_validator(element["value"])
 
 
 class FormSerializer(serializers.ModelSerializer):

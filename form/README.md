@@ -32,7 +32,7 @@
     {
         id:4
         type:"email"
-        ans : shikhar@gmail.com
+        label: "Whats your email"
     }
 ]
 ```
