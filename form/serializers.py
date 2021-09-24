@@ -16,7 +16,7 @@ def validate_skeleton_element(element: dict):
     if element["type"] == "text":
         pass
 
-    if element["type"] == "mcq":
+    elif element["type"] == "mcq":
         if not element["label"]:
             raise ValidationError("Oops ! A question does matter")
         elif not element["choice"]:
@@ -27,7 +27,7 @@ def validate_skeleton_element(element: dict):
         elif element["choice"] != "":
             uniqueness_check(list(element.keys()), "Oops! There seems to be a duplicate in the mcq")
 
-    if element["type"] == "integer":
+    elif element["type"] == "integer":
         pass
 
 
