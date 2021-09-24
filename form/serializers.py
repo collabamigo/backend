@@ -3,13 +3,18 @@ from rest_framework.exceptions import ValidationError
 from .models import Form, Response, TextResponse, FileResponse
 
 
+def uniqueness_check(temp_list: list, message: str):
+    temp_set = set(map(str, temp_list))
+    if len(temp_set) != len(temp_list):
+        raise ValidationError(message)
+
+
 def validate_skeleton_element(element: dict):
     if not element["label"]:
         raise ValidationError("A question does matter,I guess")
 
     if element["type"] == "text":
-        if not element["label"]:
-            raise ValidationError("Oops ! A question does matter")
+        pass
 
     if element["type"] == "mcq":
         if not element["label"]:
@@ -20,19 +25,10 @@ def validate_skeleton_element(element: dict):
             raise ValidationError("Oops ! An MCQ question needs to have more"
                                   " than one option")
         elif element["choice"] != "":
-            temp_list = element.keys()
-            temp_set = set(map(str, temp_list))
-            if len(temp_set) != len(temp_list):
-                raise ValidationError("Oops! There seems to be a duplicate"
-                                      " in the mcq")
+            uniqueness_check(list(element.keys()), "Oops! There seems to be a duplicate in the mcq")
 
     if element["type"] == "integer":
-        if not element["label"]:
-            raise ValidationError("A question does matter,I guess")
-
-    # if element["type"] == "email":
-    #     email_validator = EmailValidator(message="Please enter a correct Email address")
-    #     email_validator(element["value"])
+        pass
 
 
 class FormSerializer(serializers.ModelSerializer):
