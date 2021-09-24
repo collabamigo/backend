@@ -30,6 +30,9 @@ def validate_skeleton_element(element: dict):
     elif element["type"] == "integer":
         pass
 
+    else:
+        raise ValidationError("Invalid question type")
+
 
 class FormSerializer(serializers.ModelSerializer):
 
