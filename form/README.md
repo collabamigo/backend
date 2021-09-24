@@ -14,21 +14,21 @@
 ```
 {
     1: { 
-        type: "text" 
-        label: "What is your name?" 
+        type: "text" ,
+        label: "What is your name?" ,
     },
     2: { 
-        type: "mcq" 
-        label: "Choose a fruit"
+        type: "mcq" ,
+        label: "Choose a fruit",
         choice: {1:"apple"; 2:"orange"; 3:"fruit"}
     },
     3: {
-        type: "integer"
-        label: "Enter the marks"
+        type: "integer",
+        label: "Enter the marks",
     },
     4: {
-        type:"email"
-        label: "Whats your email"
-    }
+        type:"email",
+        label: "Whats your email",
+    },
 }
 ```
