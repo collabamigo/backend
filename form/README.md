@@ -30,5 +30,9 @@
         type:"email",
         label: "Whats your email",
     },
+    5: {
+        type:"file",
+        label: "Upload an image",
+    },    
 }
 ```

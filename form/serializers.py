@@ -28,6 +28,9 @@ def validate_skeleton_element(element: dict):
     elif element["type"] == "integer":
         pass
 
+    elif element["type"] == "file":
+        pass
+
     else:
         raise ValidationError("Invalid question type")
 
