@@ -10,16 +10,14 @@ def uniqueness_check(temp_list: list, message: str):
 
 
 def validate_skeleton_element(element: dict):
-    if not element["label"]:
+    if not element.get("label"):
         raise ValidationError("A question does matter,I guess")
 
     if element["type"] == "text":
         pass
 
     elif element["type"] == "mcq":
-        if not element["label"]:
-            raise ValidationError("Oops ! A question does matter")
-        elif not element["choice"]:
+        if not element.get("choice"):
             raise ValidationError("Oops ! A question needs options")
         elif len(element["choice"]) < 1:
             raise ValidationError("Oops ! An MCQ question needs to have more"
