@@ -2,7 +2,7 @@ from django.db import models
 
 
 # Create your models here.
-class idea(models.Model):
+class Idea(models.Model):
     id = models.AutoField(primary_key=True)
     role = models.CharField(max_length=8, choices=[("i", "ideator"),
                                                    ("m", "member")])
