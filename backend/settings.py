@@ -172,7 +172,8 @@ ALLOWED_IN_DEBUG = ['adityapratapsingh51@gmail.com',
                     'aditya20016@iiitd.ac.in', 'shikhar20121@iiitd.ac.in',
                     'heemank20064@iiitd.ac.in', 'heemankv@gmail.com',
                     'anis20026@iiitd.ac.in', 'vishwesh20156@iiitd.ac.in',
-                    'pragyan20226@iiitd.ac.in', "dummy.user@collabamigo.com"]
+                    'pragyan20226@iiitd.ac.in', "dummy.user@collabamigo.com",
+                    "khwaish20212@iiitd.ac.in"]
 
 JWT_VALIDITY_IN_DAYS = 1
 TOKEN_VALIDITY_IN_DAYS = 3
