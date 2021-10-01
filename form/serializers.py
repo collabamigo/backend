@@ -1,3 +1,5 @@
+import json
+
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from .models import Form, Response, TextResponse, FileResponse
@@ -67,10 +69,11 @@ def validate_skeleton_element(element: dict):
 
 class FormSerializer(serializers.ModelSerializer):
     def validate_skeleton(self, attrs):
-        for _element in attrs:
-            validate_skeleton_element(_element)
-        print("debug", attrs, flush=True)
-        return "sample"
+        skeleton: list = json.loads(attrs)
+        result = []
+        for _element in skeleton:
+            result += [validate_skeleton_element(_element)]
+        return json.dumps(result)
 
     class Meta:
         model = Form
