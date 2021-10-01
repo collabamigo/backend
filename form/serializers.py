@@ -62,6 +62,8 @@ def validate_skeleton_element(element: dict):
     else:
         raise ValidationError("Invalid question type")
 
+    return {k: v for (k, v) in element.items() if k in valid_keys}
+
 
 class FormSerializer(serializers.ModelSerializer):
     def validate_skeleton(self, attrs):
