@@ -74,7 +74,6 @@ def validate_skeleton_element(element: dict, id: int):
 class FormSerializer(serializers.ModelSerializer):
 
     def validate_skeleton(self, attrs):
-        print(attrs)
         skeleton: list = json.loads(attrs)
         result = []
         for _ in range(len(skeleton)):
