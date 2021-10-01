@@ -9,8 +9,7 @@ def uniqueness_check(temp_list: list, message: str):
         raise ValidationError(message)
 
 
-def validate_skeleton(skeleton: list):
-    def validate_skeleton_element(element: dict):
+def validate_skeleton_element(element: dict):
         if not element.get("label"):
             raise ValidationError("A question does matter,I guess")
 
@@ -62,21 +61,22 @@ def validate_skeleton(skeleton: list):
         else:
             raise ValidationError("Invalid question type")
 
-    for _element in skeleton:
-        validate_skeleton_element(_element)
+
 
 
 class FormSerializer(serializers.ModelSerializer):
-    def validate(self, attrs):
+    def validate_skeleton(self, attrs):
+        for _element in attrs:
+            validate_skeleton_element(_element)
         print("debug", attrs, flush=True)
+        return "sample"
 
     class Meta:
         model = Form
         validators = []
-        fields = ("id", "confirmation_message", "createdAt", "updatedAt",
-                  "collect_email", "competition", "skeleton")
-        read_only_fields = ("confirmation_message", "createdAt",
-                            "updatedAt", "collect_email", "competition")
+        fields = ["id", "confirmation_message", "createdAt", "updatedAt",
+                  "collect_email", "competition", "skeleton"]
+        read_only_fields = ["id", "createdAt", "updatedAt"]
 
 
 class ResponseSerializer(serializers.ModelSerializer):
