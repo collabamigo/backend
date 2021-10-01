@@ -5,7 +5,7 @@
 * Multiple CQ (mcq)
 * Email (email)
 * File (file)
-* Boolean (bool)
+* Boolean (bool) (not offered)
 * Date (date)
 * DateTime (datetime)
 
@@ -20,7 +20,7 @@
     2: { 
         type: "mcq" ,
         label: "Choose a fruit",
-        choice: {1:"apple"; 2:"orange"; 3:"fruit"}
+        choice: {1:"apple"; 2:"orange"; 3:"fruit"},
     },
     3: {
         type: "integer",

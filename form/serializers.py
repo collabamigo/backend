@@ -10,58 +10,57 @@ def uniqueness_check(temp_list: list, message: str):
 
 
 def validate_skeleton_element(element: dict):
-        if not element.get("label"):
-            raise ValidationError("A question does matter,I guess")
+    valid_keys = ["label", "type"]
+    if not element.get("label"):
+        raise ValidationError("A question does matter,I guess")
 
-        if element["type"] == "text":
-            pass
+    elif element["type"] == "text":
+        pass
 
-        elif element["type"] == "mcq":
-            if not element.get("choice"):
-                raise ValidationError("Oops ! A question needs options")
-            elif len(element["choice"]) < 1:
-                raise ValidationError(
-                    "Oops ! An MCQ question needs to have more"
-                    " than one option")
-            elif element["choice"] != "":
-                uniqueness_check(list(element.keys()),
-                                 "Oops! There seems to be a"
-                                 " duplicate in the mcq")
+    elif element["type"] == "mcq":
+        if not element.get("choice"):
+            raise ValidationError("Oops ! A question needs options")
+        elif len(element["choice"]) < 1:
+            raise ValidationError(
+                "Oops ! An MCQ question needs to have more"
+                " than one option")
+        elif element["choice"] != "":
+            uniqueness_check(list(element.keys()),
+                             "Oops! There seems to be a"
+                             " duplicate in the mcq")
 
-        elif element["type"] == "integer":
-            pass
+        valid_keys += ["choice"]
 
-        elif element["type"] == "scq":
-            if not element.get("choice"):
-                raise ValidationError("Oops ! A question needs options")
-            elif len(element["choice"]) < 1:
-                raise ValidationError(
-                    "Oops ! An SCQ question needs to have more"
-                    " than one option")
-            elif element["choice"] != "":
-                uniqueness_check(list(element.keys()),
-                                 "Oops! There seems to be a"
-                                 " duplicate in the scq")
+    elif element["type"] == "integer":
+        pass
 
-        elif element["type"] == "file":
-            pass
+    elif element["type"] == "scq":
+        if not element.get("choice"):
+            raise ValidationError("Oops ! A question needs options")
+        elif len(element["choice"]) < 1:
+            raise ValidationError(
+                "Oops ! An SCQ question needs to have more"
+                " than one option")
+        elif element["choice"] != "":
+            uniqueness_check(list(element.keys()),
+                             "Oops! There seems to be a"
+                             " duplicate in the scq")
+        valid_keys += ["choice"]
 
-        elif element["type"] == "date":
-            pass
+    elif element["type"] == "file":
+        pass
 
-        elif element["type"] == "datetime":
-            pass
+    elif element["type"] == "date":
+        pass
 
-        elif element["type"] == "boolean":
-            pass
+    elif element["type"] == "datetime":
+        pass
 
-        elif element["type"] == "email":
-            pass
+    elif element["type"] == "email":
+        pass
 
-        else:
-            raise ValidationError("Invalid question type")
-
-
+    else:
+        raise ValidationError("Invalid question type")
 
 
 class FormSerializer(serializers.ModelSerializer):
