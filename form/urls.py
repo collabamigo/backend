@@ -8,10 +8,10 @@ if settings.DEVELOPMENT:
 else:
     router = routers.SimpleRouter()
 
-router.register(r'form', 'form')
+router.register(r'form', views.FormView, 'form')
 
 urlpatterns = [
-    path('form', views.FormView, name='form'),
+
 ]
 
 urlpatterns += router.urls
