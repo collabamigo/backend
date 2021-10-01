@@ -23,5 +23,6 @@ urlpatterns = [
     path('connect/', include('connect.urls')),
     path('rating/', include('rating.urls')),
     path('club/', include('club.urls')),
-    path('authenticate/', include('authenticate.urls'))
+    path('authenticate/', include('authenticate.urls')),
+    path('path/', include('form.urls')),
 ]
