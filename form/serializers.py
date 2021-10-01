@@ -75,9 +75,8 @@ class FormSerializer(serializers.ModelSerializer):
         validators = []
         fields = ("id", "confirmation_message", "createdAt", "updatedAt",
                   "collect_email", "competition", "skeleton")
-        read_only_fields = ("id", "confirmation_message", "createdAt",
-                            "updatedAt", "collect_email", "competition",
-                            "skeleton")
+        read_only_fields = ("confirmation_message", "createdAt",
+                            "updatedAt", "collect_email", "competition")
 
 
 class ResponseSerializer(serializers.ModelSerializer):
