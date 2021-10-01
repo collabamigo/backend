@@ -11,8 +11,12 @@ def uniqueness_check(temp_list: list, message: str):
         raise ValidationError(message)
 
 
-def validate_skeleton_element(element: dict):
-    valid_keys = ["label", "type"]
+def validate_skeleton_element(element: dict, id: int):
+    valid_keys = ["label", "type", "id"]
+
+    # Adding id
+    element["id"] = id
+
     if not element.get("label"):
         raise ValidationError("A question does matter,I guess")
 
@@ -68,11 +72,13 @@ def validate_skeleton_element(element: dict):
 
 
 class FormSerializer(serializers.ModelSerializer):
+
     def validate_skeleton(self, attrs):
+        print(attrs)
         skeleton: list = json.loads(attrs)
         result = []
-        for _element in skeleton:
-            result += [validate_skeleton_element(_element)]
+        for _ in range(len(skeleton)):
+            result += [validate_skeleton_element(skeleton[_], _+1)]
         return json.dumps(result)
 
     class Meta:
