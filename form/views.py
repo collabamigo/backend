@@ -13,9 +13,3 @@ class FormView(viewsets.ModelViewSet):
     queryset = Form.objects.all()
     serializer_class = FormSerializer
 
-    # def perform_create(self, serializer):
-    #     queryset = Form.objects.all()
-    #     if queryset.exists():
-    #         return Response("Your response is already with us!",
-    #                         status=status.HTTP_208_ALREADY_REPORTED)
-    #     serializer.save()
