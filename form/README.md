@@ -36,3 +36,24 @@
     },    
 }
 ```
+## Sample Form Response
+
+```
+{
+    1: {
+        type:"text"
+        qid:1
+        response: "Shikhar"
+    },
+    2: {
+        type:"choice"
+        qid:2
+        response: "Apple"
+    },
+    3: {
+        type:"integer"
+        qid:3
+        response: 97
+    },
+}
+```
