@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from connect.permissions import IsAdminOrReadOnlyIfAuthenticated
 from .models import Idea
-from serializers import IdeaSerializer
+from .serializers import IdeaSerializer
 
 
 # Create your views here.
