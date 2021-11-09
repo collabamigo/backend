@@ -17,7 +17,7 @@ class Idea(models.Model):
                                                      ("p", "Planning"),
                                                      ("e", "Execution"),
                                                      ("mc", "Monitoring and"
-                                                            " Controllling"),
+                                                            " Controlling"),
                                                      ("c", "Closure")])
     college = models.CharField(max_length=100, default="IIIT-D")
     join_date = models.DateField(auto_now_add=True)
