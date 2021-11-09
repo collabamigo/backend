@@ -8,10 +8,10 @@ if settings.DEVELOPMENT:
 else:
     router = routers.SimpleRouter()
 
-router.register(r'club', views.IdeaView, 'club')
+router.register(r'ecell', views.IdeaView, 'ecell')
 
 urlpatterns = [
-    path('clubdata/', views.IdeaView, name='IdeaView'),
+    path('ecell/', views.IdeaView, name='IdeaView'),
 ]
 
 urlpatterns += router.urls
