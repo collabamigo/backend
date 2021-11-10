@@ -1,4 +1,3 @@
-from django.urls import path
 from rest_framework import routers
 from . import views
 from backend import settings
@@ -11,7 +10,6 @@ else:
 router.register(r'ecell', views.IdeaView, 'ecell')
 
 urlpatterns = [
-    path('ecell/', views.IdeaView, name='IdeaView'),
 ]
 
 urlpatterns += router.urls
