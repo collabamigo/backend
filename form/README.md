@@ -15,24 +15,24 @@
 {
     1: { 
         type: "text" ,
-        label: "What is your name?" ,
+        name: "What is your name?" ,
     },
     2: { 
         type: "mcq" ,
-        label: "Choose a fruit",
+        name: "Choose a fruit",
         choice: {1:"apple"; 2:"orange"; 3:"fruit"},
     },
     3: {
         type: "integer",
-        label: "Enter the marks",
+        name: "Enter the marks",
     },
     4: {
         type:"email",
-        label: "Whats your email",
+        name: "Whats your email",
     },
     5: {
         type:"file",
-        label: "Upload an image",
+        name: "Upload an image",
     },    
 }
 ```

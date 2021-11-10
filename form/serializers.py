@@ -12,46 +12,49 @@ def uniqueness_check(temp_list: list, message: str):
 
 
 def validate_skeleton_element(element: dict, id: int):
-    valid_keys = ["label", "type", "id"]
+    valid_keys = ["name", "type", "id"]
 
     # Adding id
     element["id"] = id
 
-    if not element.get("label"):
+    if not element.get("name"):
         raise ValidationError("A question does matter,I guess")
 
     elif element["type"] == "text":
         pass
 
-    elif element["type"] == "mcq":
-        if not element.get("choice"):
-            raise ValidationError("Oops ! A question needs options")
-        elif len(element["choice"]) < 1:
-            raise ValidationError(
-                "Oops ! An MCQ question needs to have more"
-                " than one option")
-        elif element["choice"] != "":
-            uniqueness_check(list(element.keys()),
-                             "Oops! There seems to be a"
-                             " duplicate in the mcq")
-
-        valid_keys += ["choice"]
-
-    elif element["type"] == "integer":
+    elif element["type"] == "textarea":
         pass
 
-    elif element["type"] == "scq":
-        if not element.get("choice"):
+    elif element["type"] == "checkbox":
+        if not element.get("options") or element.get("options") == "":
             raise ValidationError("Oops ! A question needs options")
-        elif len(element["choice"]) < 1:
-            raise ValidationError(
-                "Oops ! An SCQ question needs to have more"
-                " than one option")
-        elif element["choice"] != "":
-            uniqueness_check(list(element.keys()),
-                             "Oops! There seems to be a"
-                             " duplicate in the scq")
-        valid_keys += ["choice"]
+        # elif len(element["options"].split(";")) < 1:
+        #     raise ValidationError(
+        #         "Oops ! An MCQ question needs to have more"
+        #         " than one option")
+        # elif element["options"] != "":
+        #     uniqueness_check(list(element.keys()),
+        #                      "Oops! There seems to be a"
+        #                      " duplicate in the mcq")
+
+        valid_keys += ["options"]
+
+    elif element["type"] == "number":
+        pass
+
+    elif element["type"] == "radio":
+        if not element.get("options") or element.get("options")=="":
+            raise ValidationError("Oops ! A question needs options")
+        # elif len(element["options"].split(";")) < 0:
+        #     raise ValidationError(
+        #         "Oops ! An SCQ question needs to have more"
+        #         " than one option")
+        # elif element["options"] != "":
+        #     uniqueness_check(list(element.keys()),
+        #                      "Oops! There seems to be a"
+        #                      " duplicate in the scq")
+        valid_keys += ["options"]
 
     elif element["type"] == "file":
         pass
@@ -59,7 +62,10 @@ def validate_skeleton_element(element: dict, id: int):
     elif element["type"] == "date":
         pass
 
-    elif element["type"] == "datetime":
+    elif element["type"] == "datetime-local":
+        pass
+
+    elif element["type"] == "time":
         pass
 
     elif element["type"] == "email":
