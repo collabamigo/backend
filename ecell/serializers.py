@@ -6,4 +6,5 @@ class IdeaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Idea
         fields = ("id", "role", "name", "profile", "idea", "visibility",
-                  "stage", "college", "join_date")
+                  "estimate_time", "team_size", "tags", "stage", "college",
+                  "join_date")
