@@ -44,7 +44,6 @@ CORS_ORIGIN_WHITELIST = [
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "TESTSEcret" if DEVELOPMENT else os.environ['SECRET_KEY']
 
-
 # TODO: Insecure ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
@@ -77,10 +76,11 @@ INSTALLED_APPS = [
 
 # TODO: Enable CSRF
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -159,14 +159,12 @@ INTERNAL_IPS = [
     # ...
 ]
 
-
 # CSRF_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 SECURE_SSL_REDIRECT = bool(os.getenv("PRODUCTION"))
 SESSION_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 
 if not bool(os.getenv("CICD")):
     MongoClient = pymongo.MongoClient(os.environ['MONGODB_URI'])
-
 
 ALLOWED_IN_DEBUG = ['adityapratapsingh51@gmail.com',
                     'aditya20016@iiitd.ac.in', 'shikhar20121@iiitd.ac.in',
