@@ -44,7 +44,7 @@ def validate_skeleton_element(element: dict, id: int):
         pass
 
     elif element["type"] == "radio":
-        if not element.get("options") or element.get("options")=="":
+        if not element.get("options") or element.get("options") == "":
             raise ValidationError("Oops ! A question needs options")
         # elif len(element["options"].split(";")) < 0:
         #     raise ValidationError(
