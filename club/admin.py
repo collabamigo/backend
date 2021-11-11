@@ -6,7 +6,8 @@ from .models import Club, Competition
 
 class ClubAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "picture", "college", "join_date",
-                    "instagram", "linkedin", "facebook", "discord", "other")
+                    "instagram", "linkedin", "facebook", "discord", "other",
+                    "memberSize", "tagline", "description")
 
 
 class CompetitionAdmin(admin.ModelAdmin):

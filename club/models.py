@@ -15,6 +15,9 @@ class Club(models.Model):
     facebook = models.URLField(max_length=100, blank=True)
     discord = models.URLField(max_length=100, blank=True)
     other = models.URLField(max_length=100, blank=True)
+    memberSize = models.IntegerField(blank=False, default=1)
+    tagline = models.CharField(max_length=100)
+    description = models.TextField(max_length=100)
 
 
 class Competition(models.Model):
