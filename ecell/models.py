@@ -5,8 +5,7 @@ from connect.models import Profile
 # Create your models here.
 class Idea(models.Model):
     id = models.AutoField(primary_key=True)
-    role = models.CharField(max_length=8, choices=[("i", "ideator"),
-                                                   ("m", "member")])
+    role = models.CharField(max_length=10)
     name = models.CharField(max_length=50, default='null')
     profile = models.OneToOneField(to=Profile, on_delete=models.CASCADE,
                                    related_name='profile')
