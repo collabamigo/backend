@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Club, Competition
+from .models import Club, Competition, Announcements
 
 
 # Register your models here.
@@ -15,5 +15,10 @@ class CompetitionAdmin(admin.ModelAdmin):
                     "disabled")
 
 
+class AnnouncementsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'content')
+
+
 admin.site.register(Club, ClubAdmin)
 admin.site.register(Competition, CompetitionAdmin)
+admin.site.register(Announcements, AnnouncementsAdmin)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Club, Competition
+from .models import Club, Competition, Announcements
 
 
 class ClubSerializer(serializers.ModelSerializer):
@@ -18,3 +18,9 @@ class CompetitionSerializer(serializers.ModelSerializer):
         model = Competition
         fields = ('id', 'club', 'name', 'description', 'on_going',)
         read_only_fields = ('id', 'name', 'description', 'club', 'on_going',)
+
+
+class AnnouncementsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Announcements
+        fields = ('id', 'content')
