@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from connect.permissions import IsAdminOrReadOnlyIfAuthenticated
-from .models import Club, Competition, Announcements
+from .models import Club, Competition, Announcement
 from .serializers import ClubSerializer, CompetitionSerializer, \
     AnnouncementsSerializer
 
@@ -42,6 +42,7 @@ class AnnouncementsView(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
     queryset = Announcements.objects.all()
     serializer_class = AnnouncementsSerializer
+    lookup_field = 'club'
 
     def perform_create(self, serializer):
         queryset = Announcements.objects.all()
