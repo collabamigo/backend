@@ -1,11 +1,6 @@
 from django.db import models
 
 
-class Announcements(models.Model):
-    id = models.AutoField(primary_key=True)
-    content = models.TextField(max_length=100, blank=True)
-
-
 class Club(models.Model):
     id = models.AutoField(primary_key=True)
     username = models.CharField(unique=True,
@@ -23,7 +18,12 @@ class Club(models.Model):
     memberSize = models.IntegerField(blank=False, default=1)
     tagline = models.CharField(max_length=100)
     description = models.TextField(max_length=100)
-    announcements = models.ForeignKey(Announcements, related_name="Club",
+
+
+class Announcements(models.Model):
+    id = models.AutoField(primary_key=True)
+    content = models.TextField(max_length=100, blank=True)
+    announcements = models.ForeignKey(Club, related_name="announcements",
                                       on_delete=models.CASCADE)
 
 
