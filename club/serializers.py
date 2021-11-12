@@ -17,7 +17,7 @@ class CompetitionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Competition
         fields = ('id', 'club', 'name', 'description', 'on_going', 'disabled')
-        read_only_fields = ('id', 'name', 'description', 'club', 'on_going',)
+        read_only_fields = ['id']
 
 
 class AnnouncementsSerializer(serializers.ModelSerializer):
