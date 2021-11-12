@@ -28,7 +28,7 @@ class CompetitionView(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
     queryset = Competition.objects.all()
     serializer_class = CompetitionSerializer
-    lookup_field = 'club'
+    lookup_field = 'username'
 
     def perform_create(self, serializer):
         queryset = Competition.objects.all()
@@ -40,12 +40,12 @@ class CompetitionView(viewsets.ModelViewSet):
 
 class AnnouncementsView(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
-    queryset = Announcements.objects.all()
+    queryset = Announcement.objects.all()
     serializer_class = AnnouncementsSerializer
-    lookup_field = 'club'
+    lookup_field = 'username'
 
     def perform_create(self, serializer):
-        queryset = Announcements.objects.all()
+        queryset = Announcement.objects.all()
         if queryset.exists():
             return Response("Already Present",
                             status=status.HTTP_208_ALREADY_REPORTED)

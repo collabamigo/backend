@@ -16,11 +16,11 @@ class ClubSerializer(serializers.ModelSerializer):
 class CompetitionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Competition
-        fields = ('id', 'club', 'name', 'description', 'on_going',)
+        fields = ('id', 'club', 'name', 'description', 'on_going', 'disabled')
         read_only_fields = ('id', 'name', 'description', 'club', 'on_going',)
 
 
 class AnnouncementsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Announcements
-        fields = ('id', 'content')
+        model = Announcement
+        fields = ('id', 'content', 'announcements')

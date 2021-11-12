@@ -11,14 +11,14 @@ class ClubAdmin(admin.ModelAdmin):
 
 
 class CompetitionAdmin(admin.ModelAdmin):
-    list_display = ("id", "on_going", "name", "description",
+    list_display = ("id", "on_going", "name", "description", "club",
                     "disabled")
 
 
 class AnnouncementsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'content')
+    list_display = ('id', 'content', 'announcements')
 
 
 admin.site.register(Club, ClubAdmin)
 admin.site.register(Competition, CompetitionAdmin)
-admin.site.register(Announcements, AnnouncementsAdmin)
+admin.site.register(Announcement, AnnouncementsAdmin)
