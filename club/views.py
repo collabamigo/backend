@@ -28,7 +28,6 @@ class CompetitionView(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
     queryset = Competition.objects.all()
     serializer_class = CompetitionSerializer
-    lookup_field = 'username'
 
     def perform_create(self, serializer):
         queryset = Competition.objects.all()
@@ -42,7 +41,6 @@ class AnnouncementsView(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
     queryset = Announcement.objects.all()
     serializer_class = AnnouncementsSerializer
-    lookup_field = 'username'
 
     def perform_create(self, serializer):
         queryset = Announcement.objects.all()
