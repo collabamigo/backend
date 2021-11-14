@@ -33,7 +33,7 @@ class Announcement(models.Model):
 
 class Competition(models.Model):
     id = models.AutoField(primary_key=True)
-    club = models.ManyToManyField(Club, related_name="competition")
+    club = models.ManyToManyField(Club, related_name="competitions")
     on_going = models.BooleanField(default=True)
     name = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=280, blank=True)
