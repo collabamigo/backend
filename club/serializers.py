@@ -26,7 +26,8 @@ class CompetitionSerializer(serializers.ModelSerializer):
 
 
 class AnnouncementsSerializer(serializers.ModelSerializer):
-    club = SlugRelatedField(allow_empty=False, queryset=Club.objects.all(), slug_field='username')
+    club = SlugRelatedField(allow_empty=False, queryset=Club.objects.all(),
+                            slug_field='username')
 
     class Meta:
         model = Announcement
