@@ -27,7 +27,7 @@ class Announcement(models.Model):
     id = models.AutoField(primary_key=True)
     content = models.TextField(max_length=100, blank=True)
     club = models.ForeignKey(Club, related_name="announcements",
-                                      on_delete=models.CASCADE)
+                             on_delete=models.CASCADE)
 
 
 class Competition(models.Model):
