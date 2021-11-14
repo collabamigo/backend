@@ -1,9 +1,9 @@
-# from django.shortcuts import render
+
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-from connect.permissions import IsAdminOrReadOnlyIfAuthenticated
 from .models import Club, Competition, Announcement
+from .permissions import IsClubOwner
 from .serializers import ClubSerializer, CompetitionSerializer, \
     AnnouncementsSerializer
 
@@ -11,7 +11,7 @@ from .serializers import ClubSerializer, CompetitionSerializer, \
 # Create your views here.
 
 class ClubView(viewsets.ModelViewSet):
-    permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
+    permission_classes = [IsClubOwner]
     queryset = Club.objects.all()
     serializer_class = ClubSerializer
     lookup_field = 'username'
@@ -25,7 +25,7 @@ class ClubView(viewsets.ModelViewSet):
 
 
 class CompetitionView(viewsets.ModelViewSet):
-    permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
+    permission_classes = [IsClubOwner]
     queryset = Competition.objects.all()
     serializer_class = CompetitionSerializer
 
@@ -38,7 +38,7 @@ class CompetitionView(viewsets.ModelViewSet):
 
 
 class AnnouncementsView(viewsets.ModelViewSet):
-    permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
+    permission_classes = [IsClubOwner]
     queryset = Announcement.objects.all()
     serializer_class = AnnouncementsSerializer
 
