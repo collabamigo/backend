@@ -26,7 +26,7 @@ class Club(models.Model):
 class Announcement(models.Model):
     id = models.AutoField(primary_key=True)
     content = models.TextField(max_length=100, blank=True)
-    announcements = models.ForeignKey(Club, related_name="announcements",
+    club = models.ForeignKey(Club, related_name="announcements",
                                       on_delete=models.CASCADE)
 
 

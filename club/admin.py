@@ -16,7 +16,7 @@ class CompetitionAdmin(admin.ModelAdmin):
 
 
 class AnnouncementsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'content', 'announcements')
+    list_display = ('id', 'content', 'club')
 
 
 admin.site.register(Club, ClubAdmin)
