@@ -10,9 +10,9 @@ class ClubSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'picture', 'college', 'join_date',
                   'instagram', 'linkedin', 'facebook', 'discord', 'other',
                   'username', 'memberSize', 'tagline', 'description',
-                  'announcements')
+                  'announcements', 'competitions')
         read_only_fields = ['id', 'name', 'picture', 'college',
-                            'join_date', 'username', 'announcements']
+                            'join_date', 'username', 'announcements', 'competitions']
 
 
 class CompetitionSerializer(serializers.ModelSerializer):
