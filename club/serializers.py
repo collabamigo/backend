@@ -28,5 +28,5 @@ class AnnouncementsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Announcement
-        fields = ('id', 'content', 'club')
-        read_only_fields = ['id']
+        fields = '__all__'
+        read_only_fields = ['id', 'timestamp']
