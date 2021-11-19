@@ -14,9 +14,13 @@ class Migration(migrations.Migration):
             model_name='idea',
             name='role',
         ),
-        migrations.AlterField(
+        migrations.RemoveField(
             model_name='idea',
             name='visibility',
-            field=models.BooleanField(default=0),
+        ),
+        migrations.AddField(
+            model_name='idea',
+            name='visibility',
+            field=models.BooleanField(default=False),
         ),
     ]
