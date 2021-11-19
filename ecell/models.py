@@ -13,7 +13,7 @@ class Idea(models.Model):
     team_size = models.IntegerField(blank=False, default=1)
     tags = models.TextField(blank=True)
     idea = models.TextField(max_length=900)
-    visibility = models.BooleanField(default=0)
+    visibility = models.BooleanField(default=False)
     stage = models.CharField(max_length=40, choices=[("i", "Initiation"),
                                                      ("p", "Planning"),
                                                      ("e", "Execution"),
