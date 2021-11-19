@@ -4,7 +4,7 @@ from .models import Idea
 
 # Register your models here.
 class IdeaAdmin(admin.ModelAdmin):
-    list_display = ("id", "role", "name", "profile", "idea", "visibility",
+    list_display = ("id", "name", "profile", "idea", "visibility",
                     "estimate_time", "team_size", "tags", "stage", "college",
                     "join_date")
 
