@@ -7,8 +7,6 @@ class Idea(models.Model):
     id = models.AutoField(primary_key=True)
     # role = models.CharField(max_length=10)
     name = models.CharField(max_length=50, default='null')
-    profile = models.OneToOneField(to=Profile, on_delete=models.CASCADE,
-                                   related_name='profile')
     estimate_time = models.DateField()
     team_size = models.IntegerField(blank=False, default=1)
     tags = models.TextField(blank=True)
