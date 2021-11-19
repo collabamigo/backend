@@ -5,6 +5,6 @@ from .models import Idea
 class IdeaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Idea
-        fields = ("id", "name", "profile", "idea", "visibility",
+        fields = ("id", "name", "idea", "visibility",
                   "estimate_time", "team_size", "tags", "stage", "college",
                   "join_date")
