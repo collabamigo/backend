@@ -6,9 +6,8 @@ from connect.models import Profile
 class Idea(models.Model):
     id = models.AutoField(primary_key=True)
     # role = models.CharField(max_length=10)
-    name = models.CharField(max_length=50, default='null')
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE,
-                                   related_name='profile')
+    name = models.CharField(max_length=50)
+    owners = models.ManyToManyField(Profile, related_name='ideas')
     estimate_time = models.DateField()
     team_size = models.IntegerField(blank=False, default=1)
     tags = models.TextField(blank=True)
