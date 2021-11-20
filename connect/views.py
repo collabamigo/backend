@@ -149,8 +149,8 @@ class ConnectionRequest(views.APIView):
                 return Response("BLOCKED",
                                 status=status.HTTP_403_FORBIDDEN)
 
-            url = 'https://collabconnect-development.firebaseapp.com/' if \
-                settings.DEVELOPMENT else 'https://collabconnect.web.app/'
+            url = 'https://collabamigo.xyz/' if \
+                settings.DEVELOPMENT else 'https://collabamigo.com/'
             url += '/connection/?request_id=' + request_id
             format_dict = {
                 "buttonUrl": url,

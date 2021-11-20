@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from rest_framework import routers
 from . import views
 from backend import settings
@@ -13,7 +13,8 @@ router.register(r'competition', views.CompetitionView, 'Competition')
 router.register(r'announcements', views.AnnouncementsView, 'Announcements')
 
 urlpatterns = [
-    path('clubdata/', views.ClubView, name='ClubData'),
+    re_path('^clubannouncements/(?P<club>.+)/$', views.ClubAnnouncements.as_view()),
+    re_path('^clubcompetitions/(?P<club>.+)/$', views.ClubCompetition.as_view()),
 ]
 
 urlpatterns += router.urls

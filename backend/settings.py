@@ -36,6 +36,8 @@ CORS_ORIGIN_ALLOW_ALL = DEVELOPMENT
 
 CORS_ORIGIN_WHITELIST = [
     'https://collabamigo.com',
+    'https://collabamigo.xyz'
+
 ]
 
 # Quick-start development settings - unsuitable for production
@@ -44,8 +46,7 @@ CORS_ORIGIN_WHITELIST = [
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "TESTSEcret" if DEVELOPMENT else os.environ['SECRET_KEY']
 
-# TODO: Insecure ALLOWED_HOSTS
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = CORS_ORIGIN_WHITELIST
 
 # DataFlair neeche hai
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
