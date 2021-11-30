@@ -40,6 +40,20 @@ def validate_skeleton_element(element: dict, id: int):
 
         valid_keys += ["options"]
 
+    elif element["type"] == "select":
+        if not element.get("options") or element.get("options") == "":
+            raise ValidationError("Oops ! A question needs options")
+        # elif len(element["options"].split(";")) < 1:
+        #     raise ValidationError(
+        #         "Oops ! An MCQ question needs to have more"
+        #         " than one option")
+        # elif element["options"] != "":
+        #     uniqueness_check(list(element.keys()),
+        #                      "Oops! There seems to be a"
+        #                      " duplicate in the mcq")
+
+        valid_keys += ["options"]
+
     elif element["type"] == "number":
         pass
 
@@ -72,6 +86,7 @@ def validate_skeleton_element(element: dict, id: int):
         pass
 
     else:
+        print(element["type"])
         raise ValidationError("Invalid question type")
 
     return {k: v for (k, v) in element.items() if k in valid_keys}
@@ -89,8 +104,7 @@ class FormSerializer(serializers.ModelSerializer):
     class Meta:
         model = Form
         validators = []
-        fields = ["id", "confirmation_message", "createdAt", "updatedAt",
-                  "collect_email", "competition", "skeleton"]
+        fields = "__all__"
         read_only_fields = ["id", "createdAt", "updatedAt"]
 
 

@@ -24,6 +24,8 @@ class Form(models.Model):
                                        related_name="competition",
                                        on_delete=models.CASCADE)
     skeleton = models.TextField()  # This will be a manual-serialized JSONArray
+    opens_at = models.DateTimeField()
+    closes_at = models.DateTimeField()
 
 
 # need to fix this tomorrow

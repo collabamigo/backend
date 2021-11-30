@@ -1,10 +1,9 @@
 
 from rest_framework import permissions, exceptions
+from .models import Club
 
-from club.models import Club
 
-
-class IsClubOwner(permissions.BasePermission):
+class IsClubOwnerOrReadOnly(permissions.BasePermission):
     """
     Custom permission to only allow club admins to modify their club.
     """

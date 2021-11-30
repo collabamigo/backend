@@ -40,7 +40,7 @@ class CustomAuthentication(authentication.BaseAuthentication):
 
 class DummyAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request: Request):
-        if 'Authorization' in request.headers and \
+        if 'Authorization' not in request.headers or 'Authorization' in request.headers and \
                 request.headers['Authorization'] == "Token 00000.dummy.00000":
             if request.method in permissions.SAFE_METHODS:
                 Profile.objects.get_or_create(

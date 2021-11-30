@@ -33,11 +33,14 @@ class Announcement(models.Model):
 
 class Competition(models.Model):
     id = models.AutoField(primary_key=True)
-    club = models.ManyToManyField(Club, related_name="competitions")
+    clubs = models.ManyToManyField(Club, related_name="competitions")
     on_going = models.BooleanField(default=True)
     name = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=280, blank=True)
     disabled = models.BooleanField(default=False)
-    # form_closing_time = DateTimeField
-    # form_opening_time = DateTimeField
-    # competition_time = DateTimeField
+    event_start = models.DateTimeField()
+    event_end = models.DateTimeField(blank=True)
+    image_links = models.TextField(max_length=250, blank=True)
+    faq = models.TextField(max_length=700, blank=True)
+    link = models.TextField(max_length=100, blank=True)
+    location = models.TextField(max_length=100, blank=True)

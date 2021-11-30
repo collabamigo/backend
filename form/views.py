@@ -12,6 +12,7 @@ class FormView(viewsets.ModelViewSet):
     # permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
     queryset = Form.objects.all()
     serializer_class = FormSerializer
+    lookup_field = 'competition_id'
 
 
 class ResponseView(viewsets.ModelViewSet):

@@ -16,12 +16,12 @@ class ClubSerializer(serializers.ModelSerializer):
 
 
 class CompetitionSerializer(serializers.ModelSerializer):
-    club = SlugRelatedField(allow_empty=False, many=True,
-                            queryset=Club.objects.all(), slug_field='username')
+    clubs = SlugRelatedField(allow_empty=False, many=True,
+                             queryset=Club.objects.all(), slug_field='username')
 
     class Meta:
         model = Competition
-        fields = ('id', 'club', 'name', 'description', 'on_going', 'disabled')
+        fields = "__all__"
         read_only_fields = ['id']
 
 
