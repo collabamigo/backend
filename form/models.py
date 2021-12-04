@@ -25,28 +25,20 @@ class Form(models.Model):
                                        on_delete=models.CASCADE)
     skeleton = models.TextField()  # This will be a manual-serialized JSONArray
     opens_at = models.DateTimeField()
-    closes_at = models.DateTimeField()
+    closes_at = models.DateTimeField(blank=True)
+    allow_multiple_submissions = models.BooleanField(default=False)
 
 
 # need to fix this tomorrow
-class Response(models.Model):
+class FormResponse(models.Model):
     form = models.ForeignKey(Form, on_delete=models.CASCADE,
                              related_name="responses")
     responders = models.ManyToManyField(to="auth.User")
 
 
-class TextResponse(models.Model):
+class ResponseElement(models.Model):
     # To be used for: Text, Email, Number, MCQ
-    parent = models.ForeignKey(Response, related_name="TextResponses",
+    parent = models.ForeignKey(FormResponse, related_name="ResponseElements",
                                on_delete=models.CASCADE)
-    question_id = models.CharField(max_length=15)
+    question = models.CharField(max_length=15)
     value = models.TextField(blank=True)
-
-
-class FileResponse(models.Model):
-    # To be used for all forms of file uploads(restricted to 10MiB),
-    # including images
-    parent = models.ForeignKey(Form, related_name="FileResponses",
-                               on_delete=models.CASCADE)
-    question_id = models.CharField(max_length=15)
-    value = models.FileField(blank=True, validators=[file_size_limit])

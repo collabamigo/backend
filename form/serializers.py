@@ -2,7 +2,7 @@ import json
 
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from .models import Form, Response, TextResponse, FileResponse
+from .models import Form, FormResponse, ResponseElement
 
 
 def uniqueness_check(temp_list: list, message: str):
@@ -98,7 +98,7 @@ class FormSerializer(serializers.ModelSerializer):
         skeleton: list = json.loads(attrs)
         result = []
         for _ in range(len(skeleton)):
-            result += [validate_skeleton_element(skeleton[_], _+1)]
+            result += [validate_skeleton_element(skeleton[_], _)]
         return json.dumps(result)
 
     class Meta:
@@ -110,18 +110,12 @@ class FormSerializer(serializers.ModelSerializer):
 
 class ResponseSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Response
+        model = FormResponse
         fields = ("form", "responders")
         read_only_fields = ("responders",)
 
 
-class TextResponseSerializer(serializers.ModelSerializer):
+class ResponseElementSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TextResponse
+        model = ResponseElement
         fields = ("parent", "question_id", "value",)
-
-
-class FileResponseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FileResponse
-        fields = ("parent", "question_id", "value")

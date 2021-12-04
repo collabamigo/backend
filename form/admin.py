@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Form, Response, TextResponse, FileResponse
+from .models import Form, FormResponse, ResponseElement
 
 
 class FormAdmin(admin.ModelAdmin):
@@ -7,19 +7,19 @@ class FormAdmin(admin.ModelAdmin):
                     "collect_email", "competition", "skeleton")
 
 
-class ResponseAdmin(admin.ModelAdmin):
+class ResponseElementAdmin(admin.ModelAdmin):
+    list_display = ("parent", "question", "value")
+
+
+class ResponseElementInline(admin.TabularInline):
+    model = ResponseElement
+
+
+class FormResponseAdmin(admin.ModelAdmin):
     list_display = ("form",)
-
-
-class TextResponseAdmin(admin.ModelAdmin):
-    list_display = ("parent", "question_id", "value")
-
-
-class FileResponseAdmin(admin.ModelAdmin):
-    list_display = ("parent", "question_id", "value")
+    inlines = [ResponseElementInline]
 
 
 admin.site.register(Form, FormAdmin)
-admin.site.register(Response, ResponseAdmin)
-admin.site.register(TextResponse, TextResponseAdmin)
-admin.site.register(FileResponse, FileResponseAdmin)
+admin.site.register(FormResponse, FormResponseAdmin)
+admin.site.register(ResponseElement, ResponseElementAdmin)
