@@ -1,7 +1,7 @@
 from rest_framework import viewsets, generics
 from rest_framework.permissions import AllowAny
 
-from authenticate.authbackend import DummyAuthentication, CustomAuthentication
+from authenticate.authentication import DummyAuthentication, CustomAuthentication
 from .models import Club, Competition, Announcement
 from .permissions import IsClubOwnerOrReadOnly
 from .serializers import ClubSerializer, CompetitionSerializer, \

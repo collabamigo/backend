@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from rest_framework import status
 from rest_framework.views import APIView
@@ -15,6 +16,8 @@ from Cryptodome.Hash import SHA512
 
 
 class OAuthCallback(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
 
     def post(self, request: Request):
 
@@ -42,6 +45,8 @@ class OAuthCallback(APIView):
 
 
 class RefreshJWT(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
 
     def post(self, request: Request):
         refresh_token_by_user = request.POST.get("refresh_token")

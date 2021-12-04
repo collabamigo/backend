@@ -26,11 +26,11 @@ DEVELOPMENT = bool(os.getenv("DEVELOPMENT")) or bool(os.getenv("CICD"))
 DEBUG = DEVELOPMENT
 
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
-    'rest_framework.permissions.AllowAny'],
+    'authenticate.permissions.IsTrulyAuthenticatedOrReadOnly'],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
-        'authenticate.authbackend.DummyAuthentication',
-        'authenticate.authbackend.CustomAuthentication']}
+        'authenticate.authentication.DummyAuthentication',
+        'authenticate.authentication.CustomAuthentication']}
 
 CORS_ORIGIN_ALLOW_ALL = DEVELOPMENT
 

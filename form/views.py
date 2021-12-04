@@ -1,10 +1,6 @@
-# from django.shortcuts import render
+
 from rest_framework import viewsets
-# from rest_framework.response import Response
-# from rest_framework import status
-# from connect.permissions import IsAdminOrReadOnlyIfAuthenticated
-from .models import Form, Response as Res
-# Response as Res, FileResponse, TextResponse
+from .models import Form, Response
 from .serializers import FormSerializer, ResponseSerializer
 
 
@@ -16,5 +12,5 @@ class FormView(viewsets.ModelViewSet):
 
 
 class ResponseView(viewsets.ModelViewSet):
-    queryset = Res.objects.all()
+    queryset = Response.objects.all()
     serializer_class = ResponseSerializer

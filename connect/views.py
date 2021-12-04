@@ -2,7 +2,7 @@ from Cryptodome.Random import random
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from authenticate.authbackend import PreSignupAuth, DummyAuthentication
+from authenticate.authentication import PreSignupAuth, DummyAuthentication
 from backend import settings
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
