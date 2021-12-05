@@ -9,8 +9,11 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
+import base64
+import json
 import os
 
+import firebase_admin
 import pymongo
 
 import dj_database_url
@@ -182,4 +185,13 @@ JWT_SECRET = "TESTSEcret" if DEVELOPMENT else os.environ["JWT_SECRET"]
 DATABASES = dict()
 DATABASES['default'] = dj_database_url.config(
     conn_max_age=600, ssl_require=False)
+
+if os.getenv("FIREBASE_CREDENTIALS"):
+    print("Firebase credentials found")
+    firebase_cred = firebase_admin.credentials.Certificate(json.loads(base64.b64decode(os.getenv(
+        "FIREBASE_CREDENTIALS")).decode("utf-8")))
+    firebase_app = firebase_admin.initialize_app(firebase_cred)
+else:
+    firebase_app = None
+
 django_heroku.settings(locals(), databases=False)

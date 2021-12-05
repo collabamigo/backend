@@ -2,6 +2,7 @@ import os
 
 from google.auth.transport import requests
 from google.oauth2 import id_token
+from firebase_admin import auth
 
 
 def verify_token(token: str) -> tuple:
@@ -24,3 +25,13 @@ def verify_token(token: str) -> tuple:
     except ValueError:
         # Invalid token
         return "", None
+
+
+def create_firebase_token(user) -> str:
+    uid = str(user.pk)
+    managed_clubs = list(user.clubs.values_list("username", flat=True))
+    additional_claims = {
+        "clubs": managed_clubs
+    }
+    custom_token = auth.create_custom_token(uid, additional_claims)
+    return custom_token.decode("utf-8")

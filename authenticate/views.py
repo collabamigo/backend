@@ -9,7 +9,8 @@ from rest_framework import status
 from rest_framework.views import APIView
 
 from backend import settings
-from .AuthHandler import verify_token
+from .permissions import IsTrulyAuthenticated
+from .utils import verify_token, create_firebase_token
 from . import models
 import jwt
 from Cryptodome.Hash import SHA512
@@ -72,3 +73,14 @@ class RefreshJWT(APIView):
                 return JsonResponse({}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return JsonResponse({}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetFirebaseToken(APIView):
+    permission_classes = [IsTrulyAuthenticated]
+
+    def get(self, request: Request):
+        return JsonResponse(
+            {
+                'firebaseToken': create_firebase_token(request.user)
+            }
+        )
