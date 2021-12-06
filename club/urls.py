@@ -15,6 +15,7 @@ router.register(r'announcements', views.AnnouncementsView, 'Announcements')
 urlpatterns = [
     re_path('^clubannouncements/(?P<club>.+)/$', views.ClubAnnouncements.as_view()),
     re_path('^clubcompetitions/(?P<club>.+)/$', views.ClubCompetition.as_view()),
+    re_path('^feed/', views.FeedView.as_view()),
 ]
 
 urlpatterns += router.urls
