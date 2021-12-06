@@ -2,8 +2,6 @@ from django.contrib import admin
 from .models import Club, Competition, Announcement
 
 
-# Register your models here.
-
 class ClubAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "picture", "college", "join_date",
                     "instagram", "linkedin", "facebook", "discord", "other",
@@ -11,7 +9,7 @@ class ClubAdmin(admin.ModelAdmin):
 
 
 class CompetitionAdmin(admin.ModelAdmin):
-    list_display = ("id", "on_going", "name", "description",
+    list_display = ("id", "name", "description",
                     "disabled")
 
 
