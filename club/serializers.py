@@ -1,10 +1,21 @@
+from abc import ABC
+
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
 
 from .models import Club, Competition, Announcement
 
+User = get_user_model()
+
 
 class ClubSerializer(serializers.ModelSerializer):
+    class AdminNameField(serializers.RelatedField, ABC):
+        def to_representation(self, value):
+            return value.profile.First_Name + " " + value.profile.Last_Name
+
+    admins = AdminNameField(many=True, read_only=True)
+
     class Meta:
         model = Club
         fields = ('id', 'name', 'picture', 'college', 'join_date',
