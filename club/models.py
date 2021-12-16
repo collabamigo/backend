@@ -35,7 +35,7 @@ class Competition(models.Model):
     id = models.AutoField(primary_key=True)
     clubs = models.ManyToManyField(Club, related_name="competitions")
     name = models.CharField(max_length=100, blank=True)
-    description = models.CharField(max_length=280, blank=True)
+    description = models.TextField(blank=True)
     disabled = models.BooleanField(default=False)
     event_start = models.DateTimeField()
     event_end = models.DateTimeField(blank=True, null=True)
