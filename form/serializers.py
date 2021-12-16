@@ -118,4 +118,13 @@ class ResponseSerializer(serializers.ModelSerializer):
 class ResponseElementSerializer(serializers.ModelSerializer):
     class Meta:
         model = ResponseElement
-        fields = ("parent", "question_id", "value",)
+        fields = ("question", "value",)
+
+
+class FormResponseSerializer(serializers.ModelSerializer):
+    elements = ResponseElementSerializer(many=True, read_only=True, source="ResponseElements")
+
+    class Meta:
+        model = FormResponse
+        fields = ("form", "responders", "elements")
+        read_only_fields = ("responders", "elements")

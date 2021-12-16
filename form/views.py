@@ -1,13 +1,15 @@
 import json
 
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.exceptions import APIException
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.utils import timezone
+
+from club.permissions import IsClubOwner
 from .models import Form, FormResponse, ResponseElement
-from .serializers import FormSerializer, ResponseSerializer
+from .serializers import FormSerializer, ResponseSerializer, FormResponseSerializer
 
 
 class FormView(viewsets.ModelViewSet):
@@ -20,6 +22,15 @@ class FormView(viewsets.ModelViewSet):
 class ResponseView(viewsets.ModelViewSet):
     queryset = FormResponse.objects.all()
     serializer_class = ResponseSerializer
+
+
+class ResponseDisplayView(generics.ListAPIView):
+    permission_classes = [IsClubOwner]
+    serializer_class = FormResponseSerializer
+
+    def get_queryset(self):
+        competition_id = self.kwargs['competition_id']
+        return FormResponse.objects.filter(form__competition__id=competition_id)
 
 
 class SubmitResponseView(APIView):

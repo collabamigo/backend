@@ -23,6 +23,8 @@ class CompetitionView(viewsets.ModelViewSet):
     queryset = Competition.objects.all()
     serializer_class = CompetitionSerializer
 
+# TODO: Any club can add any other club's announcement
+
 
 class AnnouncementsView(viewsets.ModelViewSet):
     permission_classes = [IsClubOwnerOrReadOnly]
