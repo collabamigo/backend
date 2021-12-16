@@ -13,7 +13,7 @@ class Club(models.Model):
     instagram = models.URLField(max_length=100, blank=True)
     linkedin = models.URLField(max_length=100, blank=True)
     facebook = models.URLField(max_length=100, blank=True)
-    github = models.URLField(max_length=100,blank=True)
+    github = models.URLField(max_length=100, blank=True)
     mail = models.EmailField(max_length=50, blank=True)
     telegram = models.URLField(max_length=100, blank=True)
     discord = models.URLField(max_length=100, blank=True)
