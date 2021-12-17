@@ -20,7 +20,7 @@ class Club(models.Model):
     other = models.URLField(max_length=100, blank=True)
     memberSize = models.IntegerField(blank=False, default=1)
     tagline = models.CharField(max_length=100)
-    description = models.TextField(max_length=100)
+    description = models.TextField()
 
     def __str__(self):
         return self.username
