@@ -33,6 +33,11 @@ class Announcement(models.Model):
     club = models.ForeignKey(Club, related_name="announcements",
                              on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = [
+            '-timestamp',
+            ]
+
 
 class Competition(models.Model):
     id = models.AutoField(primary_key=True)
