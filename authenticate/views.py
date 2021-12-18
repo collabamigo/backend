@@ -9,7 +9,6 @@ from rest_framework import status
 from rest_framework.views import APIView
 
 from backend import settings
-from .permissions import IsTrulyAuthenticated
 from .utils import verify_token, create_firebase_token
 from . import models
 import jwt
