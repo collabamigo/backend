@@ -76,8 +76,6 @@ class RefreshJWT(APIView):
 
 
 class GetFirebaseToken(APIView):
-    permission_classes = [IsTrulyAuthenticated]
-
     def get(self, request: Request):
         return JsonResponse(
             {
