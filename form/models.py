@@ -25,7 +25,7 @@ class Form(models.Model):
                                        on_delete=models.CASCADE)
     skeleton = models.TextField()  # This will be a manual-serialized JSONArray
     opens_at = models.DateTimeField()
-    closes_at = models.DateTimeField(blank=True)
+    closes_at = models.DateTimeField(blank=True, null=True)
     allow_multiple_submissions = models.BooleanField(default=False)
 
 
