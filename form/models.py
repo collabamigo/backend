@@ -19,7 +19,7 @@ class Form(models.Model):
     # allow_view_score = models.BooleanField(default=True)
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
-    collect_email = models.BooleanField()
+    collect_email = models.BooleanField(default=True)
     competition = models.OneToOneField(Competition,
                                        related_name="competition",
                                        on_delete=models.CASCADE)
