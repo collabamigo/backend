@@ -6,7 +6,7 @@ class Club(models.Model):
     username = models.CharField(unique=True,
                                 max_length=50)
     name = models.CharField(max_length=50)
-    picture = models.TextField(blank=True)
+    picture = models.TextField(default="[]")
     college = models.CharField(max_length=100, default="IIIT-D")
     join_date = models.DateField(auto_now_add=True)
     admins = models.ManyToManyField(to="auth.User", related_name="clubs")
@@ -47,7 +47,7 @@ class Competition(models.Model):
     disabled = models.BooleanField(default=False)
     event_start = models.DateTimeField()
     event_end = models.DateTimeField(blank=True, null=True)
-    image_links = models.TextField(max_length=250, blank=True)
+    image_links = models.TextField(default="[]")
     faq = models.TextField(max_length=3000, blank=True)
     link = models.TextField(max_length=100, blank=True)
     location = models.TextField(max_length=100, blank=True)
