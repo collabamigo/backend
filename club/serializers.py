@@ -22,7 +22,7 @@ class ClubSerializer(serializers.ModelSerializer):
                   'instagram', 'linkedin', 'facebook', 'discord', 'github', 'mail', 'telegram', 'other',
                   'username', 'memberSize', 'tagline', 'description',
                   'announcements', 'competitions', 'admins')
-        read_only_fields = ['id', 'name', 'picture', 'college',
+        read_only_fields = ['id', 'name', 'college',
                             'join_date', 'username', 'announcements', 'competitions', 'admins']
 
 

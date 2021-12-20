@@ -50,4 +50,5 @@ class Competition(models.Model):
     image_links = models.TextField(default="[]")
     faq = models.TextField(max_length=3000, blank=True)
     link = models.TextField(max_length=100, blank=True)
+    promotional_message = models.TextField()
     location = models.TextField(max_length=100, blank=True)
