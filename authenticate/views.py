@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
-
+from secrets import choice
+import string
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
@@ -13,6 +14,50 @@ from .utils import verify_token, create_firebase_token
 from . import models
 import jwt
 from Cryptodome.Hash import SHA512
+from django.contrib.auth import get_user_model
+
+
+class RandomUsername:
+    """
+    using firstname & lastname
+    create a random username (all lower case)
+    that doesnt already exist in db
+    """
+    num_of_random_letters = 3
+    num_of_random_numbers = 2
+    user_model = get_user_model()
+
+    def get_username(self, firstname=None, lastname=None):
+        username = ''
+        if firstname and lastname \
+                and firstname != '' and lastname != '':
+            username = firstname[0] + lastname[0]
+
+        while True:
+            random_letters = string.ascii_lowercase
+            random_numbers = string.digits
+            username += self.get_random_char(
+                random_letters, self.num_of_random_letters
+            )
+            username += self.get_random_char(
+                random_numbers, self.num_of_random_numbers
+            )
+            if self.username_exist_in_db(username) is False:
+                return username
+
+    def username_exist_in_db(self, username):
+        """
+        :return: True if username already exist in db
+            else False
+        """
+        q = self.user_model.objects.filter(username=username)
+        return q.exists()
+
+    def get_random_char(self, ip_str, n):
+        return (''.join(
+            choice(ip_str)
+            for _ in range(n)
+        ))
 
 
 class OAuthCallback(APIView):
@@ -23,7 +68,7 @@ class OAuthCallback(APIView):
 
         email, picture = verify_token(request.data.get("jwt"))
         if email:
-            username = email.split("@")[0]
+            username = RandomUsername().get_username(email.split("@")[0])
             user = User.objects.get_or_create(email=email, username=username,
                                               first_name=picture)[0]
             Token.objects.filter(user=user).delete()
