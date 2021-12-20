@@ -1,3 +1,5 @@
+import uuid
+
 from Cryptodome.Random import random
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -38,24 +40,6 @@ class TeachersData(views.APIView):
         return Response(output)
 
 
-def get_roll_number(email, degree):
-    output = ""
-    for i in email:
-        if '0' <= i <= '9':
-            output += i
-        if i == "@":
-            break
-    if not output:
-        try:
-            prev_suffix = int(list(Profile.objects.
-                                   filter(degree=degree).order_by("id").
-                                   values_list(flat=True))[-1][2:])
-        except IndexError:
-            prev_suffix = 999
-        output = "0" + str(prev_suffix + 1)
-    return str(degree) + output
-
-
 class ProfileView(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
@@ -69,12 +53,8 @@ class ProfileView(viewsets.ModelViewSet):
         else:
             return Profile.objects.filter(email=user)
 
-    # TODO: Better id extraction
-
     def perform_create(self, serializer):
-        email = str(self.request.user.email)
-        deg = self.request.data["degree"]
-        id_ = get_roll_number(email, deg)
+        id_ = str(uuid.uuid4().hex)
         serializer.save(email=self.request.user,
                         id=id_)
 
@@ -90,8 +70,6 @@ class TeacherView(viewsets.ModelViewSet):
             return Teacher.objects.all()
         else:
             return Teacher.objects.filter(email=user)
-
-    # TODO: V2 Better get_roll_number implementation needed
 
     def perform_create(self, serializer):
         serializer.save(email=self.request.user,
