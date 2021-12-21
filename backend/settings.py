@@ -171,8 +171,7 @@ SESSION_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 if not bool(os.getenv("CICD")):
     MongoClient = pymongo.MongoClient(os.environ['MONGODB_URI'])
 
-ALLOWED_IN_DEBUG = ['adityapratapsingh51@gmail.com',
-                    'aditya20016@iiitd.ac.in', 'shikhar20121@iiitd.ac.in',
+ALLOWED_IN_DEBUG = ['aditya20016@iiitd.ac.in', 'shikhar20121@iiitd.ac.in',
                     'heemank20064@iiitd.ac.in', 'heemankv@gmail.com',
                     'anis20026@iiitd.ac.in', 'vishwesh20156@iiitd.ac.in',
                     'pragyan20226@iiitd.ac.in', "dummy.user@collabamigo.com",
