@@ -27,11 +27,10 @@ class RandomUsername:
     num_of_random_numbers = 2
     user_model = get_user_model()
 
-    def get_username(self, firstname=None, lastname=None):
+    def get_username(self, slug: str = None):
         username = ''
-        if firstname and lastname \
-                and firstname != '' and lastname != '':
-            username = firstname[0] + lastname[0]
+        if slug:
+            username = slug
 
         while True:
             random_letters = string.ascii_lowercase
@@ -68,9 +67,12 @@ class OAuthCallback(APIView):
 
         email, picture = verify_token(request.data.get("jwt"))
         if email:
-            username = RandomUsername().get_username(email.split("@")[0])
-            user = User.objects.get_or_create(email=email, username=username,
-                                              first_name=picture)[0]
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                username = RandomUsername().get_username(slug=email.split("@")[0])
+                user = User.objects.create_user(
+                        username=username, email=email, first_name=picture)
             Token.objects.filter(user=user).delete()
             token = Token.objects.create(user=user)
             refresh_token = models.RefreshToken.objects.create(token=token)
