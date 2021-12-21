@@ -79,4 +79,3 @@ class CompetitionWinnerViewSet(viewsets.ModelViewSet):
             return CompetitionWinner.objects.all()
         else:
             return CompetitionWinner.objects.filter(competition__clubs__admins=user)
-
