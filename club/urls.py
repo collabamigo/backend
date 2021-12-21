@@ -8,9 +8,10 @@ if settings.DEVELOPMENT:
 else:
     router = routers.SimpleRouter()
 
-router.register(r'club', views.ClubView, 'club')
-router.register(r'competition', views.CompetitionView, 'Competition')
-router.register(r'announcements', views.AnnouncementsView, 'Announcements')
+router.register(r'club', views.ClubViewSet, 'club')
+router.register(r'competition', views.CompetitionViewSet, 'Competition')
+router.register(r'announcements', views.AnnouncementsViewSet, 'Announcements')
+router.register(r'competition-winner', views.CompetitionWinnerViewSet, 'CompetitionWinners')
 
 urlpatterns = [
     re_path('^clubannouncements/(?P<club>.+)/$', views.ClubAnnouncements.as_view()),

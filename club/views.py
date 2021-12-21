@@ -5,20 +5,20 @@ from rest_framework.views import APIView
 from django.utils import timezone
 from django.db.models import Q
 from authenticate.authentication import DummyAuthentication, CustomAuthentication
-from .models import Club, Competition, Announcement
-from .permissions import IsClubOwnerOrReadOnly
+from .models import Club, Competition, Announcement, CompetitionWinner
+from .permissions import IsClubOwnerOrReadOnly, CompetitionWinnerPermission, IsClubOwner
 from .serializers import ClubSerializer, CompetitionSerializer, \
-    AnnouncementsSerializer
+    AnnouncementsSerializer, CompetitionWinnerSerializer
 
 
-class ClubView(viewsets.ModelViewSet):
+class ClubViewSet(viewsets.ModelViewSet):
     permission_classes = [IsClubOwnerOrReadOnly]
     queryset = Club.objects.all()
     serializer_class = ClubSerializer
     lookup_field = 'username'
 
 
-class CompetitionView(viewsets.ModelViewSet):
+class CompetitionViewSet(viewsets.ModelViewSet):
     permission_classes = [IsClubOwnerOrReadOnly]
     queryset = Competition.objects.all()
     serializer_class = CompetitionSerializer
@@ -26,8 +26,8 @@ class CompetitionView(viewsets.ModelViewSet):
 # TODO: Any club can add any other club's announcement
 
 
-class AnnouncementsView(viewsets.ModelViewSet):
-    permission_classes = [IsClubOwnerOrReadOnly]
+class AnnouncementsViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsClubOwner]
     queryset = Announcement.objects.all()
     serializer_class = AnnouncementsSerializer
 
@@ -67,3 +67,16 @@ class FeedView(APIView):
                 'clubs': ClubSerializer(Club.objects.all(), many=True).data,
             }
         )
+
+
+class CompetitionWinnerViewSet(viewsets.ModelViewSet):
+    permission_classes = [CompetitionWinnerPermission]
+    serializer_class = CompetitionWinnerSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff:
+            return CompetitionWinner.objects.all()
+        else:
+            return CompetitionWinner.objects.filter(competition__clubs__admins=user)
+

@@ -52,3 +52,20 @@ class Competition(models.Model):
     link = models.TextField(max_length=100, blank=True)
     promotional_message = models.TextField()
     location = models.TextField(max_length=100, blank=True)
+    winners = models.ManyToManyField(to="auth.User", related_name="competitionsWon",
+                                     through="CompetitionWinner")
+
+
+class CompetitionWinner(models.Model):
+    id = models.AutoField(primary_key=True)
+    competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
+    winner = models.ForeignKey(to="auth.User", related_name="positionsWon",
+                               on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    index = models.IntegerField(blank=False)
+    position = models.CharField(max_length=100)
+
+    class Meta:
+        ordering = [
+            'index',
+            ]
