@@ -7,7 +7,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.utils import timezone
 
+from authenticate.permissions import IsTrulyAuthenticated
+from club.models import Competition
 from club.permissions import IsClubOwner
+from club.serializers import CompetitionSerializer
 from .models import Form, FormResponse, ResponseElement
 from .serializers import FormSerializer, ResponseSerializer, FormResponseSerializer
 
@@ -57,3 +60,11 @@ class SubmitResponseView(APIView):
 
         ResponseElement.objects.bulk_create(response_elements)
         return Response({"success": True})
+
+
+class ParticipationHistoryView(APIView):
+    permission_classes = [IsTrulyAuthenticated]
+
+    def get(self, request: Request):
+        competitions = Competition.objects.filter(form__responses__responders=request.user)
+        return Response(CompetitionSerializer(competitions, many=True).data)

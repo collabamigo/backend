@@ -14,6 +14,7 @@ router.register(r'form', views.FormView, 'form')
 urlpatterns = [
     path('submit/<int:event_id>/', views.SubmitResponseView.as_view(), name='submit_response'),
     re_path('^response/(?P<competition_id>.+)/$', views.ResponseDisplayView.as_view(), name='response_display'),
+    path('participation-history/', views.ParticipationHistoryView.as_view(), name='participation_history'),
 ]
 
 urlpatterns += router.urls

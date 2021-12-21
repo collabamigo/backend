@@ -21,7 +21,7 @@ class Form(models.Model):
     updatedAt = models.DateTimeField(auto_now=True)
     collect_email = models.BooleanField(default=True)
     competition = models.OneToOneField(Competition,
-                                       related_name="competition",
+                                       related_name="form",
                                        on_delete=models.CASCADE)
     skeleton = models.TextField()  # This will be a manual-serialized JSONArray
     opens_at = models.DateTimeField()
