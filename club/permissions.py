@@ -13,6 +13,7 @@ class IsClubOwner(permissions.BasePermission):
             if club_requested is None:
                 club_requested = Club.objects.get(username=request.data.get("club"))
             post_flag = club_requested.admins.filter(pk=request.user.pk).exists()
+        print(bool(post_flag and request.user and request.user.is_authenticated))
         return bool(post_flag and request.user and request.user.is_authenticated)
 
     def has_object_permission(self, request, view, obj, club_requested: Club = None):
@@ -26,6 +27,8 @@ class IsClubOwner(permissions.BasePermission):
         elif isinstance(obj, Club) and obj.admins.filter(pk=request.user.pk).exists():
             return True
         elif hasattr(obj, "club") and obj.club.admins.filter(pk=request.user.pk).exists():
+            return True
+        elif hasattr(obj, "clubs") and obj.clubs.filter(admins__pk=request.user.pk).exists():
             return True
         else:
             raise exceptions.PermissionDenied()
