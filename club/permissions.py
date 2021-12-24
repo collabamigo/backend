@@ -1,3 +1,4 @@
+
 from rest_framework import permissions, exceptions
 from .models import Club, Competition
 
@@ -11,7 +12,8 @@ class IsClubOwner(permissions.BasePermission):
         post_flag = True
         if request.method == "POST":
             if club_requested is None:
-                club_requested = Club.objects.get(username=request.data.get("club"))
+                club = request.data.get("club", request.data.get("clubs")[0])
+                club_requested = Club.objects.get(username=club)
             post_flag = club_requested.admins.filter(pk=request.user.pk).exists()
         print(bool(post_flag and request.user and request.user.is_authenticated))
         return bool(post_flag and request.user and request.user.is_authenticated)
