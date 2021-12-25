@@ -6,7 +6,7 @@ class Club(models.Model):
     username = models.CharField(unique=True,
                                 max_length=50)
     name = models.CharField(max_length=50)
-    picture = models.TextField(default="[]")
+    image_links = models.TextField(default="[]")
     college = models.CharField(max_length=100, default="IIIT-D")
     join_date = models.DateField(auto_now_add=True)
     admins = models.ManyToManyField(to="auth.User", related_name="clubs")
