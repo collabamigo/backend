@@ -1,7 +1,6 @@
 FROM python:3.9.2
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
-ENV PORT 80
 WORKDIR /app
 
 
@@ -11,12 +10,6 @@ COPY . .
 RUN chmod +x ./utils/run.sh
 RUN ln -s /run/shm /dev/shm
 
-# add and run as non-root user
-RUN adduser --disabled-password django
-USER django
 
-
-WORKDIR /app
-
-EXPOSE $PORT
+EXPOSE 80
 ENTRYPOINT ["utils/run.sh"]
