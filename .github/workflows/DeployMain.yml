@@ -6,7 +6,6 @@ name: Deploy main to production Heroku
 jobs:
   Internal-deploy:
     runs-on: iiit-vm
-    needs: Deploy-testing-to-Heroku
     steps:
 
       - uses: actions/checkout@v2
