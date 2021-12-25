@@ -1,6 +1,7 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.contrib.auth.models import User
+
 User._meta.get_field('email')._unique = True
 
 # TODO: Synchronization of Naming conventions
@@ -8,8 +9,7 @@ User._meta.get_field('email')._unique = True
 
 class Profile(models.Model):
     id = models.CharField(primary_key=True, unique=True,
-                          max_length=6, auto_created=False,
-                          serialize=False, verbose_name='ID')
+                          max_length=32, editable=False)
     First_Name = models.CharField(max_length=30)
     Last_Name = models.CharField(max_length=50, blank=True)
     gender = models.CharField(max_length=1, blank=True, )

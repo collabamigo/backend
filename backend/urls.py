@@ -21,4 +21,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('autocomplete/', include('autocomplete.urls')),
     path('connect/', include('connect.urls')),
-    path('rating/', include('rating.urls'))]
+    path('rating/', include('rating.urls')),
+    path('pathfinders/', include('ecell.urls')),
+    path('club/', include('club.urls')),
+    path('authenticate/', include('authenticate.urls')),
+    path('form/', include('form.urls')),
+]

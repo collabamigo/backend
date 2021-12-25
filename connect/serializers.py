@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.relations import PrimaryKeyRelatedField
+
+from club.serializers import ClubSerializer
 from . import connection_manager
 from .models import Profile, Teacher, Skill
 
@@ -18,6 +20,7 @@ def strip_username(data: str):
 
 class ProfileSerializer(serializers.ModelSerializer):
     email = serializers.ReadOnlyField(source='email.email')
+    clubs = ClubSerializer(many=True, read_only=True, source='email.clubs')
 
     def validate_handle(self, value):
         return strip_username(value)
@@ -25,8 +28,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['id', 'First_Name', 'Last_Name', 'gender',
-                  'degree', 'course', 'email', 'handle', ]
-        read_only_fields = ['id', 'email', ]
+                  'degree', 'course', 'email', 'handle', 'clubs']
+        read_only_fields = ['id', 'email', 'clubs']
 
 
 class TeacherSerializer(serializers.ModelSerializer):
@@ -36,10 +39,10 @@ class TeacherSerializer(serializers.ModelSerializer):
     help_history = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
 
-    def validate_Gitname(self, value):
+    def validate_gitname(self, value):
         return strip_username(value)
 
-    def validate_Linkedin(self, value):
+    def validate_linkedin(self, value):
         return strip_username(value)
 
     class Meta:

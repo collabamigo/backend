@@ -9,10 +9,12 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
+import base64
+import json
 import os
 
+import firebase_admin
 import pymongo
-from corsheaders.defaults import default_headers
 
 import dj_database_url
 import django_heroku
@@ -23,38 +25,31 @@ load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+DEVELOPMENT = bool(os.getenv("DEVELOPMENT")) or bool(os.getenv("CICD"))
+DEBUG = DEVELOPMENT
+
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
-    'rest_framework.permissions.AllowAny'],
+    'authenticate.permissions.IsTrulyAuthenticatedOrReadOnly'],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
-        'authenticator.authbackend.CustomAuthentication']}
+        'authenticate.authentication.DummyAuthentication',
+        'authenticate.authentication.CustomAuthentication']}
+
+CORS_ORIGIN_ALLOW_ALL = DEVELOPMENT
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-    'https://collabconnect-development.firebaseapp.com',
-    'https://collabconnect.web.app',
-    'https://collabconnect.firebaseapp.com',
-    'https://collabconnect-development.web.app',
     'https://collabamigo.com',
-    'https://www.collabamigo.com'
-]
+    'https://collabamigo.xyz'
 
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    'aeskey',
-    'token',
-    'iv'
 ]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = "TESTSEcret" if DEVELOPMENT else os.environ['SECRET_KEY']
 
-DEBUG = not bool(os.getenv("PRODUCTION"))
-
-# TODO: Insecure ALLOWED_HOSTS
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = CORS_ORIGIN_WHITELIST
 
 # DataFlair neeche hai
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -76,14 +71,20 @@ INSTALLED_APPS = [
     'connect.apps.ConnectConfig',
     'corsheaders',
     'autocomplete',
+    'club',
+    'form',
+    'ecell',
+    'authenticate',
+    'rest_framework.authtoken'
 ]
 
 # TODO: Enable CSRF
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -144,26 +145,52 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-FRONTEND_URL = "https://collabconnect-development.firebaseapp.com" if DEBUG \
-    else "https://collabconnect.web.app"
+FRONTEND_URL = "https://collabamigo-testing.web.app" if DEVELOPMENT \
+    else "https://collabamigo.com"
 
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+TIME_ZONE = 'Asia/Kolkata'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
 
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
+
 # CSRF_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 SECURE_SSL_REDIRECT = bool(os.getenv("PRODUCTION"))
 SESSION_COOKIE_SECURE = bool(os.getenv("PRODUCTION"))
 
-if os.environ['EMAIL'] != "a":
+if not bool(os.getenv("CICD")):
     MongoClient = pymongo.MongoClient(os.environ['MONGODB_URI'])
+
+ALLOWED_IN_DEBUG = ['aditya20016@iiitd.ac.in', 'shikhar20121@iiitd.ac.in',
+                    'heemank20064@iiitd.ac.in', 'heemankv@gmail.com',
+                    'anis20026@iiitd.ac.in', 'vishwesh20156@iiitd.ac.in',
+                    'pragyan20226@iiitd.ac.in', "dummy.user@collabamigo.com",
+                    "khwaish20212@iiitd.ac.in"]
+
+JWT_VALIDITY_IN_DAYS = 1
+TOKEN_VALIDITY_IN_DAYS = 3
+JWT_SECRET = "TESTSEcret" if DEVELOPMENT else os.environ["JWT_SECRET"]
 
 DATABASES = dict()
 DATABASES['default'] = dj_database_url.config(
     conn_max_age=600, ssl_require=False)
+
+if os.getenv("FIREBASE_CREDENTIALS"):
+    print("Firebase credentials found")
+    firebase_cred = firebase_admin.credentials.Certificate(json.loads(base64.b64decode(os.getenv(
+        "FIREBASE_CREDENTIALS")).decode("utf-8")))
+    firebase_app = firebase_admin.initialize_app(firebase_cred)
+else:
+    firebase_app = None
+
 django_heroku.settings(locals(), databases=False)

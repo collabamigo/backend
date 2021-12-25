@@ -1,10 +1,11 @@
+import uuid
+
 from Cryptodome.Random import random
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from authenticate.authentication import PreSignupAuth, DummyAuthentication
 from backend import settings
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from rest_framework.exceptions import ParseError, NotFound
@@ -39,29 +40,11 @@ class TeachersData(views.APIView):
         return Response(output)
 
 
-def get_roll_number(email, degree):
-    output = ""
-    for i in email:
-        if '0' <= i <= '9':
-            output += i
-        if i == "@":
-            break
-    if not output:
-        try:
-            prev_suffix = int(list(Profile.objects.
-                                   filter(degree=degree).order_by("id").
-                                   values_list(flat=True))[-1][2:])
-        except IndexError:
-            prev_suffix = 999
-        output = "0" + str(prev_suffix + 1)
-    return str(degree) + output
-
-
-@method_decorator(csrf_exempt, name='dispatch')
 class ProfileView(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
     permission_classes = [IsOwner]
+    authentication_classes = [DummyAuthentication, PreSignupAuth]
 
     def get_queryset(self):
         user = self.request.user
@@ -70,17 +53,12 @@ class ProfileView(viewsets.ModelViewSet):
         else:
             return Profile.objects.filter(email=user)
 
-    # TODO: Better id extraction
-
     def perform_create(self, serializer):
-        email = str(self.request.user.email)
-        deg = self.request.data["degree"]
-        id_ = get_roll_number(email, deg)
+        id_ = str(uuid.uuid4().hex)
         serializer.save(email=self.request.user,
                         id=id_)
 
 
-@method_decorator(csrf_exempt, name='dispatch')
 class TeacherView(viewsets.ModelViewSet):
     permission_classes = [IsOwner]
     serializer_class = TeacherSerializer
@@ -93,14 +71,11 @@ class TeacherView(viewsets.ModelViewSet):
         else:
             return Teacher.objects.filter(email=user)
 
-    # TODO: V2 Better get_roll_number implementation needed
-
     def perform_create(self, serializer):
         serializer.save(email=self.request.user,
                         id=self.request.user.profile)
 
 
-@method_decorator(csrf_exempt, name='dispatch')
 class SkillView(viewsets.ModelViewSet):
     lookup_value_regex = '[^/]+'
     permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
@@ -152,8 +127,8 @@ class ConnectionRequest(views.APIView):
                 return Response("BLOCKED",
                                 status=status.HTTP_403_FORBIDDEN)
 
-            url = 'https://collabconnect-development.firebaseapp.com/' if \
-                settings.DEBUG else 'https://collabconnect.web.app/'
+            url = 'https://collabamigo.xyz/' if \
+                settings.DEVELOPMENT else 'https://collabamigo.com/'
             url += '/connection/?request_id=' + request_id
             format_dict = {
                 "buttonUrl": url,
