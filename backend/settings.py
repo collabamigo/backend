@@ -22,6 +22,8 @@ load_dotenv()
 
 env = environ.Env(
     DATABASE_URL=(str, ""),
+    CORS_ORIGIN_WHITELIST=(list, ["http://localhost:3000", "https://collabamigo.xyz"]),
+    ALLOWED_HOSTS=(list, ["localhost", "blooming-peak-53825.herokuapp.com"]),
 )
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
@@ -37,13 +39,8 @@ REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
         'authenticate.authentication.DummyAuthentication',
         'authenticate.authentication.CustomAuthentication']}
 
-CORS_ORIGIN_ALLOW_ALL = DEVELOPMENT
 
-CORS_ORIGIN_WHITELIST = [
-    'https://collabamigo.com',
-    'https://collabamigo.xyz'
-
-]
+CORS_ORIGIN_WHITELIST = env("CORS_ORIGIN_WHITELIST")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -51,7 +48,7 @@ CORS_ORIGIN_WHITELIST = [
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "TESTSEcret" if DEVELOPMENT else os.environ['SECRET_KEY']
 
-ALLOWED_HOSTS = CORS_ORIGIN_WHITELIST
+ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 
 # DataFlair neeche hai
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
