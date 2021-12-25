@@ -15,12 +15,14 @@ import os
 
 import firebase_admin
 import pymongo
-
-import dj_database_url
-import django_heroku
+import environ
 from dotenv import load_dotenv
 
 load_dotenv()
+
+env = environ.Env(
+    DATABASE_URL=(str, ""),
+)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -181,9 +183,16 @@ JWT_VALIDITY_IN_DAYS = 1
 TOKEN_VALIDITY_IN_DAYS = 3
 JWT_SECRET = "TESTSEcret" if DEVELOPMENT else os.environ["JWT_SECRET"]
 
-DATABASES = dict()
-DATABASES['default'] = dj_database_url.config(
-    conn_max_age=600, ssl_require=False)
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    }
+}
+if env("DATABASE_URL"):
+    DATABASES["default"] = env.db("DATABASE_URL")
+    DATABASES["default"]["ATOMIC_REQUESTS"] = True
+    DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)
 
 if os.getenv("FIREBASE_CREDENTIALS"):
     print("Firebase credentials found")
@@ -192,5 +201,3 @@ if os.getenv("FIREBASE_CREDENTIALS"):
     firebase_app = firebase_admin.initialize_app(firebase_cred)
 else:
     firebase_app = None
-
-django_heroku.settings(locals(), databases=False)
