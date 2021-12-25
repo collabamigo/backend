@@ -66,5 +66,5 @@ class ParticipationHistoryView(APIView):
     permission_classes = [IsTrulyAuthenticated]
 
     def get(self, request: Request):
-        competitions = Competition.objects.filter(form__responses__responders=request.user)
+        competitions = Competition.objects.filter(form__responses__responders=request.user).distinct()
         return Response(CompetitionSerializer(competitions, many=True).data)
