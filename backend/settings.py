@@ -16,7 +16,6 @@ import os
 import firebase_admin
 import pymongo
 import environ
-from django.contrib.auth import get_user_model
 from dotenv import load_dotenv
 
 load_dotenv()
