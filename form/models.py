@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+
+from backend import settings
 from club.models import Competition
 
 
@@ -33,7 +35,7 @@ class Form(models.Model):
 class FormResponse(models.Model):
     form = models.ForeignKey(Form, on_delete=models.CASCADE,
                              related_name="responses")
-    responders = models.ManyToManyField(to="auth.User")
+    responders = models.ManyToManyField(to=settings.AUTH_USER_MODEL)
 
 
 class ResponseElement(models.Model):

@@ -74,8 +74,10 @@ INSTALLED_APPS = [
     'form',
     'ecell',
     'authenticate',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'users'
 ]
+AUTH_USER_MODEL = 'users.User'
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")

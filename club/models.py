@@ -1,5 +1,7 @@
 from django.db import models
 
+from backend import settings
+
 
 class Club(models.Model):
     id = models.AutoField(primary_key=True)
@@ -9,7 +11,7 @@ class Club(models.Model):
     image_links = models.TextField(default="[]")
     college = models.CharField(max_length=100, default="IIIT-D")
     join_date = models.DateField(auto_now_add=True)
-    admins = models.ManyToManyField(to="auth.User", related_name="clubs")
+    admins = models.ManyToManyField(to=settings.AUTH_USER_MODEL, related_name="clubs")
     instagram = models.URLField(max_length=100, blank=True)
     linkedin = models.URLField(max_length=100, blank=True)
     facebook = models.URLField(max_length=100, blank=True)
@@ -52,14 +54,14 @@ class Competition(models.Model):
     link = models.TextField(max_length=100, blank=True)
     promotional_message = models.TextField()
     location = models.TextField(max_length=100, blank=True)
-    winners = models.ManyToManyField(to="auth.User", related_name="competitionsWon",
+    winners = models.ManyToManyField(to=settings.AUTH_USER_MODEL, related_name="competitionsWon",
                                      through="CompetitionWinner")
 
 
 class CompetitionWinner(models.Model):
     id = models.AutoField(primary_key=True)
     competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
-    winner = models.ForeignKey(to="auth.User", related_name="positionsWon",
+    winner = models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name="positionsWon",
                                on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     index = models.IntegerField(blank=False)
