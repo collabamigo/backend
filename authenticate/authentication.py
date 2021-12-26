@@ -1,6 +1,6 @@
 from datetime import datetime
 from django.conf import settings
-from backend.settings import User
+from django.contrib.auth.models import User
 from connect.models import Profile
 from rest_framework import authentication, permissions
 from rest_framework.exceptions import AuthenticationFailed
