@@ -1,10 +1,12 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework.relations import PrimaryKeyRelatedField
 
 from club.serializers import ClubSerializer
 from . import connection_manager
 from .models import Profile, Teacher, Skill
+
+User = get_user_model()
 
 
 def strip_username(data: str):
