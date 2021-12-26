@@ -24,12 +24,14 @@ env = environ.Env(
     DATABASE_URL=(str, ""),
     CORS_ORIGIN_WHITELIST=(str, '["http://localhost:3000", "https://collabamigo.xyz"]'),
     ALLOWED_HOSTS=(str, '["localhost", "blooming-peak-53825.herokuapp.com"]'),
+    DEVELOPMENT=(bool, True),
+    CICD=(bool, False),
 )
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEVELOPMENT = bool(os.getenv("DEVELOPMENT")) or bool(os.getenv("CICD"))
+DEVELOPMENT = env("DEVELOPMENT") or env("CICD")
 DEBUG = DEVELOPMENT
 
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
