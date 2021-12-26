@@ -33,9 +33,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEVELOPMENT = bool(os.getenv("DEVELOPMENT")) or bool(os.getenv("CICD"))
 DEBUG = DEVELOPMENT
 
-User = get_user_model()
-User._meta.get_field('email')._unique = True
-
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
     'authenticate.permissions.IsTrulyAuthenticatedOrReadOnly'],
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -77,7 +74,6 @@ INSTALLED_APPS = [
     'club',
     'form',
     'ecell',
-    'backend',
     'authenticate',
     'rest_framework.authtoken'
 ]
