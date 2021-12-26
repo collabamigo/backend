@@ -1,6 +1,6 @@
 from datetime import datetime
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from connect.models import Profile
 from rest_framework import authentication, permissions
 from rest_framework.exceptions import AuthenticationFailed
@@ -8,6 +8,8 @@ from rest_framework.request import Request
 import jwt
 from Cryptodome.Hash import SHA512
 from .models import RefreshToken
+
+User = get_user_model()
 
 
 class CustomAuthentication(authentication.BaseAuthentication):

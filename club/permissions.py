@@ -12,14 +12,17 @@ class IsClubOwner(permissions.BasePermission):
         post_flag = True
         if request.method == "POST":
             if club_requested is None:
-                club = request.data.get("club", request.data.get("clubs")[0])
+                print(request.data)
+                club = request.data.get("club")
+                if club is None:
+                    club = request.data.get("clubs")[0]
                 club_requested = Club.objects.get(username=club)
             post_flag = club_requested.admins.filter(pk=request.user.pk).exists()
         print(bool(post_flag and request.user and request.user.is_authenticated))
         return bool(post_flag and request.user and request.user.is_authenticated)
 
     def has_object_permission(self, request, view, obj, club_requested: Club = None):
-        if request.user.is_staff:
+        if request.user.is_superuser:
             return True
         elif club_requested is not None:
             if club_requested.admins.filter(pk=request.user.pk).exists():

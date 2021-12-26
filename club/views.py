@@ -78,7 +78,7 @@ class CompetitionWinnerViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_staff:
+        if user.is_superuser:
             return CompetitionWinner.objects.all()
         else:
             return CompetitionWinner.objects.filter(competition__clubs__admins=user)

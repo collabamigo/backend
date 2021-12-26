@@ -14,7 +14,7 @@ class Rating(APIView):
         connect_perm.IsOwner,)
 
     def get(self, request):
-        if request.user.is_staff:
+        if request.user.is_superuser:
             student_id = str(request.query_params['id'])
         else:
             student_id = str(request.user.profile.id)
@@ -28,13 +28,13 @@ class Rating(APIView):
 
             # Superuser can imitate and vote as another user even if the
             # user's connection isn't approved
-            if request.user.is_staff:
+            if request.user.is_superuser:
                 student_id = str(request.query_params['id'])
             else:
                 student_id = str(request.user.profile.id)
             if request.data['teacher'] in connection_manager.\
                     list_approvals_received(
-                    student_id) or request.user.is_staff:
+                    student_id) or request.user.is_superuser:
                 ratingHandler.set_ratings(request.user.profile.id,
                                           request.data['teacher'],
                                           int(request.data['vote']))
