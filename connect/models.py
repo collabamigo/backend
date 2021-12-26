@@ -18,9 +18,7 @@ class Profile(models.Model):
     handle = models.CharField(max_length=50, blank=True)
     email = models.OneToOneField(to='auth.User',
                                  on_delete=models.CASCADE,
-                                 related_name='profile',
-                                 to_field='email',
-                                 db_column='email')
+                                 related_name='profile')
 
     def __str__(self):
         return self.id
