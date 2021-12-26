@@ -10,7 +10,7 @@ class IsOwner(permissions.BasePermission):
         return bool(request.user and request.user.is_authenticated)
 
     def has_object_permission(self, request, view, obj):
-        if request.user.is_staff:
+        if request.user.is_superuser:
             return True
         else:
             return obj.email == request.user
@@ -25,7 +25,7 @@ class IsAdminOrReadOnlyIfAuthenticated(permissions.BasePermission):
         return bool(request.user and request.user.is_authenticated)
 
     def has_object_permission(self, request, view, obj):
-        if request.user.is_staff:
+        if request.user.is_superuser:
             return True
         else:
             return request.method in permissions.SAFE_METHODS

@@ -48,7 +48,7 @@ class ProfileView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_staff:
+        if user.is_superuser:
             return Profile.objects.all()
         else:
             return Profile.objects.filter(email=user)
@@ -66,7 +66,7 @@ class TeacherView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_staff:
+        if user.is_superuser:
             return Teacher.objects.all()
         else:
             return Teacher.objects.filter(email=user)
@@ -83,7 +83,7 @@ class SkillView(viewsets.ModelViewSet):
     queryset = Skill.objects.all()
 
     def get_queryset(self):
-        if self.action == "retrieve" or self.request.user.is_staff:
+        if self.action == "retrieve" or self.request.user.is_superuser:
             return Skill.objects.all()
         else:
             return Skill.objects.none()
@@ -100,7 +100,7 @@ class ConnectionRequest(views.APIView):
             except Profile.DoesNotExist:
                 raise NotFound()
 
-            if request.user.is_staff:
+            if request.user.is_superuser:
                 student_id = str(request.query_params['id'])
             else:
                 student_id = str(request.user.profile.id)
@@ -219,7 +219,7 @@ class ApprovalsView(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request: Request):
-        if request.user.is_staff:
+        if request.user.is_superuser:
             student_id = str(request.query_params['id'])
         else:
             student_id = str(request.user.profile.id)
