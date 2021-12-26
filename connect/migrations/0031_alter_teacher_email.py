@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='teacher',
             name='email',
-            field=models.OneToOneField(db_column='email', on_delete=django.db.models.deletion.CASCADE, related_name='teacher', to=settings.AUTH_USER_MODEL, to_field='email'),
+            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE,
+                                       related_name='teacher', to=settings.AUTH_USER_MODEL, to_field='email'),
         ),
     ]

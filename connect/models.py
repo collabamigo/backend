@@ -22,8 +22,7 @@ class Profile(models.Model):
     email = models.OneToOneField(to=settings.AUTH_USER_MODEL,
                                  on_delete=models.CASCADE,
                                  related_name='profile',
-                                 to_field='email',
-                                 db_column='email')
+                                 to_field='email')
 
     def __str__(self):
         return self.id
@@ -46,8 +45,7 @@ class Teacher(models.Model):
     email = models.OneToOneField(to=settings.AUTH_USER_MODEL,
                                  on_delete=models.CASCADE,
                                  related_name='teacher',
-                                 to_field='email',
-                                 db_column='email')
+                                 to_field='email')
     Created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
