@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from backend.settings import User
 from rest_framework.relations import PrimaryKeyRelatedField
 
 from club.serializers import ClubSerializer
