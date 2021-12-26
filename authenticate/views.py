@@ -74,6 +74,9 @@ class OAuthCallback(APIView):
                 username = RandomUsername().get_username(slug=email.split("@")[0])
                 user = User.objects.create_user(
                         username=username, email=email, first_name=picture)
+            prev_tokens = Token.objects.filter(user=user).order_by("-created")
+            for i in range(3, prev_tokens.count()):
+                prev_tokens[i].delete()
             Token.objects.filter(user=user).delete()
             token = Token.objects.create(user=user)
             refresh_token = models.RefreshToken.objects.create(token=token)
@@ -101,9 +104,8 @@ class RefreshJWT(APIView):
         access_token = request.POST.get("access_token")
         if refresh_token_by_user and access_token:
             jwt_payload = jwt.decode(access_token, settings.JWT_SECRET, algorithms=["HS256"])
-            user = User.objects.get(email=jwt_payload.get("email"))
             hasher = SHA512.new(truncate="256")
-            token = models.RefreshToken.objects.get(token__user=user)
+            token = models.RefreshToken.objects.get(token__key=refresh_token_by_user)
             hasher.update(token.token.key.encode('utf-8'))
 
             if jwt_payload.get(

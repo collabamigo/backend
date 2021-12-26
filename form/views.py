@@ -39,13 +39,16 @@ class ResponseDisplayView(generics.ListAPIView):
 class SubmitResponseView(APIView):
 
     def post(self, request: Request, event_id):
-        form_response = FormResponse(form=Form.objects.get(competition_id=event_id))
+        form = Form.objects.get(competition_id=event_id)
 
-        if form_response.form.opens_at > timezone.now() or form_response.form.closes_at < timezone.now():
+        if form.opens_at > timezone.now() or form.closes_at < timezone.now():
             raise APIException('Form is not open for submissions')
 
-        if not form_response.form.allow_multiple_submissions and FormResponse.objects.filter(responders=request.user):
+        if not form.allow_multiple_submissions and FormResponse.objects.filter(
+                responders=request.user, form=form).exists():
             raise APIException('Multiple submissions are not allowed')
+
+        form_response = FormResponse(form=form)
 
         skeleton = json.loads(form_response.form.skeleton)
         response_elements = []
