@@ -5,8 +5,6 @@ from backend import settings
 
 User = get_user_model()
 
-User._meta.get_field('email')._unique = True
-
 # TODO: Synchronization of Naming conventions
 
 
