@@ -79,5 +79,8 @@ class SelfFormResponseAPIView(APIView):
     permission_classes = [IsTrulyAuthenticated]
 
     def get(self, request: Request, competition_id):
-        form_responses = _get_users_responses(Form.objects.get(competition_id=competition_id), request.user)
-        return Response(FormResponseSerializer(form_responses, many=True).data)
+        try:
+            form_responses = _get_users_responses(Form.objects.get(competition_id=competition_id), request.user)
+            return Response(FormResponseSerializer(form_responses, many=True).data)
+        except Form.DoesNotExist:
+            return Response(status=406)
