@@ -73,14 +73,3 @@ class ParticipationHistoryView(APIView):
     def get(self, request: Request):
         competitions = Competition.objects.filter(form__responses__responders=request.user).distinct()
         return Response(CompetitionSerializer(competitions, many=True).data)
-
-
-class SelfFormResponseAPIView(APIView):
-    permission_classes = [IsTrulyAuthenticated]
-
-    def get(self, request: Request, competition_id):
-        try:
-            form_responses = _get_users_responses(Form.objects.get(competition_id=competition_id), request.user)
-            return Response(FormResponseSerializer(form_responses, many=True).data)
-        except Form.DoesNotExist:
-            return Response(status=406)
