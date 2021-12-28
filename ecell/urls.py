@@ -8,6 +8,7 @@ else:
     router = routers.SimpleRouter()
 
 router.register(r'ecell', views.IdeaView, 'ecell')
+router.register(r'my-ideas', views.SelfIdeaView, 'self_ideas')
 
 urlpatterns = [
 ]
