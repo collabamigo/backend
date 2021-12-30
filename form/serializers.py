@@ -12,7 +12,7 @@ def uniqueness_check(temp_list: list, message: str):
 
 
 def validate_skeleton_element(element: dict, id: int):
-    valid_keys = ["name", "type", "id"]
+    valid_keys = ["name", "type", "id", "required", ]
 
     # Adding id
     element["id"] = id

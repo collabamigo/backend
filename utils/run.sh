@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 : ${PORT:=80}
 
 python ./manage.py migrate --noinput

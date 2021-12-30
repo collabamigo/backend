@@ -36,6 +36,7 @@ class FormResponse(models.Model):
     form = models.ForeignKey(Form, on_delete=models.CASCADE,
                              related_name="responses")
     responders = models.ManyToManyField(to=settings.AUTH_USER_MODEL)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
 
 class ResponseElement(models.Model):

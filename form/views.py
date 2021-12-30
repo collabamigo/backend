@@ -20,7 +20,7 @@ User = get_user_model()
 
 
 def _get_users_responses(form: Form, user: User) -> QuerySet[FormResponse]:
-    return FormResponse.objects.filter(form=form, responders=user)
+    return FormResponse.objects.filter(form=form, responders=user).order_by("-timestamp")
 
 
 class FormView(viewsets.ModelViewSet):
@@ -41,8 +41,11 @@ class ResponseDisplayView(generics.ListAPIView):
 
 class SubmitResponseView(APIView):
 
-    def post(self, request: Request, event_id):
+    def post(self, request: Request, event_id: int, submission_type: str):
         form = Form.objects.get(competition_id=event_id)
+
+        if submission_type == "existing":
+            _get_users_responses(form, request.user)[0].delete()
 
         if form.opens_at > timezone.now() or form.closes_at < timezone.now():
             raise APIException('Form is not open for submissions')
