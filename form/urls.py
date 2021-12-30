@@ -11,7 +11,7 @@ else:
 router.register(r'form', views.FormView, 'form')
 
 urlpatterns = [
-    path('submit/<int:event_id>/', views.SubmitResponseView.as_view(), name='submit_response'),
+    path('submit/<int:event_id>/<str:submission_type>/', views.SubmitResponseView.as_view(), name='submit_response'),
     re_path('^response/(?P<competition_id>.+)/$', views.ResponseDisplayView.as_view(), name='response_display'),
     re_path('^get-response/(?P<competition_id>.+)/$', views.SelfFormResponseAPIView.as_view(),
             name='self_response_display'),
