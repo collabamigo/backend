@@ -50,7 +50,7 @@ class Competition(models.Model):
     event_start = models.DateTimeField()
     event_end = models.DateTimeField(blank=True, null=True)
     image_links = models.TextField(default="[]")
-    faq = models.TextField(max_length=3000, blank=True)
+    faq = models.TextField(max_length=3000, default="[]")
     link = models.TextField(max_length=100, default="", blank=True)
     promotional_message = models.TextField()
     location = models.TextField(max_length=100, blank=True)
