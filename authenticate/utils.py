@@ -17,8 +17,8 @@ def verify_token(token: str) -> tuple:
         #     raise ValueError('Could not verify audience.')
 
         # If auth request is from a G Suite domain:
-        if idinfo['hd'] != "iiitd.ac.in":
-            raise ValueError('Wrong hosted domain.')
+        # if idinfo['hd'] != "iiitd.ac.in":
+        #     raise ValueError('Wrong hosted domain.')
 
         # Get the user's Google Account ID from the decoded token.
         return idinfo['email'], idinfo['picture']
