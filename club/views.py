@@ -20,7 +20,7 @@ class ClubViewSet(viewsets.ModelViewSet):
 
 class CompetitionViewSet(viewsets.ModelViewSet):
     permission_classes = [IsClubOwnerOrReadOnly]
-    queryset = Competition.objects.all()
+    queryset = Competition.objects.all().prefetch_related("clubs")
     serializer_class = CompetitionSerializer
 
 # TODO: Any club can add any other club's announcement
@@ -49,7 +49,7 @@ class ClubCompetition(generics.ListAPIView):
 
     def get_queryset(self):
         club = self.kwargs['club']
-        return Competition.objects.filter(clubs__username=club)
+        return Competition.objects.filter(clubs__username=club).prefetch_related("clubs")
 
 
 class FeedView(APIView):

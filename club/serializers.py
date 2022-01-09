@@ -46,6 +46,7 @@ class CompetitionSerializer(serializers.ModelSerializer):
     clubs = SlugRelatedField(allow_empty=False, many=True,
                              queryset=Club.objects.all(), slug_field='username')
     winners = CompetitionWinnerSerializer(many=True, read_only=True, source='competitionwinner_set')
+    club_names = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name', source='clubs')
 
     class Meta:
         model = Competition
