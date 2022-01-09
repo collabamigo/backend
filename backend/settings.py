@@ -17,6 +17,8 @@ import firebase_admin
 import pymongo
 import environ
 from dotenv import load_dotenv
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 load_dotenv()
 
@@ -26,6 +28,7 @@ env = environ.Env(
     ALLOWED_HOSTS=(str, '["localhost", "blooming-peak-53825.herokuapp.com"]'),
     DEVELOPMENT=(bool, True),
     CICD=(bool, False),
+    SENTRY_DSN=(str, "")
 )
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
@@ -193,6 +196,14 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
+
+sentry_sdk.init(
+    dsn=env("SENTRY_DSN"),
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=0.1,
+    send_default_pii=True
+)
+
 if env("DATABASE_URL"):
     DATABASES["default"] = env.db("DATABASE_URL")
     DATABASES["default"]["ATOMIC_REQUESTS"] = True
