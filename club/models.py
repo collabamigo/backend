@@ -56,6 +56,7 @@ class Competition(models.Model):
     location = models.TextField(max_length=100, blank=True)
     winners = models.ManyToManyField(to=settings.AUTH_USER_MODEL, related_name="competitionsWon",
                                      through="CompetitionWinner")
+    graph_link = models.CharField(max_length=100, blank=True)
 
 
 class CompetitionWinner(models.Model):

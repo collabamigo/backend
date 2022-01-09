@@ -23,8 +23,6 @@ class CompetitionViewSet(viewsets.ModelViewSet):
     queryset = Competition.objects.all().prefetch_related("clubs")
     serializer_class = CompetitionSerializer
 
-# TODO: Any club can add any other club's announcement
-
 
 class AnnouncementsViewSet(viewsets.ModelViewSet):
     permission_classes = [IsClubOwner]
