@@ -5,7 +5,7 @@ from .models import Club, Competition, Announcement, CompetitionWinner
 class ClubAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "image_links", "college", "join_date",
                     "instagram", "linkedin", "facebook", "discord", "github", "mail", "telegram", "other",
-                    "memberSize", "tagline", "description")
+                    "memberSize", )
 
 
 class CompetitionAdmin(admin.ModelAdmin):
