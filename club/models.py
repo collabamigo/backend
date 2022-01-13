@@ -59,6 +59,11 @@ class Competition(models.Model):
                                      through="CompetitionWinner")
     graph_link = models.CharField(max_length=100, blank=True)
 
+    class Meta:
+        ordering = [
+            '-event_start',
+            ]
+
 
 class CompetitionWinner(models.Model):
     id = models.AutoField(primary_key=True)
