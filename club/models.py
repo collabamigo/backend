@@ -21,7 +21,7 @@ class Club(models.Model):
     discord = models.CharField(max_length=100, blank=True)
     other = models.CharField(max_length=100, blank=True)
     medium = models.CharField(max_length=100, blank=True)
-    memberSize = models.IntegerField(blank=False, default=1)
+    memberSize = models.IntegerField(blank=False, default=0)
     tagline = models.CharField(max_length=100)
     description = models.TextField()
 
