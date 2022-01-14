@@ -2,7 +2,7 @@ import json
 
 from django.db.models import QuerySet
 from rest_framework import viewsets, generics
-from rest_framework.exceptions import APIException
+from rest_framework.exceptions import APIException, PermissionDenied
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -36,6 +36,18 @@ class ResponseDisplayView(generics.ListAPIView):
 
     def get_queryset(self):
         competition_id = self.kwargs['competition_id']
+
+        # Dirty permission check
+        if not self.request.user.is_superuser:
+            allowed = False
+            clubs = self.request.user.clubs.all()
+            for club in clubs:
+                if club.competitions.filter(id=competition_id).exists():
+                    allowed = True
+                    break
+            if not allowed:
+                raise PermissionDenied("You do not have permission to view this response.")
+
         return FormResponse.objects.filter(form__competition__id=competition_id)
 
 
