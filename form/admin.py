@@ -16,7 +16,7 @@ class ResponseElementInline(admin.TabularInline):
 
 
 class FormResponseAdmin(admin.ModelAdmin):
-    list_display = ("form",)
+    list_display = ("form", "timestamp")
     inlines = [ResponseElementInline]
 
 
