@@ -45,7 +45,10 @@ REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
         'authenticate.authentication.CustomAuthentication']}
 
 
-CORS_ORIGIN_WHITELIST = json.loads(env("CORS_ORIGIN_WHITELIST"))
+if DEVELOPMENT and env("CORS_ORIGIN_WHITELIST") == "":
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ORIGIN_WHITELIST = json.loads(env("CORS_ORIGIN_WHITELIST"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
