@@ -52,7 +52,7 @@ class Competition(models.Model):
     event_end = models.DateTimeField(blank=True, null=True)
     image_links = models.TextField(default="[]", blank=False, null=False)
     faq = models.TextField(max_length=3000, default="[]", blank=False, null=False)
-    link = models.TextField(max_length=100, default="", blank=True)
+    link = models.TextField(max_length=300, default="", blank=True)
     promotional_message = models.TextField()
     location = models.TextField(max_length=100, blank=True)
     winners = models.ManyToManyField(to=settings.AUTH_USER_MODEL, related_name="competitionsWon",
