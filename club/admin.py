@@ -10,7 +10,7 @@ class ClubAdmin(admin.ModelAdmin):
 
 class CompetitionAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "description",
-                    "disabled", "image_links", "graph_link")
+                    "disabled", "image_links", "graph_link", "priority")
 
 
 class AnnouncementsAdmin(admin.ModelAdmin):

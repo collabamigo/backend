@@ -58,11 +58,15 @@ class Competition(models.Model):
     winners = models.ManyToManyField(to=settings.AUTH_USER_MODEL, related_name="competitionsWon",
                                      through="CompetitionWinner")
     graph_link = models.CharField(max_length=100, blank=True)
+    priority = models.IntegerField(blank=False, default=0)
 
     class Meta:
         ordering = [
-            '-event_start',
-            ]
+            "-priority",
+            "event_start",
+            "form__closes_at",
+            "form__opens_at"
+        ]
 
 
 class CompetitionWinner(models.Model):

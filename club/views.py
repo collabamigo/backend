@@ -61,7 +61,8 @@ class FeedView(APIView):
                                                                                  Q(event_end=None) &
                                                                                  Q(event_start__gt=timezone.now()) |
                                                                                  Q(form__closes_at__gt=timezone.now()),
-                                                                                 ).order_by("event_start",
+                                                                                 ).order_by("-priority",
+                                                                                            "event_start",
                                                                                             "form__closes_at",
                                                                                             "form__opens_at")[:10],
                                                       many=True).data,
