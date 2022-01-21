@@ -3,14 +3,13 @@ from .models import Club, Competition, Announcement, CompetitionWinner
 
 
 class ClubAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "image_links", "college", "join_date",
-                    "instagram", "linkedin", "facebook", "discord", "github", "mail", "telegram", "other",
-                    "memberSize", )
+    list_display = ("id", "name", "join_date", "instagram", "linkedin", "facebook",
+                    "discord", "github", "mail", "telegram", "other", "memberSize", )
 
 
 class CompetitionAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "description",
-                    "disabled", "image_links", "graph_link", "priority")
+    list_display = ("id", "name", "is_active",
+                    "image_links", "graph_link", "priority")
 
 
 class AnnouncementsAdmin(admin.ModelAdmin):
