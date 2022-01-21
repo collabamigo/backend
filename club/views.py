@@ -57,15 +57,17 @@ class FeedView(APIView):
     def get(self, request):
         return JsonResponse(
             {
-                'competitions': CompetitionSerializer(Competition.objects.filter(Q(event_end__gt=timezone.now()) |
+                'competitions': CompetitionSerializer(Competition.objects.filter(Q(is_active=True) &
+                                                                                 Q(event_end__gt=timezone.now()) |
                                                                                  Q(event_end=None) &
                                                                                  Q(event_start__gt=timezone.now()) |
                                                                                  Q(form__closes_at__gt=timezone.now()),
-                                                                                 ).order_by("event_start",
+                                                                                 ).order_by("-priority",
+                                                                                            "event_start",
                                                                                             "form__closes_at",
                                                                                             "form__opens_at")[:10],
                                                       many=True).data,
-                'clubs': ClubSerializer(Club.objects.all(), many=True).data,
+                'clubs': ClubSerializer(Club.objects.filter(is_active=True), many=True).data,
             }
         )
 

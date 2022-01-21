@@ -24,6 +24,7 @@ class Club(models.Model):
     memberSize = models.IntegerField(blank=False, default=0)
     tagline = models.CharField(max_length=100)
     description = models.TextField()
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.username
@@ -47,7 +48,7 @@ class Competition(models.Model):
     clubs = models.ManyToManyField(Club, related_name="competitions")
     name = models.CharField(max_length=100, blank=True)
     description = models.TextField(blank=True)
-    disabled = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     event_start = models.DateTimeField()
     event_end = models.DateTimeField(blank=True, null=True)
     image_links = models.TextField(default="[]", blank=False, null=False)
@@ -58,11 +59,15 @@ class Competition(models.Model):
     winners = models.ManyToManyField(to=settings.AUTH_USER_MODEL, related_name="competitionsWon",
                                      through="CompetitionWinner")
     graph_link = models.CharField(max_length=100, blank=True)
+    priority = models.IntegerField(blank=False, default=0)
 
     class Meta:
         ordering = [
-            '-event_start',
-            ]
+            "-priority",
+            "event_start",
+            "form__closes_at",
+            "form__opens_at"
+        ]
 
 
 class CompetitionWinner(models.Model):
