@@ -38,7 +38,7 @@ def validate_skeleton_element(element: dict, id: int):
         #                      "Oops! There seems to be a"
         #                      " duplicate in the mcq")
 
-        valid_keys += ["options"]
+        valid_keys += ["options", "min", "max"]
 
     elif element["type"] == "select":
         if not element.get("options") or element.get("options") == "":
