@@ -200,6 +200,8 @@ DATABASES = {
     }
 }
 
+SENTRY_TRACES_SAMPLE_RATE = 0.001 if DEVELOPMENT else 0.1
+
 sentry_sdk.init(
     dsn=env("SENTRY_DSN"),
     integrations=[DjangoIntegration()],

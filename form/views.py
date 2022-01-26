@@ -70,6 +70,8 @@ class SubmitResponseView(APIView):
         skeleton = json.loads(form_response.form.skeleton)
         response_elements = []
         for key, value in request.data.items():
+            if isinstance(value, list):
+                value = json.dumps(value)
             if str(key) == str(skeleton[int(key)]["id"]):
                 response_elements.append(ResponseElement(parent=form_response, question=key, value=value))
             else:
