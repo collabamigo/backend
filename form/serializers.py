@@ -2,6 +2,8 @@ import json
 
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+from rest_framework.relations import SlugRelatedField
+
 from .models import Form, FormResponse, ResponseElement
 
 
@@ -123,8 +125,9 @@ class ResponseElementSerializer(serializers.ModelSerializer):
 
 class FormResponseSerializer(serializers.ModelSerializer):
     elements = ResponseElementSerializer(many=True, read_only=True, source="ResponseElements")
+    responder_emails = SlugRelatedField(many=True, read_only=True, slug_field="email", source="responders")
 
     class Meta:
         model = FormResponse
-        fields = ("form", "responders", "elements")
+        fields = ("form", "elements", "responder_emails")
         read_only_fields = ("responders", "elements")
