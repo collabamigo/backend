@@ -19,6 +19,7 @@ class Club(models.Model):
     mail = models.EmailField(max_length=50, blank=True)
     telegram = models.CharField(max_length=100, blank=True)
     discord = models.CharField(max_length=100, blank=True)
+    youtube = models.CharField(max_length=100, blank=True)
     other = models.CharField(max_length=100, blank=True)
     medium = models.CharField(max_length=100, blank=True)
     memberSize = models.IntegerField(blank=False, default=0)
