@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from rest_framework import viewsets, generics
+from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from django.utils import timezone
@@ -9,6 +10,7 @@ from .models import Club, Competition, Announcement, CompetitionWinner
 from .permissions import IsClubOwnerOrReadOnly, CompetitionWinnerPermission, IsClubOwner
 from .serializers import ClubSerializer, CompetitionSerializer, \
     AnnouncementsSerializer, CompetitionWinnerSerializer
+from django.http import HttpResponseRedirect
 
 
 class ClubViewSet(viewsets.ModelViewSet):
@@ -82,3 +84,21 @@ class CompetitionWinnerViewSet(viewsets.ModelViewSet):
             return CompetitionWinner.objects.all()
         else:
             return CompetitionWinner.objects.filter(competition__clubs__admins=user)
+
+
+def handle_uploaded_file(f):
+    with open('some/file/name.txt', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+
+@api_view(
+    [
+        "POST",
+    ]
+)
+@permission_classes([IsClubOwnerOrReadOnly])
+def upload_file(request):
+    if request.method == 'POST':
+        handle_uploaded_file(request.FILES['file'])
+        return HttpResponseRedirect('/success/url/')
