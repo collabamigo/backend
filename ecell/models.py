@@ -1,8 +1,9 @@
 from django.db import models
+
+from backend.settings import AUTH_USER_MODEL
 from connect.models import Profile
 
 
-# Create your models here.
 class Idea(models.Model):
     id = models.AutoField(primary_key=True)
     # role = models.CharField(max_length=10)
@@ -21,3 +22,10 @@ class Idea(models.Model):
                                                      ("c", "Closure")])
     college = models.CharField(max_length=100, default="IIIT-D")
     join_date = models.DateField(auto_now_add=True)
+    bookmarked_by = models.ManyToManyField(Profile, related_name='bookmarked_ideas')
+
+
+class ZeroToOneUser(models.Model):
+    user = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='zero_to_one_user')
+    join_date = models.DateTimeField(auto_now_add=True)
+    tnc_stage = models.IntegerField(default=0)
