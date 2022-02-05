@@ -1,4 +1,4 @@
-from django.urls import re_path
+from django.urls import re_path, path
 from rest_framework import routers
 from . import views
 from backend import settings
@@ -12,12 +12,12 @@ router.register(r'club', views.ClubViewSet, 'club')
 router.register(r'competition', views.CompetitionViewSet, 'Competition')
 router.register(r'announcements', views.AnnouncementsViewSet, 'Announcements')
 router.register(r'competition-winner', views.CompetitionWinnerViewSet, 'CompetitionWinners')
-router.register(r'upload-file', views.upload_file, 'upload-file')
 
 urlpatterns = [
     re_path('^clubannouncements/(?P<club>.+)/$', views.ClubAnnouncements.as_view()),
-    re_path('^clubcompe titions/(?P<club>.+)/$', views.ClubCompetition.as_view()),
+    re_path('^clubcompetitions/(?P<club>.+)/$', views.ClubCompetition.as_view()),
     re_path('^feed/', views.FeedView.as_view()),
+    path('upload-file/', views.upload_file, name='upload-file'),
 ]
 
 urlpatterns += router.urls
