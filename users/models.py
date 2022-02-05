@@ -4,3 +4,8 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     email = models.EmailField('email address', blank=True, unique=True)
+
+
+class CustomUser(User):
+    class Meta:
+        proxy = True

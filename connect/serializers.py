@@ -22,7 +22,6 @@ def strip_username(data: str):
 
 class ProfileSerializer(serializers.ModelSerializer):
     email = serializers.ReadOnlyField(source='email.email')
-    clubs = ClubSerializer(many=True, read_only=True, source='email.clubs')
 
     def validate_handle(self, value):
         return strip_username(value)
@@ -30,8 +29,15 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['id', 'First_Name', 'Last_Name', 'gender',
-                  'degree', 'course', 'email', 'handle', 'clubs']
-        read_only_fields = ['id', 'email', 'clubs']
+                  'degree', 'course', 'email', 'handle']
+        read_only_fields = ['id', 'email']
+
+
+class ProfileClubSerializer(ProfileSerializer):
+    clubs = ClubSerializer(many=True, read_only=True, source='email.clubs')
+
+    class Meta(ProfileSerializer.Meta):
+        fields = ProfileSerializer.Meta.fields + ['clubs']
 
 
 class TeacherSerializer(serializers.ModelSerializer):

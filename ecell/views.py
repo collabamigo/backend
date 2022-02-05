@@ -1,21 +1,24 @@
+from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_201_CREATED
 from rest_framework.views import APIView
 
 from authenticate.permissions import IsTrulyAuthenticated
-from connect.permissions import IsAdminOrReadOnlyIfAuthenticated
+from users.models import CustomUser
 from .models import Idea, ZeroToOneUser
 from .serializers import IdeaSerializer
 
+User: CustomUser = get_user_model()
+
 
 class IdeaView(viewsets.ModelViewSet):
-    permission_classes = [IsAdminOrReadOnlyIfAuthenticated]
+    permission_classes = [IsTrulyAuthenticated]
     serializer_class = IdeaSerializer
-    # http_method_names = ['get', 'put', 'patch', 'delete']
+    http_method_names = ['get', 'head', 'options']
 
     def get_queryset(self):
-        return Idea.objects.filter(visibility=True)
+        return Idea.objects.filter(hidden=False, form_filling_stage=4)
 
 
 class SelfIdeaAPIView(APIView):
@@ -39,7 +42,9 @@ class SelfIdeaAPIView(APIView):
         data = request.data
         idea: Idea = Idea.objects.get(id=data['id'])
         if "owners" in data:
-            del data['owners']
+            _temp = data['owners']
+            data['owners'] = [request.user.profile.id]
+            data['owners'].extend(map(lambda email: User.objects.get(email=email).profile.id, _temp))
         if idea.owners.filter(id=request.user.profile.id).exists():
             serializer = IdeaSerializer(idea, data=data, partial=True)
             if serializer.is_valid():
@@ -53,23 +58,23 @@ class BookmarkAPIView(APIView):
     permission_classes = [IsTrulyAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        projects = request.user.bookmarked_ideas.all()
+        projects = request.user.profile.bookmarked_ideas.all()
         serializer = IdeaSerializer(projects, many=True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
         pk = request.data.get('pk')
-        state = request.data.get('state')
+        state = str(request.data.get('state'))
         idea = Idea.objects.get(pk=pk)
         if state == "1":
-            if idea not in request.user.bookmarked_ideas.all():
-                request.user.bookmarked_ideas.add(idea)
+            if idea not in request.user.profile.bookmarked_ideas.all():
+                request.user.profile.bookmarked_ideas.add(idea)
                 return Response({"message": "Bookmarked"}, status=HTTP_201_CREATED)
             else:
                 return Response({"error": "Already bookmarked"}, status=HTTP_400_BAD_REQUEST)
         elif state == "0":
-            if idea in request.user.bookmarked_ideas.all():
-                request.user.bookmarked_ideas.remove(idea)
+            if idea in request.user.profile.bookmarked_ideas.all():
+                request.user.profile.bookmarked_ideas.remove(idea)
                 return Response({"message": "Removed from bookmarks"}, status=HTTP_201_CREATED)
             else:
                 return Response({"error": "Not bookmarked"}, status=HTTP_400_BAD_REQUEST)
