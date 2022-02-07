@@ -34,7 +34,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class ProfileClubSerializer(ProfileSerializer):
-    clubs = ClubSerializer(many=True, read_only=True, source='email.clubs')
+    clubs = ClubSerializer(many=True, read_only=True, source='email.club_coordinator_of')
 
     class Meta(ProfileSerializer.Meta):
         fields = ProfileSerializer.Meta.fields + ['clubs']

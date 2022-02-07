@@ -29,7 +29,7 @@ def verify_token(token: str) -> tuple:
 
 def create_firebase_token(user) -> str:
     uid = str(user.pk)
-    managed_clubs = list(user.clubs.values_list("username", flat=True))
+    managed_clubs = list(user.club_coordinator_of.values_list("username", flat=True))
     additional_claims = {
         "clubs": managed_clubs
     }

@@ -40,7 +40,7 @@ class ResponseDisplayView(generics.ListAPIView):
         # Dirty permission check
         if not self.request.user.is_superuser:
             allowed = False
-            clubs = self.request.user.clubs.all()
+            clubs = self.request.user.club_coordinator_of.all()
             for club in clubs:
                 if club.competitions.filter(id=competition_id).exists():
                     allowed = True
