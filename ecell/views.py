@@ -18,7 +18,7 @@ class IdeaView(viewsets.ModelViewSet):
     http_method_names = ['get', 'head', 'options']
 
     def get_queryset(self):
-        return Idea.objects.filter(hidden=False, form_filling_stage=4)
+        return Idea.objects.filter(hidden=False, form_filling_stage__gte=3)
 
 
 class SelfIdeaAPIView(APIView):
