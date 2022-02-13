@@ -28,7 +28,8 @@ env = environ.Env(
     ALLOWED_HOSTS=(str, '["localhost", "blooming-peak-53825.herokuapp.com"]'),
     DEVELOPMENT=(bool, True),
     CICD=(bool, False),
-    SENTRY_DSN=(str, "")
+    SENTRY_DSN=(str, ""),
+    GOOGLE_OAUTH_CLIENT_ID=(str, "109135106784-vn1e2elm5doejfucvusr3fer4rm4mcda.apps.googleusercontent.com"),
 )
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
@@ -36,6 +37,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DEVELOPMENT = env("DEVELOPMENT") or env("CICD")
 DEBUG = DEVELOPMENT
+GOOGLE_OAUTH_CLIENT_ID = env("GOOGLE_OAUTH_CLIENT_ID")
 
 REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
     'authenticate.permissions.IsTrulyAuthenticatedOrReadOnly'],
