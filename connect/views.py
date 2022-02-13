@@ -13,7 +13,7 @@ from rest_framework.exceptions import ParseError, NotFound
 from .models import Profile, Teacher, Skill, SkillSet
 from rest_framework import viewsets, views, permissions, status
 from .permissions import IsOwner, IsAdminOrReadOnlyIfAuthenticated
-from .serializers import (ProfileSerializer,
+from .serializers import (ProfileClubSerializer,
                           TeacherSerializer, SkillSerializer)
 from .emailhandler import send_mail
 from . import email_templates, connection_manager
@@ -41,7 +41,7 @@ class TeachersData(views.APIView):
 
 
 class ProfileView(viewsets.ModelViewSet):
-    serializer_class = ProfileSerializer
+    serializer_class = ProfileClubSerializer
     queryset = Profile.objects.all()
     permission_classes = [IsOwner]
     authentication_classes = [DummyAuthentication, PreSignupAuth]

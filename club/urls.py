@@ -1,4 +1,4 @@
-from django.urls import re_path
+from django.urls import re_path, path
 from rest_framework import routers
 from . import views
 from backend import settings
@@ -17,6 +17,7 @@ urlpatterns = [
     re_path('^clubannouncements/(?P<club>.+)/$', views.ClubAnnouncements.as_view()),
     re_path('^clubcompetitions/(?P<club>.+)/$', views.ClubCompetition.as_view()),
     re_path('^feed/', views.FeedView.as_view()),
+    path('upload-file/', views.upload_file, name='upload-file'),
 ]
 
 urlpatterns += router.urls

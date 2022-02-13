@@ -1,15 +1,16 @@
-import os
 
 from google.auth.transport import requests
 from google.oauth2 import id_token
 from firebase_admin import auth
+
+from backend.settings import GOOGLE_OAUTH_CLIENT_ID
 
 
 def verify_token(token: str) -> tuple:
     try:
         # Specify the CLIENT_ID of the app that accesses the backend:
         idinfo = id_token.verify_oauth2_token(
-            token, requests.Request(), os.environ["GAUTH_CLIENT_ID"])
+            token, requests.Request(), GOOGLE_OAUTH_CLIENT_ID)
 
         # Or, if multiple clients access the backend server:
         # idinfo = id_token.verify_oauth2_token(token, requests.Request())
