@@ -11,7 +11,7 @@ class Club(models.Model):
     image_links = models.TextField(default="[]", blank=False, null=False)
     college = models.CharField(max_length=100, default="IIIT-D")
     join_date = models.DateField(auto_now_add=True)
-    admins = models.ManyToManyField(to=settings.AUTH_USER_MODEL, related_name="clubs")
+    admins = models.ManyToManyField(to=settings.AUTH_USER_MODEL, related_name="club_coordinator_of")
     instagram = models.CharField(max_length=100, blank=True)
     linkedin = models.CharField(max_length=100, blank=True)
     facebook = models.CharField(max_length=100, blank=True)
@@ -26,9 +26,22 @@ class Club(models.Model):
     tagline = models.CharField(max_length=100)
     description = models.TextField()
     is_active = models.BooleanField(default=True)
+    members = models.ManyToManyField(to=settings.AUTH_USER_MODEL, related_name="club_member_of",
+                                     through="ClubMembership", blank=True)
 
     def __str__(self):
         return self.username
+
+
+class ClubMembership(models.Model):
+    id = models.AutoField(primary_key=True)
+    club = models.ForeignKey(to=Club, on_delete=models.CASCADE)
+    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    join_date = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.club.username + " " + self.user.username
 
 
 class Announcement(models.Model):
