@@ -18,6 +18,7 @@ urlpatterns = [
     re_path('^clubcompetitions/(?P<club>.+)/$', views.ClubCompetition.as_view()),
     re_path('^feed/', views.FeedView.as_view()),
     path('upload-file/', views.upload_file, name='upload-file'),
+    path('toggle-competition/', views.EnableCompetitions.as_view(), name='toggle_competition'),
 ]
 
 urlpatterns += router.urls
