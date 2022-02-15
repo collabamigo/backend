@@ -27,4 +27,5 @@ urlpatterns = [
     path('authenticate/', include('authenticate.urls')),
     path('form/', include('form.urls')),
     path('ecell/', include('ecell.urls')),
+    path('users/', include('users.urls')),
 ]
