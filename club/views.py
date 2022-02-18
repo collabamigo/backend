@@ -2,12 +2,15 @@ from django.http import JsonResponse
 from rest_framework import viewsets, generics
 from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework.status import HTTP_403_FORBIDDEN
 from rest_framework.views import APIView
 from django.utils import timezone
 from django.db.models import Q
 from authenticate.authentication import DummyAuthentication, CustomAuthentication
+from authenticate.permissions import IsTrulyAuthenticated
 from .models import Club, Competition, Announcement, CompetitionWinner
-from .permissions import IsClubOwnerOrReadOnly, CompetitionWinnerPermission, IsClubOwner
+from .permissions import IsClubOwnerOrReadOnly, CompetitionWinnerPermission, IsClubOwner, IsClubMemberOrReadOnly
 from .serializers import ClubSerializer, CompetitionSerializer, \
     AnnouncementsSerializer, CompetitionWinnerSerializer
 from django.http import HttpResponseRedirect
@@ -21,9 +24,15 @@ class ClubViewSet(viewsets.ModelViewSet):
 
 
 class CompetitionViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsClubOwnerOrReadOnly]
+    permission_classes = [IsClubOwnerOrReadOnly, IsClubMemberOrReadOnly]
     queryset = Competition.objects.all().prefetch_related("clubs")
     serializer_class = CompetitionSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(is_active=False)
+
+    def perform_update(self, serializer):
+        serializer.save(is_active=False)
 
 
 class AnnouncementsViewSet(viewsets.ModelViewSet):
@@ -104,3 +113,24 @@ def upload_file(request):
     if request.method == 'POST':
         handle_uploaded_file(request.FILES['file'])
         return HttpResponseRedirect('/success/url/')
+
+
+class EnableCompetitions(APIView):
+    permission_classes = [IsTrulyAuthenticated]
+
+    def post(self, request):
+        competition_id, competition_state = int(request.data.get('competitionID')), \
+                                            bool(int(request.data.get('is_active')))
+        competition = Competition.objects.get(id=competition_id)
+        organising_clubs = competition.clubs.all()
+
+        club_coordinator_of = request.user.club_coordinator_of.all()
+        if not (organising_clubs & club_coordinator_of).exists():
+            return Response(status=HTTP_403_FORBIDDEN)
+
+        competition.is_active = competition_state
+        competition.save()
+
+        return Response({
+            'success': True
+        })
