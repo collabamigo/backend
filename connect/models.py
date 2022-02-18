@@ -10,7 +10,7 @@ User = get_user_model()
 
 class Profile(models.Model):
     id = models.CharField(primary_key=True, unique=True,
-                          max_length=32, editable=False)
+                          max_length=32, editable=True)
     First_Name = models.CharField(max_length=30)
     Last_Name = models.CharField(max_length=50, blank=True)
     gender = models.CharField(max_length=1, blank=True, )
