@@ -15,7 +15,7 @@ services:
       dockerfile: Dockerfile
     container_name: collabamigo_uwsgi
     entrypoint:
-      - ./utils/run.sh
+      - utils/run.sh
     ports:
       - "80:80"
     env_file:
