@@ -24,7 +24,7 @@ class ClubViewSet(viewsets.ModelViewSet):
 
 
 class CompetitionViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsClubOwnerOrReadOnly, IsClubMemberOrReadOnly]
+    permission_classes = [IsClubOwnerOrReadOnly | IsClubMemberOrReadOnly]
     queryset = Competition.objects.all().prefetch_related("clubs")
     serializer_class = CompetitionSerializer
 
