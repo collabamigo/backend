@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
 
+from users.serializers import NameEmailSerializer
 from .models import Club, Competition, Announcement, CompetitionWinner
 
 User = get_user_model()
@@ -15,13 +16,16 @@ class ClubSerializer(serializers.ModelSerializer):
             return value.profile.First_Name + " " + value.profile.Last_Name
 
     admins = AdminNameField(many=True, read_only=True)
+    admins_detail = NameEmailSerializer(many=True, read_only=True, source="admins")
+    members_detail = NameEmailSerializer(many=True, read_only=True, source="members")
+    members = serializers.SlugRelatedField(many=True, queryset=User.objects.all(), slug_field="email")
 
     class Meta:
         model = Club
         fields = ('id', 'name', 'image_links', 'college', 'join_date',
                   'instagram', 'linkedin', 'facebook', 'discord', 'github', 'mail', 'telegram', 'youtube', 'other',
                   'username', 'memberSize', 'tagline', 'description',
-                  'announcements', 'competitions', 'admins', 'medium')
+                  'announcements', 'competitions', 'admins', 'medium', 'members_detail', 'admins_detail', 'members')
         read_only_fields = ['id', 'name', 'college',
                             'join_date', 'username', 'announcements', 'competitions', 'admins']
 

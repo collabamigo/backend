@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+#  postgres:
+#    image: library/postgres:12-alpine
+#    container_name: collabamigo_postgres
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data/
+#    env_file:
+#      - ./env_file_postgres
+
+  uwsgi:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: collabamigo_uwsgi
+    entrypoint:
+      - utils/run.sh
+    ports:
+      - "80:80"
+    env_file:
+      - env_file_app
+    depends_on:
+      - postgres
+
+#  redis:
+#    image: redis:latest
+#    container_name: rd01
+#    depends_on:
+#      - postgres
+
+#  celery_worker_default:
+#    build:
+#      context: ..
+#      dockerfile: docker/Dockerfile
+#    container_name: bezen_celery_worker_default
+#    restart: unless-stopped
+#    stop_grace_period: 3m
+#    command: /usr/local/bin/celery -A backend.celery worker --schedule=/tmp/celerybeat-schedule
+#    volumes:
+#      - bezen_assets:${ASSETS_ROOT}
+#    logging:
+#      driver: "json-file"
+#      options:
+#        max-file: "5"
+#        max-size: "10m"
+#    env_file:
+#      - env_file_app
+#    depends_on:
+#      - redis
+#      - postgres
+#      - uwsgi
+
+#  nginx:
+#    image: nginx
+#    container_name: bezen_nginx
+#    restart: unless-stopped
+#    hostname: nginx
+#    volumes:
+#      - ./configuration/nginx.conf:/etc/nginx/templates/default.conf.template
+#      - bezen_assets:${ASSETS_ROOT}
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    expose:
+#      - "80"
+#    environment:
+#      - MEDIA_URL
+#      - STATIC_URL
+#      - ASSETS_ROOT
+#      - IMAGE_UPLOAD_SIZE_LIMIT_IN_MB=20
+#      - SERVER_URL
+#    depends_on:
+#      - uwsgi
+
+
+volumes:
+  postgres_data:
