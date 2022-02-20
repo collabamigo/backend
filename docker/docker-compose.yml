@@ -17,7 +17,7 @@ services:
     entrypoint:
       - ./utils/run.sh
     ports:
-      - "80:80"
+      - "80"
     env_file:
       - env_file_app
     depends_on:
