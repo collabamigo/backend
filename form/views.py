@@ -108,7 +108,8 @@ class getEmailsAPIView(APIView):
 
     def get(self, request: Request, competition_id):
         response_list = []
-        response_queryset = FormResponse.objects.filter(form__competition_id=competition_id).values('responders__email').distinct()
+        response_queryset = FormResponse.objects.filter(form__competition_id=competition_id).\
+            values('responders__email').distinct()
         for i in response_queryset:
             if i['responders__email']:
                 response_list.append(i['responders__email'])
