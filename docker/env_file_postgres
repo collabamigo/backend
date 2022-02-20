@@ -1,5 +1,0 @@
-# Default values
-POSTGRES_PASSWORD=password
-POSTGRES_USER=user
-POSTGRES_DB=postgres
-POSTGRES_NAME=postgres

@@ -10,4 +10,3 @@ venv
 %USERPROFILE%/
 
 db.sqlite3
-/docker/env_file_app
