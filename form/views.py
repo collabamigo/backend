@@ -107,4 +107,6 @@ class getEmailsAPIView(APIView):
     permission_classes = [IsTrulyAuthenticated]
 
     def get(self, request: Request, competition_id):
-        return FormResponse.objects.filter(form__competition_id=competition_id).values('responders__email')
+        Response = FormResponse.objects.filter(form__competition_id=competition_id).values('responders__email').distinct()
+        Response.query.group_by = ['responders__email']
+        return Response
