@@ -30,6 +30,7 @@ env = environ.Env(
     CICD=(bool, False),
     SENTRY_DSN=(str, ""),
     GOOGLE_OAUTH_CLIENT_ID=(str, "109135106784-vn1e2elm5doejfucvusr3fer4rm4mcda.apps.googleusercontent.com"),
+    GOOGLE_SERVICE_ACCOUNT_CREDENTIALS=(str, "")
 )
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
@@ -45,7 +46,6 @@ REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'authenticate.authentication.DummyAuthentication',
         'authenticate.authentication.CustomAuthentication']}
-
 
 if DEVELOPMENT and env("CORS_ORIGIN_WHITELIST") == "":
     CORS_ALLOW_ALL_ORIGINS = True
@@ -202,6 +202,11 @@ DATABASES = {
     }
 }
 
+print(base64.b64decode(env("GOOGLE_SERVICE_ACCOUNT_CREDENTIALS")).decode("utf-8"))
+
+GOOGLE_SERVICE_ACCOUNT_CREDENTIALS = json.loads(
+    base64.b64decode(env("GOOGLE_SERVICE_ACCOUNT_CREDENTIALS")).decode("utf-8"))
+
 SENTRY_TRACES_SAMPLE_RATE = 0.001 if DEVELOPMENT else 0.1
 
 sentry_sdk.init(
@@ -223,3 +228,24 @@ if os.getenv("FIREBASE_CREDENTIALS"):
     firebase_app = firebase_admin.initialize_app(firebase_cred)
 else:
     firebase_app = None
+
+import socket
+import struct
+import sys
+import time
+import datetime
+
+def RequestTimefromNtp(addr='0.de.pool.ntp.org'):
+    REF_TIME_1970 = 2208988800  # Reference time
+    client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    data = b'\x1b' + 47 * b'\0'
+    client.sendto(data, (addr, 123))
+    data, address = client.recvfrom(1024)
+    if data:
+        t = struct.unpack('!12I', data)[10]
+        t -= REF_TIME_1970
+    return time.ctime(t), t
+
+
+print(RequestTimefromNtp())
+print(datetime.datetime.now())

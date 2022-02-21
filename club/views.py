@@ -21,6 +21,11 @@ from .permissions import IsClubOwnerOrReadOnly, CompetitionWinnerPermission, IsC
 from .serializers import ClubSerializer, CompetitionSerializer, \
     AnnouncementsSerializer, CompetitionWinnerSerializer
 
+from backend.settings import GOOGLE_SERVICE_ACCOUNT_CREDENTIALS
+from google.oauth2 import service_account
+from googleapiclient.http import MediaFileUpload
+from googleapiclient import discovery
+
 
 class ClubViewSet(viewsets.ModelViewSet):
     permission_classes = [IsClubOwnerOrReadOnly]
@@ -125,8 +130,6 @@ class EnableCompetitions(APIView):
     permission_classes = [IsTrulyAuthenticated]
 
     def post(self, request):
-        competition_id, competition_state = int(request.data.get('competitionID')), bool(
-            int(request.data.get('is_active')))
         competition_id, competition_state = int(request.data.get('competitionID')), \
                                             bool(int(request.data.get('is_active')))
         competition = Competition.objects.get(id=competition_id)
@@ -159,11 +162,8 @@ class FileUpload(APIView):
 def handle_file_upload(file):
     credentials = credentials_from_file()
 
-    from googleapiclient import discovery
     # Construct a resource for interacting with API
     service = discovery.build('drive', 'v3', credentials=credentials)
-
-    from googleapiclient.http import MediaFileUpload
 
     # Making a request hash to tell the google API what we're giving it
     body = {'name': file.name, 'mimeType': 'application/vnd.google-apps.document'}
@@ -172,12 +172,15 @@ def handle_file_upload(file):
     file_name = str(file.name)
     path = default_storage.save(os.path.join('tmp', file_name), ContentFile(file.read()))
     tmp_file = os.path.join(settings.MEDIA_ROOT, path)
-
+    file.close()
     media = MediaFileUpload(os.path.join('tmp', file_name), mimetype=None)
 
     # Actual post : creating a new file of the uploaded type
-    created_file = service.files().create(body=body, media_body=media).execute()
-    print("Created file with ID : " + created_file.get('name'), created_file.get('id'))
+    file_metadata = {
+        'name': file.name,
+        'parents': ['142JJ1d62qZc64qsf97M8W_KzuOIIvD9p']  # This is where you set the target folder
+    }
+    created_file = service.files().create(body=file_metadata, media_body=media).execute()
 
     os.remove(os.path.join(settings.MEDIA_ROOT, path))
 
@@ -187,17 +190,11 @@ def credentials_from_file():
     Returns: service account credential object
     """
 
-    from google.oauth2 import service_account
-
     SCOPES = [
         'https://www.googleapis.com/auth/drive'
     ]
-    SERVICE_ACCOUNT_FILE = 'google-drive-testing.json'
 
-    credentials = service_account.Credentials.from_service_account_file(
-        SERVICE_ACCOUNT_FILE, scopes=SCOPES)
-
-    print(credentials)
+    credentials = service_account.Credentials.from_service_account_info(GOOGLE_SERVICE_ACCOUNT_CREDENTIALS, scopes=SCOPES)
 
     return credentials
 
