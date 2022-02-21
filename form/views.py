@@ -56,6 +56,9 @@ class SubmitResponseView(APIView):
     def post(self, request: Request, event_id: int, submission_type: str):
         form = Form.objects.get(competition_id=event_id)
 
+        if not form.competition.is_active:
+            raise APIException("This competition is not active.")
+
         if submission_type == "existing":
             _get_users_responses(form, request.user)[0].delete()
 
