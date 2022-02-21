@@ -19,6 +19,7 @@ urlpatterns = [
     re_path('^feed/', views.FeedView.as_view()),
     path('upload-file/', views.upload_file, name='upload-file'),
     path('toggle-competition/', views.EnableCompetitions.as_view(), name='toggle_competition'),
+    path('file-uploads/', views.FileUpload.as_view(), name='file_uploads'),
 ]
 
 urlpatterns += router.urls

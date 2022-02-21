@@ -1,19 +1,25 @@
+import os
+
+from django.conf import settings
+from django.core.files.base import ContentFile
+from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.http import JsonResponse
+from django.utils import timezone
 from rest_framework import viewsets, generics
 from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.status import HTTP_403_FORBIDDEN
 from rest_framework.views import APIView
-from django.utils import timezone
-from django.db.models import Q
+from django.core.files.storage import default_storage
+
 from authenticate.authentication import DummyAuthentication, CustomAuthentication
 from authenticate.permissions import IsTrulyAuthenticated
 from .models import Club, Competition, Announcement, CompetitionWinner
 from .permissions import IsClubOwnerOrReadOnly, CompetitionWinnerPermission, IsClubOwner, IsClubMemberOrReadOnly
 from .serializers import ClubSerializer, CompetitionSerializer, \
     AnnouncementsSerializer, CompetitionWinnerSerializer
-from django.http import HttpResponseRedirect
 
 
 class ClubViewSet(viewsets.ModelViewSet):
@@ -24,7 +30,7 @@ class ClubViewSet(viewsets.ModelViewSet):
 
 
 class CompetitionViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsClubOwnerOrReadOnly, IsClubMemberOrReadOnly]
+    permission_classes = [IsClubOwnerOrReadOnly | IsClubMemberOrReadOnly]
     queryset = Competition.objects.all().prefetch_related("clubs")
     serializer_class = CompetitionSerializer
 
@@ -119,7 +125,8 @@ class EnableCompetitions(APIView):
     permission_classes = [IsTrulyAuthenticated]
 
     def post(self, request):
-        competition_id, competition_state = int(request.data.get('competitionID')), bool(int(request.data.get('is_active')))
+        competition_id, competition_state = int(request.data.get('competitionID')), bool(
+            int(request.data.get('is_active')))
         competition = Competition.objects.get(id=competition_id)
         organising_clubs = competition.clubs.all()
 
@@ -135,10 +142,61 @@ class EnableCompetitions(APIView):
         })
 
 
+class FileUpload(APIView):
+
+    def post(self, request):
+        file_uploaded = request.FILES.get('file_uploaded')
+        handle_file_upload(file_uploaded)
+
+        return Response({
+            "success": True
+        })
 
 
+def handle_file_upload(file):
+    credentials = credentials_from_file()
+
+    from googleapiclient import discovery
+    # Construct a resource for interacting with API
+    service = discovery.build('drive', 'v3', credentials=credentials)
+
+    from googleapiclient.http import MediaFileUpload
+
+    # Making a request hash to tell the google API what we're giving it
+    body = {'name': file.name, 'mimeType': 'application/vnd.google-apps.document'}
+
+    # Creating the media file upload object
+    file_name = str(file.name)
+    path = default_storage.save(os.path.join('tmp', file_name), ContentFile(file.read()))
+    tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+
+    media = MediaFileUpload(os.path.join('tmp', file_name), mimetype=None)
+
+    # Actual post : creating a new file of the uploaded type
+    created_file = service.files().create(body=body, media_body=media).execute()
+    print("Created file with ID : " + created_file.get('name'), created_file.get('id'))
+
+    os.remove(os.path.join(settings.MEDIA_ROOT, path))
 
 
+def credentials_from_file():
+    """Load credentials from a service account file
+    Returns: service account credential object
+    """
+
+    from google.oauth2 import service_account
+
+    SCOPES = [
+        'https://www.googleapis.com/auth/drive'
+    ]
+    SERVICE_ACCOUNT_FILE = 'google-drive-testing.json'
+
+    credentials = service_account.Credentials.from_service_account_file(
+        SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+
+    print(credentials)
+
+    return credentials
 
 
 
