@@ -1,19 +1,30 @@
+import os
+
+from django.conf import settings
+from django.core.files.base import ContentFile
+from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.http import JsonResponse
+from django.utils import timezone
 from rest_framework import viewsets, generics
 from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.status import HTTP_403_FORBIDDEN
 from rest_framework.views import APIView
-from django.utils import timezone
-from django.db.models import Q
+from django.core.files.storage import default_storage
+
 from authenticate.authentication import DummyAuthentication, CustomAuthentication
 from authenticate.permissions import IsTrulyAuthenticated
 from .models import Club, Competition, Announcement, CompetitionWinner
 from .permissions import IsClubOwnerOrReadOnly, CompetitionWinnerPermission, IsClubOwner, IsClubMemberOrReadOnly
 from .serializers import ClubSerializer, CompetitionSerializer, \
     AnnouncementsSerializer, CompetitionWinnerSerializer
-from django.http import HttpResponseRedirect
+
+from backend.settings import GOOGLE_SERVICE_ACCOUNT_CREDENTIALS
+from google.oauth2 import service_account
+from googleapiclient.http import MediaFileUpload
+from googleapiclient import discovery
 
 
 class ClubViewSet(viewsets.ModelViewSet):
@@ -134,3 +145,58 @@ class EnableCompetitions(APIView):
         return Response({
             'success': True
         })
+
+
+
+class FileUpload(APIView):
+
+    def post(self, request):
+        file_uploaded = request.FILES.get('file_uploaded')
+        handle_file_upload(file_uploaded)
+
+        return Response({
+            "success": True
+        })
+
+
+def handle_file_upload(file):
+    credentials = credentials_from_file()
+
+    # Construct a resource for interacting with API
+    service = discovery.build('drive', 'v3', credentials=credentials)
+
+    # Making a request hash to tell the google API what we're giving it
+    body = {'name': file.name, 'mimeType': 'application/vnd.google-apps.document'}
+
+    # Creating the media file upload object
+    file_name = str(file.name)
+    path = default_storage.save(os.path.join('tmp', file_name), ContentFile(file.read()))
+    tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+    file.close()
+    media = MediaFileUpload(os.path.join('tmp', file_name), mimetype=None)
+
+    # Actual post : creating a new file of the uploaded type
+    file_metadata = {
+        'name': file.name,
+        'parents': ['142JJ1d62qZc64qsf97M8W_KzuOIIvD9p']  # This is where you set the target folder
+    }
+    created_file = service.files().create(body=file_metadata, media_body=media).execute()
+
+    os.remove(os.path.join(settings.MEDIA_ROOT, path))
+
+
+def credentials_from_file():
+    """Load credentials from a service account file
+    Returns: service account credential object
+    """
+
+    SCOPES = [
+        'https://www.googleapis.com/auth/drive'
+    ]
+
+    credentials = service_account.Credentials.from_service_account_info(GOOGLE_SERVICE_ACCOUNT_CREDENTIALS, scopes=SCOPES)
+
+    return credentials
+
+
+

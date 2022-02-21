@@ -30,6 +30,7 @@ env = environ.Env(
     CICD=(bool, False),
     SENTRY_DSN=(str, ""),
     GOOGLE_OAUTH_CLIENT_ID=(str, "109135106784-vn1e2elm5doejfucvusr3fer4rm4mcda.apps.googleusercontent.com"),
+    GOOGLE_SERVICE_ACCOUNT_CREDENTIALS=(str, "")
 )
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
@@ -45,7 +46,6 @@ REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'authenticate.authentication.DummyAuthentication',
         'authenticate.authentication.CustomAuthentication']}
-
 
 if DEVELOPMENT and env("CORS_ORIGIN_WHITELIST") == "":
     CORS_ALLOW_ALL_ORIGINS = True
@@ -201,6 +201,11 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
+
+print(base64.b64decode(env("GOOGLE_SERVICE_ACCOUNT_CREDENTIALS")).decode("utf-8"))
+
+GOOGLE_SERVICE_ACCOUNT_CREDENTIALS = json.loads(
+    base64.b64decode(env("GOOGLE_SERVICE_ACCOUNT_CREDENTIALS")).decode("utf-8"))
 
 SENTRY_TRACES_SAMPLE_RATE = 0.001 if DEVELOPMENT else 0.1
 
