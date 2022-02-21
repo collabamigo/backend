@@ -101,3 +101,16 @@ class SelfFormResponseAPIView(APIView):
             return Response(FormResponseSerializer(form_responses, many=True).data)
         except Form.DoesNotExist:
             return Response(status=406)
+
+
+class getEmailsAPIView(APIView):
+    permission_classes = [IsTrulyAuthenticated]
+
+    def get(self, request: Request, competition_id):
+        response_list = []
+        response_queryset = FormResponse.objects.filter(form__competition_id=competition_id).\
+            values('responders__email').distinct()
+        for i in response_queryset:
+            if i['responders__email']:
+                response_list.append(i['responders__email'])
+        return Response({"data": response_list})

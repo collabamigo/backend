@@ -127,6 +127,8 @@ class EnableCompetitions(APIView):
     def post(self, request):
         competition_id, competition_state = int(request.data.get('competitionID')), bool(
             int(request.data.get('is_active')))
+        competition_id, competition_state = int(request.data.get('competitionID')), \
+                                            bool(int(request.data.get('is_active')))
         competition = Competition.objects.get(id=competition_id)
         organising_clubs = competition.clubs.all()
 
@@ -140,6 +142,7 @@ class EnableCompetitions(APIView):
         return Response({
             'success': True
         })
+
 
 
 class FileUpload(APIView):
@@ -197,8 +200,6 @@ def credentials_from_file():
     print(credentials)
 
     return credentials
-
-
 
 
 

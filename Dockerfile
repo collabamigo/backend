@@ -1,8 +1,7 @@
 FROM python:3.9.2
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
-#WORKDIR /app
-ENV PYTHONPATH /opt/deploy/bezen
+ENV PYTHONPATH /opt/deploy/collabamigo
 
 
 COPY requirements.txt $PYTHONPATH/requirements.txt
