@@ -147,7 +147,6 @@ class EnableCompetitions(APIView):
         })
 
 
-
 class FileUpload(APIView):
 
     def post(self, request):
@@ -165,13 +164,9 @@ def handle_file_upload(file):
     # Construct a resource for interacting with API
     service = discovery.build('drive', 'v3', credentials=credentials)
 
-    # Making a request hash to tell the google API what we're giving it
-    body = {'name': file.name, 'mimeType': 'application/vnd.google-apps.document'}
-
     # Creating the media file upload object
     file_name = str(file.name)
     path = default_storage.save(os.path.join('tmp', file_name), ContentFile(file.read()))
-    tmp_file = os.path.join(settings.MEDIA_ROOT, path)
     file.close()
     media = MediaFileUpload(os.path.join('tmp', file_name), mimetype=None)
 
@@ -180,7 +175,7 @@ def handle_file_upload(file):
         'name': file.name,
         'parents': ['142JJ1d62qZc64qsf97M8W_KzuOIIvD9p']  # This is where you set the target folder
     }
-    created_file = service.files().create(body=file_metadata, media_body=media).execute()
+    service.files().create(body=file_metadata, media_body=media).execute()
 
     os.remove(os.path.join(settings.MEDIA_ROOT, path))
 
@@ -194,9 +189,7 @@ def credentials_from_file():
         'https://www.googleapis.com/auth/drive'
     ]
 
-    credentials = service_account.Credentials.from_service_account_info(GOOGLE_SERVICE_ACCOUNT_CREDENTIALS, scopes=SCOPES)
+    credentials = service_account.Credentials.from_service_account_info(GOOGLE_SERVICE_ACCOUNT_CREDENTIALS,
+                                                                        scopes=SCOPES)
 
     return credentials
-
-
-
