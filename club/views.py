@@ -16,6 +16,7 @@ from django.core.files.storage import default_storage
 
 from authenticate.authentication import DummyAuthentication, CustomAuthentication
 from authenticate.permissions import IsTrulyAuthenticated
+from form.models import Form
 from .models import Club, Competition, Announcement, CompetitionWinner
 from .permissions import IsClubOwnerOrReadOnly, CompetitionWinnerPermission, IsClubOwner, IsClubMemberOrReadOnly
 from .serializers import ClubSerializer, CompetitionSerializer, \
@@ -151,14 +152,19 @@ class FileUpload(APIView):
 
     def post(self, request):
         file_uploaded = request.FILES.get('file_uploaded')
-        handle_file_upload(file_uploaded)
+        form_no, form_field_no = int(request.data.get("form_no")), int(request.data.get("field_no"))
+        form_for_competition = Form.objects.get(id=form_no)
+        competition_name = form_for_competition.competition
+        organising_club = competition_name.clubs.all()[:1].get()
+        competition_name = competition_name.name
+        handle_file_upload(file_uploaded, organising_club, form_no, form_field_no)
 
         return Response({
             "success": True
         })
 
 
-def handle_file_upload(file):
+def handle_file_upload(file, folder_name, form_no, form_field_no):
     credentials = credentials_from_file()
 
     # Construct a resource for interacting with API
@@ -169,11 +175,42 @@ def handle_file_upload(file):
     path = default_storage.save(os.path.join('tmp', file_name), ContentFile(file.read()))
     file.close()
     media = MediaFileUpload(os.path.join('tmp', file_name), mimetype=None)
+    file.close()
+
+    #Creating folder
+    # First for Club
+
+    check = 0
+    response = service.files().list(
+        q="mimeType='application/vnd.google-apps.folder'",
+    ).execute()
+
+    id_for_folder = 0
+    for file in response.get('files', []):
+        if str(file.get('name')) == str(folder_name):
+            check += 1
+            id_for_folder = file.get('id')
+            break
+
+
+    if(check == 0):
+        file_metadata = {
+            'name': str(folder_name),
+            'parents': ['142JJ1d62qZc64qsf97M8W_KzuOIIvD9p'],
+            'mimeType': 'application/vnd.google-apps.folder'
+        }
+        file = service.files().create(body=file_metadata,
+                                      fields='id').execute()
+
+        id_for_folder = file.get('id')
+
+    print(id_for_folder)
+
 
     # Actual post : creating a new file of the uploaded type
     file_metadata = {
-        'name': file.name,
-        'parents': ['142JJ1d62qZc64qsf97M8W_KzuOIIvD9p']  # This is where you set the target folder
+        'name': file_name,
+        'parents': [str(id_for_folder)]
     }
     service.files().create(body=file_metadata, media_body=media).execute()
 
