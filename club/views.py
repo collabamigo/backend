@@ -177,7 +177,7 @@ def handle_file_upload(file, folder_name, form_no, form_field_no):
     media = MediaFileUpload(os.path.join('tmp', file_name), mimetype=None)
     file.close()
 
-    #Creating folder
+    # Creating folder
     # First for Club
 
     check = 0
@@ -192,8 +192,7 @@ def handle_file_upload(file, folder_name, form_no, form_field_no):
             id_for_folder = file.get('id')
             break
 
-
-    if(check == 0):
+    if check == 0:
         file_metadata = {
             'name': str(folder_name),
             'parents': ['142JJ1d62qZc64qsf97M8W_KzuOIIvD9p'],
@@ -205,7 +204,6 @@ def handle_file_upload(file, folder_name, form_no, form_field_no):
         id_for_folder = file.get('id')
 
     print(id_for_folder)
-
 
     # Actual post : creating a new file of the uploaded type
     file_metadata = {
